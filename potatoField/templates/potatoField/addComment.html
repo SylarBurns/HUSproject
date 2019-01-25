@@ -1,0 +1,17 @@
+{% extends 'potatoField/boardDetail.html'%}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+    
+    </head>
+
+    <body>
+       <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Send</button>
+        </form>
+    </body> 
+<html>
+{% endblock %}

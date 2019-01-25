@@ -1,0 +1,40 @@
+{% extends 'mainPage/basePage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'market/style.css'%}">   
+    <meta charset="UTF-8">
+    <title> boardCreate </title>
+    </head>
+
+    <body>
+        <h2 class="boardName"> 한동장터  </h2>
+        <h4 class="boardName"> 당신이 원하는 무엇이든 지금 이곳에 </h4>
+        <form method="POST">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td>
+                        {% for Relation in object.post_relation.all %}
+                        {% if Relation.isWriter %}
+                        {{ Relation.user.nickName }}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        내용
+                    </td>
+                    <td>
+                        <p>{{ object.postEditor | safe }}</p>
+                    </td>
+                </tr>
+            </table>
+            <input class="fixed submit" type="Submit" value="Submit">
+        </form>
+    </body>
+<html>
+{% endblock %}

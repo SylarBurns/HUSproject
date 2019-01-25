@@ -1,0 +1,71 @@
+{% extends 'mainPage/basePage.html' %}
+{% block content %}
+<html>
+    <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'market/style.css'%}"> 
+    <meta charset="UTF-8">
+    <title> 한동장터</title>
+    </head>
+    <body>
+        <h2 class="boardName"> 한동장터 </h2>
+        <h4 class="boardName"> 당신이 원하는 무엇이든 지금 이곳에 </h4>
+        <section class="add">
+                <table>
+                    <thead>
+                        <tr>
+                            <td><a href=''>전체()</a></td><td><a href=''>옷()</a></td><td><a href=''>책()</a></td><td><a href=''>생활용품()</a></td><td><a href=''>구인구직()</a></td>
+                        </tr>
+                    </thead>
+                </table>
+                <table>
+                    <tbody>
+                            <tr>
+                                <td><a href=''>전체</a></td><td><a href=''>팝니다</a></td><td><a href=''>삽니다</a></td><td></td><td></td>
+                            </tr>
+                    </tbody>
+                </table>
+                {% if post_list %}
+                <table id="Goods">
+                    <thead>
+                        <tr>
+                            <td>번호</td>
+                            <td>사진</td>
+                            <td>분류</td>
+                            <td>카테고리</td>
+                            <td>제목</td>
+                            <td>글쓴이</td>
+                            <td>가격</td>
+                            <td>조회수</td>
+                            <td>날짜</td>
+                        </tr>
+                        {% for post in post_list %}
+                        <tr>
+                            <td>{{ post.pk }}</td>
+                            <td><img src="hanul.png" height="50"></td>
+                            <td>{{ post.MboardType }}</td>
+                            <td>{{ post.MitemType }}</td>
+                            <td>{{ post.title }}</td>
+                            {% for Relation in post.post_relation.all %}
+                            {% if Relation.isWriter %}
+                            <td>{{ Relation.user.nickName }}</td>
+                            {% endif %}
+                            {% endfor %}
+                            <td>{{ post.price }} </td>
+                            <td>{{ posst.hitCount }}</td>
+                            <td>{{ post.pub_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+                {% else %}
+                <h3>아직 게시물이 없습니다. 첫번째 게시물의 주인공이 되어주세요! </h3>
+                {% endif %}
+                <form action="create/">{% csrf_token %}
+                    <input type="submit" value="생성하기">
+                </form>
+            </section>
+    </body>
+</html>
+
+{% endblock %}

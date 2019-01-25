@@ -1,0 +1,28 @@
+.a{
+    padding : 70px;
+}
+
+.ma {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    padding-left : 50px;
+    margin: 0 auto;
+}
+
+div.b{
+    padding-left : 20px;
+    border: 1px solid gray;
+    margin-top: 0.5em;
+}
+
+.c{
+    border-top: 1px solid gray;
+    padding-top:20px;
+    padding-left:15px;
+    margin : 1.25em;
+    
+}
+
+.comment{
+    margin: 20px 0px 20px 20px;
+}
