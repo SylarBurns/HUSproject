@@ -44,7 +44,8 @@ class Post(models.Model):
     ITEM_CHOICES_MARKET = (
         ('book','책'),('cloth','옷'),('electronics','전자기기'),('lifeItems','생활용품'),('house','집'),('job','구인구직'),('cosmetics','화장품'),('etc','기타')
     )
-    title = models.CharField("제목", max_length=100, blank=False) 
+    title = models.CharField("제목", max_length=100, blank=False)
+    writer = models.CharField("작성자", max_length=20, blank=False, null=True) 
     # content = models.CharField(max_length=3000, blank= True)
     postEditor =  RichTextUploadingField("내용", blank=True, null=True,
                                           external_plugin_resources=[(
@@ -81,7 +82,8 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요    
+    title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요
+    writer = models.CharField("작성자", max_length=20, blank=False, null=True)     
     users = models.ManyToManyField(
         User, 
         through='ComRelation',

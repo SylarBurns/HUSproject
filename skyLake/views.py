@@ -15,6 +15,7 @@ from django.urls import reverse
 from heart.models import Post, PostRelation, User
 from .forms import PostModelForm
 from django.utils import timezone
+from django.db.models import Q
 
 class skyLakeListView(BaseListView):
     template_name = 'skyLake/boardList.html'
@@ -22,7 +23,20 @@ class skyLakeListView(BaseListView):
         context = super(skyLakeListView, self).get_context_data(**kwargs)
         return context
     def get_queryset(self):
-        return Post.objects.all().filter(boardNum__exact=2).order_by('-pk')
+        query = self.request.GET.get("q")
+        filter = self.request.GET.get("filter")
+        queryset = Post.objects.filter(boardNum__exact=2).order_by('-pk')
+        if query:
+            if filter == "nofilter":
+                return queryset.filter(Q(title__icontains=query) or Q(postEditor__icontains=query) or Q(writer__icontains=query))
+            elif filter == "writer":
+                return queryset.filter(writer__icontains=query)
+            elif filter == "title":
+                return queryset.filter(title__icontains=query)
+            else :
+                return queryset.filter(Q(title__icontains=query) or Q(postEditor__icontains=query))
+        else:
+            return queryset
 
 
 class skyLakeDetailView(BaseDetailView):
@@ -37,6 +51,7 @@ class skyLakeCreateView(CreateView):
         post = form.save(commit=False)
         post.boardNum = 2
         post.pubDate = timezone.now()
+        post.writer = self.request.user.nickName
         post.save()
         postRelation= PostRelation(post=post, user=self.request.user, isWriter=True)
         postRelation.save()

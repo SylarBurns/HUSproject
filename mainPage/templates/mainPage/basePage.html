@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         <ul>
-                        <li>전체</li>
+                        <li><a href="{% url 'market:marketList' %}">전체</a></li>
                         <li>#top 1</li>
                         <li>#top 2</li>
                         <li>#top 3</li>
@@ -169,15 +169,15 @@
             {% endif %}
         </div>
         <div id="bottom" class="centerBox">
-            <form action="#">
+            <form method="GET" action="#">
                     <select name="filter">
                         <option value="noFilter">선택안함</option>
                         <option value="title">제목</option>
-                        <option value="weiter">글쓴이</option>
+                        <option value="writer">글쓴이</option>
                         <option value="titleNContent">제목+내용</option>
                     </select>
-                    <input type="text">
-                    <button>검색</button>
+                    <input type='text' name='q' placeholder="검색하세요"/>
+                    <input type='submit' value='검색'/>
             </form>
         </div>
         </footer>
