@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'bamboo.apps.BambooConfig',
     'market.apps.MarketConfig',
     'potatoField.apps.PotatofieldConfig',
+    'runway.apps.RunwayConfig',
 
 ]
 

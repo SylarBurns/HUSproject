@@ -44,6 +44,10 @@ class Post(models.Model):
     ITEM_CHOICES_MARKET = (
         ('book','책'),('cloth','옷'),('electronics','전자기기'),('lifeItems','생활용품'),('house','집'),('job','구인구직'),('cosmetics','화장품'),('etc','기타')
     )
+    BOARD_CHOICES_RUNWAY = (
+        ('Argument','찬반토론'), ('General','일반토론')
+    )
+
     title = models.CharField("제목", max_length=100, blank=False)
     writer = models.CharField("작성자", max_length=20, blank=False, null=True) 
     # content = models.CharField(max_length=3000, blank= True)
@@ -64,6 +68,7 @@ class Post(models.Model):
     MboardType = models.CharField(choices=BOARD_CHOICES_MARKET, max_length=10, default='Lost') # 한동장터 ( 팝니다, 삽니다)
     LFitemType = models.CharField(choices=ITEM_CHOICES, max_length=10, default='idcard') #lostNfound( 태그 )
     MitemType = models.CharField(choices=ITEM_CHOICES_MARKET, max_length=10, default='idcard') # 한동장터 ( 태그 )
+    RWboardType = models.CharField(choices=BOARD_CHOICES_RUNWAY, max_length=10, default='찬반토론') # 활주로 (찬반토론, 일반토론)
     price = models.CharField(max_length=100, blank=True) 
     exist = models.BooleanField(default=True) # 삭제 여부
     users = models.ManyToManyField(

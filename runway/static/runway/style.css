@@ -1,0 +1,18 @@
+#id_RWboardType{
+    list-style-type: none;
+    display:inline-block;
+}
+#id_RWboardType li{
+    float: left;
+}
+.functionCall{
+    display:none;
+}
+
+#id_annonimity{
+    list-style-type: none;
+    display:inline-block;
+}
+#id_annonimity li {
+    float: left;
+}
