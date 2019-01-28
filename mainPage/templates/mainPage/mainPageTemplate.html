@@ -70,11 +70,18 @@
             <h2>광고</h2>
         </section>
         <section class="login">
-            <h2>로그인</h2>
-            <button type="submit"><a href="{% url 'join:clause' %}">로그인</a></button>
-            <input type="text" placeholder="hisnet ID">
-            <input type="text" placeholder="hisnet PW">
-        </section>
+                {% if user.is_authenticated %}
+                    Hi {{ user.name }}!
+                {% else %}
+                <h2>Login</h2>
+                    <form action="{% url 'join:check' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="username" placeholder="hisnet ID">
+                    <input type="password" name="password" placeholder="hisnet PW">
+                    <input type="submit" value="로그인">
+                    </form>
+                {% endif %}
+            </section>
         <section class="bestFive">
             <h2>Best 게시물</h2>
         </section>
@@ -86,7 +93,7 @@
                     </div>
                     <h4>알림</h4>
                     <h4><a href="{% url 'mypage:myPost' %}">마이페이지</a></h4>
-                    <h4>로그아웃</h4> 
+                    <h4><a href="{% url 'logout' %}">로그아웃</a></h4> 
                     <div class="notice">
                         <ul>
                             {% for index in range %}

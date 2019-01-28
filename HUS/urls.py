@@ -24,6 +24,7 @@ urlpatterns = [
     path('boards/', include('boards.urls')),
     path('mypage/', include('mypage.urls')),
     path('join/', include('join.urls')),
+    path('join/', include('django.contrib.auth.urls')),
     path('lostAndFound/',include('lostAndFound.urls')),
     path('skyLake/', include('skyLake.urls')),
     path('bamboo/', include('bamboo.urls')),
