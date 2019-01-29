@@ -58,22 +58,12 @@ class runwayDetailView(BaseDetailView):
         voteInfo = self.request.GET.get("voteInfo")
         if voteInfo:
             try:
-                relation = PostRelation.objects.filter(Q(user=user) and Q(post=post)).get()
+                relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
                 relation.vote= voteInfo
             except:
                 relation =PostRelation(user=user,post=post,vote=voteInfo)
-
             relation.save()
 
-        try:
-            relation = PostRelation.objects.filter(Q(user=user) and Q(post=post)).get()
-            if relation.vote == None:
-                context['voted']=False
-            else:
-                context['voted']=True
-        except:
-            pass
-            
         relationSet = post.post_relation.all()
         context['forCount']=relationSet.filter(vote=1).count()
         context['againstCount']=relationSet.filter(vote=0).count()
@@ -104,3 +94,6 @@ class runwayUpdateView(UpdateView):
     def get_object(self):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Post, id=id_)
+
+class chartTestView(TemplateView):
+    template_name='runway/chartTest.html'

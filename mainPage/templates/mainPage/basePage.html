@@ -1,8 +1,26 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'mainPage/style.css' %}">
 <html>
     <head>
         <title>한우리-우리들의 이야기</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'mainPage/style.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{% static 'mainPage/app.js' %}"></script>
+        <style>
+        #sideMenu{
+            width:12%;
+            height:500px;
+            float:left;
+            border:1px solid black;
+            margin: 5px;
+            padding: 5px;
+            position:absolute;
+            }
+        #sideMenu.sticky { 
+            position:fixed;  
+            top:0;
+            left:0;
+            margin-left: 10px;}
+        </style>
     </head>
     <body>
         <a href="{% url 'mainPage:mainPage' %}"><img src="{% static 'mainPage/images/HUS_Logo_1.png' %}" class="Logo" id="top"/></a>
@@ -66,17 +84,7 @@
                 </tr>
         </table>
         </section>
-        <aside class="sideMenu">
-            <!-- <ul>
-                {% for index in range %}
-                <li>대게시판</li>
-                <ul>
-                    {% for index in range %}
-                    <li>소게시판</li>
-                    {% endfor%}
-                </ul>
-                {% endfor %}
-            </ul> -->
+        <aside id="sideMenu">
             <ul>
             <li>커뮤니티</li>
             <ul>

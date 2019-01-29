@@ -4,14 +4,6 @@ from django import forms
 from heart.models import Post
 from heart.models import PostRelation
 
-class HorizRadioRenderer(RadioSelect):
-    """ this overrides widget method to put radio buttons horizontally
-        instead of vertically.
-    """
-    def render(self):
-        """Outputs radios"""
-        return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
-
 class PostModelForm(ModelForm):
     #익명성 표기를 위한 추가 필드 생성
     ANO_CHOICES = [('nickName', '닉네임'), ('annonimity', '익명')]

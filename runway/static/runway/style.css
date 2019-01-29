@@ -16,3 +16,12 @@
 #id_annonimity li {
     float: left;
 }
+#myChart{
+    height:100px;
+    width:50%
+}
+.container{
+    height:200px;
+    width:50%;
+    border:1px solid black;
+}

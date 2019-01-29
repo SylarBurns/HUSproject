@@ -1,5 +1,7 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'mainPage/style.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'mainPage/app.js' %}"></script>
 <html>
     <head>
         <title>한우리-우리들의 이야기</title>
@@ -66,7 +68,7 @@
                 </tr>
         </table>
         </section>
-        <aside class="sideMenu">
+        <aside id="sideMenu">
             <!-- <ul>
                 {% for index in range %}
                 <li>대게시판</li>

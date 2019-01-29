@@ -77,14 +77,20 @@ h1{
 .topMenu{
     width:100%;
 }
-.sideMenu{
+#sideMenu{
     width:12%;
     height:500px;
     float:left;
     border:1px solid black;
     margin: 5px;
     padding: 5px;
-    position:fixed;
+    position:absolute;
+}
+#sideMenu.sticky { 
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 10px;
 }
 .sideMenuBottomIcons{
     margin:5px;
