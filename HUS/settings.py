@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'market.apps.MarketConfig',
     'potatoField.apps.PotatofieldConfig',
     'runway.apps.RunwayConfig',
+    'chartjs',
 
 ]
 

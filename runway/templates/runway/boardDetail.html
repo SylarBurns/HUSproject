@@ -9,13 +9,16 @@
         <meta charset="UTF-8">
         <title> boardDetail </title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
         <script src="{% static 'runway/app.js' %}"></script>
+
     </head>
 
     <body>
         <h2 class="boardName"> 활주로 </h2>
         <h4 class="boardName"> 활주로입니다</h4>
         <div class="functionCall">{{post.update_hitCount}}</div> <!--조회수 증가하는 함수-->
+         
        <div>
             <h3 class="title"> {{object.title}} </h3>
             <p class="name"> 
