@@ -4,9 +4,12 @@
 <html>
     <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'runway/style.css'%}">    
+    <link rel="stylesheet" type="text/css" href="{% static 'runway/style.css'%}"> 
+       
         <meta charset="UTF-8">
         <title> boardDetail </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{% static 'runway/app.js' %}"></script>
     </head>
 
     <body>
@@ -30,12 +33,21 @@
             <div style="text-align: right;">
         </div>
             <p> {{object.postEditor | safe }} </p>
-        <div class="buttons">
-            <button><a href="{% url 'runway:postLike' pk=object.pk %}">좋아요{{ likeCount }}</a></button>
-            <button><a href="{% url 'runway:postDislike' pk=object.pk %}">싫어요{{dislikeCount}}</a></button>
-            <button>신고</button>
+        {% if voted %}
+        <div class='voteResult'>
+            <p>찬성 {{forCount}}</p>
+            <p>반대 {{againstCount}}</p>
+            <p>중립 {{neutralCount}}</p>
         </div>
-        
+        {% else %}
+        <form method="GET" action='' id='voteBox'>
+            <input type="radio" name="voteInfo" value=1>찬성
+            <input type="radio" name="voteInfo" value=2>중립
+            <input type="radio" name="voteInfo" value=0>반대
+            <br>
+            <input type="submit" value="투표하기" id="voteButton">
+        </form>
+        {% endif %}
        <p class="comment">댓글[2]</p>
        <textarea name="comment", cols="100%", rows="5"></textarea>
        <p class="name"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQHjzdvCqUGnltcULXtv2fQH7wzGQnEtJiI7f1BP0P67xis8Cc" width="3%" height="3%"> 바르셀로나 2019.1.15 오전 12:17 </p>

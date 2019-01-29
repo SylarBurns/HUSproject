@@ -23,10 +23,10 @@
         {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
         <tr>
             <td>{{post.pk}}</td>
-            {% for Relation in post.post_relation.all %} <!--각 post 객체들에게 연결되어있는 PostRelation 객체들을 상대로 for문을 돌림-->
             <td>
-            <a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>
+                <a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>
             </td>
+            {% for Relation in post.post_relation.all %} <!--각 post 객체들에게 연결되어있는 PostRelation 객체들을 상대로 for문을 돌림-->
                 {% if Relation.isWriter %}<!--Relation을 보고 작성자인지 확인-->
                     {% if Relation.annonimity %}
                     <td>{{Relation.annoName}}</td><!--Relation을 보고 익명인지 확인-->

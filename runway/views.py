@@ -51,8 +51,34 @@ class runwayDetailView(BaseDetailView):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get("pk")
         post = Post.objects.get(pk=pk)
-        context['likeCount']=post.post_relation.filter(like=True).count()
-        context['dislikeCount']=post.post_relation.filter(dislike=True).count()
+        user = self.request.user
+
+        
+        ###투표결과 저장
+        voteInfo = self.request.GET.get("voteInfo")
+        if voteInfo:
+            try:
+                relation = PostRelation.objects.filter(Q(user=user) and Q(post=post)).get()
+                relation.vote= voteInfo
+            except:
+                relation =PostRelation(user=user,post=post,vote=voteInfo)
+
+            relation.save()
+
+        try:
+            relation = PostRelation.objects.filter(Q(user=user) and Q(post=post)).get()
+            if relation.vote == None:
+                context['voted']=False
+            else:
+                context['voted']=True
+        except:
+            pass
+            
+        relationSet = post.post_relation.all()
+        context['forCount']=relationSet.filter(vote=1).count()
+        context['againstCount']=relationSet.filter(vote=0).count()
+        context['neutralCount']=relationSet.filter(vote=2).count()
+        context['relationSet']=relationSet
         return context
 
 class runwayCreateView(CreateView):
