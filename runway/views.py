@@ -68,7 +68,6 @@ class runwayDetailView(BaseDetailView):
         context['forCount']=relationSet.filter(vote=1).count()
         context['againstCount']=relationSet.filter(vote=0).count()
         context['neutralCount']=relationSet.filter(vote=2).count()
-        context['relationSet']=relationSet
         return context
 
 class runwayCreateView(CreateView):

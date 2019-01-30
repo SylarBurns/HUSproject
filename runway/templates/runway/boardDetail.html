@@ -3,29 +3,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'runway/style.css'%}">
-    <meta charset="UTF-8">
-    <title> boardDetail </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script>
-            var forCount = "{{ forCount }}";
-            var neutralCount = "{{neutralCount}}";
-            var againstCount = "{{againstCount}}";
-    </script>
-
+        <meta charset="UTF-8">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <title> boardDetail </title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'runway/style.css'%}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+        <script>
+                var forCount = "{{forCount}}";
+                var neutralCount = "{{neutralCount}}";
+                var againstCount = "{{againstCount}}";
+        </script>
     </head>
     <body>
         <h2 class="boardName"> 활주로 </h2>
         <h4 class="boardName"> 활주로입니다</h4>
         <div class="functionCall">{{post.update_hitCount}}</div> <!--조회수 증가하는 함수-->
-        <div class="container" style="position: relative; height:20vh; width:80vw">
-            <canvas id="myChart"></canvas>
-        </div>
         <h3 class="title"> {{object.title}} </h3>
         <p class="name"> 
         {% for Relation in object.post_relation.all %}
@@ -40,21 +36,23 @@
         </p>
         <p class="date"> {{object.pubDate}}</p>
         <p> {{object.postEditor | safe }} </p>
-
-        <div class='voteResult'>
-            <p>찬성 {{forCount}}</p>
-            <p>반대 {{againstCount}}</p>
-            <p>중립 {{neutralCount}}</p>
-        </div>
-        <form method="GET" action='' id='voteBox'>
-            <input type="radio" name="voteInfo" value=1>찬성
-            <input type="radio" name="voteInfo" value=2>중립
-            <input type="radio" name="voteInfo" value=0>반대
-            <br>
-            <input type="submit" value="투표하기" id="voteButton">
-        </form>
+        <!-- 찬반토론일 경우에만 투표기능 사용하도록 함 -->
+        {% if object.RWboardType == "Argument" %}
+            <div class="container" style="position: relative; height:20vh; width:80vw"><canvas id="myChart"></canvas></div>
+            <div class='voteResult'>
+                <p>찬성 {{forCount}}</p>
+                <p>반대 {{againstCount}}</p>
+                <p>중립 {{neutralCount}}</p>
+            </div>
+            <form method="GET" action='' id='voteBox'>
+                <input type="radio" name="voteInfo" value=1>찬성
+                <input type="radio" name="voteInfo" value=2>중립
+                <input type="radio" name="voteInfo" value=0>반대
+                <br>
+                <input type="submit" value="투표하기" id="voteButton">
+            </form>
+        {% endif %}
         <script src="{% static 'runway/app.js' %}"></script>
     </body>
-
 <html>
 {% endblock %}

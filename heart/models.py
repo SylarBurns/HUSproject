@@ -85,6 +85,25 @@ class Post(models.Model):
         self.save()
         return self.hitCount
 
+    def forCount(self):
+        return self.post_relation.filter(vote=1).count()
+    
+    def againstCount(self):
+        return self.post_relation.filter(vote=0).count()
+
+    def neutralCount(self):
+        return self.post_relation.filter(vote=2).count()
+    
+    def likeCount(self):
+        return self.post_relation.filter(like=True).count()
+
+    def dislikeCount(self):
+        return self.post_relation.filter(dislike=True).count()
+
+    def getWriter(self):
+        relation = self.post_relation.filter(isWriter=True).get()
+        return relation.user
+
 
 class Comment(models.Model):
     title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요

@@ -1,3 +1,4 @@
+//좋아요 싫어요 기능을 위한 자바스크립트 함수
 $(".like").click(function(){
     var pk = $(this).attr('name')
     $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
