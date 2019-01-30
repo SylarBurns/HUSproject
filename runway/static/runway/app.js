@@ -63,5 +63,6 @@ let massPopChart = new Chart(myChart, {
     tooltips:{
       enabled:true
     }
+    
   }
 });
