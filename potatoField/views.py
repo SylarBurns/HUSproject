@@ -45,8 +45,8 @@ class CreateView(generic.CreateView):
         post = form.save(commit=False)
         post.boardNum = 1
         post.pubDate = timezone.now()
-        # post.writer = self.request.user.nickName
-        post.writer = User.objects.get(pk=0)
+        post.writer = self.request.user.nickName
+        # post.writer = User.objects.get(pk=0)
         post.save()
         return redirect('detail', pk=post.pk)
 
