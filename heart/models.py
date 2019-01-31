@@ -115,17 +115,25 @@ class Comment(models.Model):
         through='ComRelation',
         through_fields=('comment', 'user'))  #댓글과 관련된 유저들
     pubDate = models.DateTimeField(auto_now_add=True) #댓글 생성날짜
-    # content = models.TextField(max_length=3000, blank=True) #댓글 내용
+    content = models.TextField(max_length=3000, blank=True) #댓글 내용
     commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
     # belongToBoard = models.PositiveIntegerField(blank= True) #어떤 게시판에 소속된 댓글인지 알 수 있도록 게시판의 pk표시
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
-    belongToComment = models.PositiveIntegerField(blank= True) #어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
-    stance = models.PositiveIntegerField(blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
+    belongToComment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subComments')#어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
+    stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
 
     def __str__(self):
-        return self.pk
+        return self.content
+    
+    def getWriter(self):
+        relation = self.com_relation.filter(isWriter=True).get()
+        return relation.user
+
+    def getWriterRelation(self):
+        relation = self.com_relation.filter(isWriter=True).get()
+        return relation
 
 class File(models.Model):
     belongTo = models.ForeignKey(Post, on_delete=models.CASCADE)

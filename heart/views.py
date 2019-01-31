@@ -53,6 +53,7 @@ class BaseDetailView(DetailView):
         post = Post.objects.get(pk=pk)
         context['likeCount']=post.post_relation.filter(like=True).count()
         context['dislikeCount']=post.post_relation.filter(dislike=True).count()
+        context['comment_list']=post.comments.all()
         return context
 
 
@@ -108,3 +109,27 @@ def postDislike(request):#싫어요 기능
     context={'like_count':post.post_relation.filter(like=True).count(),
              'dislike_count':post.post_relation.filter(dislike=True).count()}
     return HttpResponse(json.dumps(context),content_type="application/json")
+
+def commentWrite(request):
+    pk = request.POST.get('pk', None)
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    content = request.POST.get('content', None)
+    comment = Comment(post = post, content= content)
+    comment.save()
+    relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    relation.save()
+    context={'nickName':user.nickName, 'content':content,'pk':pk}
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+def subCommentWrite(request):
+    pk = request.POST.get('commentPk', None)
+    parentComment = Comment.objects.get(pk=pk)
+    user = request.user
+    content = request.POST.get('subCommentContent', None)
+    comment = Comment(belongToComment = parentComment, content= content)
+    comment.save()
+    relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    relation.save()
+    context={'nickName':user.nickName, 'content':content,'pk':pk}
+    return HttpResponse(json.dumps(context), content_type="application/json")

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'mainPage.apps.MainpageConfig',
     'lostAndFound.apps.LostandfoundConfig',
     'join.apps.JoinConfig',
-    'boards.apps.BoardsConfig',
     'skyLake.apps.SkylakeConfig',
     'bamboo.apps.BambooConfig',
     'market.apps.MarketConfig',

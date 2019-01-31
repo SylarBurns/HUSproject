@@ -1,4 +1,4 @@
-{% extends 'mainPage/basePage.html' %}
+{% extends 'mainPage/baseDetailPage.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -60,6 +60,14 @@
                 <button>신고</button>
             </div>
         {% endif %}
+        <div class="commentWriter">
+            <form id="commentForm"><!--댓글-->
+                {% csrf_token %}
+                <input type="textarea" name="content">
+                <input type="number" name="pk" value="{{object.pk}}" style="display:none">
+                <input type="submit" value="댓글 달기">
+            </form>
+        </div>
         <script src="{% static 'runway/app.js' %}"></script>
     </body>
 <html>

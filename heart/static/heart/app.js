@@ -35,3 +35,39 @@ $(".dislike").click(function(){
     },
 })
 })
+
+$(".subComment").click(function(){
+    var pk = $(this).attr('name')
+    $("#subCommentWrite_"+pk).toggle();
+});
+
+$("#commentForm").submit(function(){
+    $.ajax({
+        data: $(this).serialize(),
+        type: "POST",
+        url:commentWriteUrl,
+        dataType: "json",
+        success: function(response){
+            location.reload(); 
+        },
+        error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        },
+    })
+});
+
+$(".subCommentSubmit").click(function(){
+    var form = $(this).closest('form');
+    $.ajax({
+        data: form.serialize(),
+        type: "POST",
+        url:subCommentWriteUrl,
+        dataType: "json",
+        success: function(response){
+            location.reload(); 
+        },
+        error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        },
+    })
+});

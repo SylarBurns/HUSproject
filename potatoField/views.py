@@ -12,7 +12,7 @@ from heart.views import (
     BaseDetailView
 )
 from django.urls import reverse
-from heart.models import Post, PostRelation, User
+from heart.models import Post, PostRelation, User, Comment, ComRelation
 from .forms import PostModelForm
 from django.utils import timezone
 from django.db.models import Q
@@ -41,6 +41,12 @@ class potatoFieldListView(BaseListView):
 
 class potatoFieldDetailView(BaseDetailView):
     template_name = 'potatoField/boardDetail.html'
+    def get_context_data(self, **kwargs):
+        id_ = self.kwargs.get("pk")
+        post = get_object_or_404(Post, id=id_)
+        context = super(potatoFieldDetailView, self).get_context_data(**kwargs)
+        context['comment_list']=post.comments.all()
+        return context
 
 class potatoFieldCreateView(CreateView):
     model = Post

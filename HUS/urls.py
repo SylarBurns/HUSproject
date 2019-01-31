@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mainPage/', include('mainPage.urls')),
-    path('boards/', include('boards.urls')),
     path('mypage/', include('mypage.urls')),
     path('join/', include('join.urls')),
     path('join/', include('django.contrib.auth.urls')),
@@ -31,6 +30,6 @@ urlpatterns = [
     path('heart/', include('heart.urls')),
     path('market/', include('market.urls')),
     path('runway/', include('runway.urls')),
-    path('potatoField', include('potatoField.urls')),
+    path('potatoField/', include('potatoField.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
