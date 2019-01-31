@@ -18,21 +18,27 @@
         </div>
         <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
         <input type="submit" value="report">
-
         {% comment %} 댓글 {% endcomment %}
-        <form action="{% url 'createComment' pk=post.pk %}" method="POST" class="createComment">
-
+        {% comment %} <form action="{% url 'createComment' pk=post.pk %}" method="POST" class="createComment">
+            
         {% csrf_token %}
-        <input type="text" name="content" style="width:50%; height:50px;">
-        <input type="submit" value="submit">
+        <input type="textarea" name="content" form="CommentForm" style="width:50%; height:50px;">
+        <button>Submit</button>
+        </form>  {% endcomment %}
+        
+        <form method="GET" action="">
+            <input type='textarea' name='content' placeholder="댓글을 입력하세요"/>
+            <input type='submit' value='작성'/>
+        </form>
 
 
+        {% comment %} 댓글 출력 {% endcomment %}
         {% for comment in post.comments.all %}
             <div class="comment">
-                <strong>{% for relation in comment.com_relation.all %} {% if relation.isWriter %}{{relation.user.nickName}}{% endif %}{% endfor %}
-                <span class="date">{{ comment.pubDate}}</span>
-                <p>  {{comment.postEditor | safe }}</p>
-                <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
+                <strong>{{ comment.writer }}</strong>
+                <span class="date">{{ comment.pubDate }}</span>
+                <p>  {{comment.content | safe }}  </p>
+                {% comment %} <a href="/potatoField/{{ post.id }}/delete"><input type="submit" value="delete"></a> {% endcomment %}
                 
             </div>
 
