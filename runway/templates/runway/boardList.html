@@ -32,17 +32,16 @@
             <th>찬반토론</th>
             {%endif%}
             <td><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a></td>
-            {% for Relation in post.post_relation.all %} <!--각 post 객체들에게 연결되어있는 PostRelation 객체들을 상대로 for문을 돌림-->
-                {% if Relation.isWriter %}<!--Relation을 보고 작성자인지 확인-->
-                    {% if Relation.annonimity %}
-                    <td>{{Relation.annoName}}</td><!--Relation을 보고 익명인지 확인-->
-                    {% else %}
-                    <td>{{Relation.user.nickName}}</td>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+
+            {% if post.getWriterRelation.annonimity %}
+            <td>{{post.getWriterRelation.annoName}}</td><!--Relation을 보고 익명인지 확인-->
+            {% else %}
+            <td>{{post.getWriter.nickName}}</td>
+            {% endif %}
+
             <td>{{post.hitCount}}</td>
             <td>{{post.pubDate}}</td>
+
             {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
             <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
             {%else%}

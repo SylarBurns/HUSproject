@@ -103,7 +103,9 @@ class Post(models.Model):
     def getWriter(self):
         relation = self.post_relation.filter(isWriter=True).get()
         return relation.user
-
+    def getWriterRelation(self):
+        relation = self.post_relation.filter(isWriter=True).get()
+        return relation
 
 class Comment(models.Model):
     title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요

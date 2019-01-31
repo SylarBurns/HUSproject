@@ -51,6 +51,14 @@
                 <br>
                 <input type="submit" value="투표하기" id="voteButton">
             </form>
+        {%else%}
+            <div class="buttons">
+                <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
+                <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
+                <p id="likecount">{{likeCount}}</p>
+                <p id="dislikecount">{{dislikeCount}}</p>
+                <button>신고</button>
+            </div>
         {% endif %}
         <script src="{% static 'runway/app.js' %}"></script>
     </body>

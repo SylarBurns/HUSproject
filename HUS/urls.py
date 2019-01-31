@@ -28,9 +28,9 @@ urlpatterns = [
     path('lostAndFound/',include('lostAndFound.urls')),
     path('skyLake/', include('skyLake.urls')),
     path('bamboo/', include('bamboo.urls')),
-    path('potatoField/', include('potatoField.urls')),
     path('heart/', include('heart.urls')),
     path('market/', include('market.urls')),
     path('runway/', include('runway.urls')),
+    path('potatoField', include('potatoField.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

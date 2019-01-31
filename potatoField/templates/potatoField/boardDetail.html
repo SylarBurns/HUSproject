@@ -1,49 +1,32 @@
-
+{% extends 'mainPage/basePage.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html>
     <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'potatoField/detailStyle.css'%}">   
+    <link rel="stylesheet" type="text/css" href="{% static 'potatoField/style.css'%}">    
         <meta charset="UTF-8">
         <title> boardDetail </title>
     </head>
 
- <body class="a">
-        
-        <h1 class="ma">Title : {{post.title}}</h1>
-        <div class="b">
-            <ul>Writer:{% for relation in post.post_relation.all %}{% if relation.isWriter %}{{relation.user.nickName}}{% endif %}{% endfor %} 조회수 : {{ post.update_hitCount }}</ul>
-            <p class="c">  {{post.postEditor | safe }}</p>
+    <body>
+        <h2 class="boardName"> 감자밭 </h2>
+        <h4 class="boardName"> 다양한 주제를 공유하는 남송리 대표 자유게시판입니다. </h4>
+        <div class="functionCall">{{post.update_hitCount}}</div> <!--조회수 증가하는 함수-->
+        <div>
+            <h3 class="title"> {{object.title}} </h3>
+            <p class="name">{{object.getWriter.nickName}}</p>
+            <p class="date"> {{object.pubDate}}</p>
+            <div style="text-align: right;">
         </div>
-        <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
-        <input type="submit" value="report">
-
-        {% comment %} 댓글 {% endcomment %}
-        <form action="{% url 'createComment' pk=post.pk %}" method="POST" class="createComment">
-
-        {% csrf_token %}
-        <input type="text" name="content" style="width:50%; height:50px;">
-        <input type="submit" value="submit">
-
-
-        {% for comment in post.comments.all %}
-            <div class="comment">
-                <strong>{% for relation in comment.com_relation.all %} {% if relation.isWriter %}{{relation.user.nickName}}{% endif %}{% endfor %}
-                <span class="date">{{ comment.pubDate}}</span>
-                <p>  {{comment.postEditor | safe }}</p>
-                <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
-                
-            </div>
-
-        {% endfor %}
-        
-        
-
-    
-
-
+            <p> {{object.postEditor | safe }} </p>
+        <div class="buttons">
+            <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
+            <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
+            <p id="likecount">{{likeCount}}</p>
+            <p id="dislikecount">{{dislikeCount}}</p>
+            <button>신고</button>
+        </div>
     </body>
-
 <html>
 {% endblock %}

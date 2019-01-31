@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'skyLake.apps.SkylakeConfig',
     'bamboo.apps.BambooConfig',
     'market.apps.MarketConfig',
-    'potatoField.apps.PotatofieldConfig',
     'runway.apps.RunwayConfig',
+    'potatoField.apps.PotatofieldConfig',
     'chartjs',
 
 ]
