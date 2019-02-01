@@ -103,9 +103,22 @@ class Post(models.Model):
     def getWriter(self):
         relation = self.post_relation.filter(isWriter=True).get()
         return relation.user
+
     def getWriterRelation(self):
         relation = self.post_relation.filter(isWriter=True).get()
         return relation
+
+    def getScorePlus(self):
+        score = (((self.likeCount+self.dislikeCount)/self.hitCount)*100)+self.hitCount
+        return score
+    
+    def getScoreMinus(self):
+        score = (((self.likeCount-self.dislikeCount)/self.hitCount)*100)+self.hitCount
+        return score
+
+    def getScoreRW(self):
+        score = (((self.forCount+self.againstCount+self.neutralCount)/self.hitCount)*100)+self.hitCount
+        return score
 
 class Comment(models.Model):
     title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요
@@ -116,7 +129,7 @@ class Comment(models.Model):
         through_fields=('comment', 'user'))  #댓글과 관련된 유저들
     pubDate = models.DateTimeField(auto_now_add=True) #댓글 생성날짜
     content = models.TextField(max_length=3000, blank=True) #댓글 내용
-    commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
+    # commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
     # belongToBoard = models.PositiveIntegerField(blank= True) #어떤 게시판에 소속된 댓글인지 알 수 있도록 게시판의 pk표시
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
     belongToComment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subComments')#어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
