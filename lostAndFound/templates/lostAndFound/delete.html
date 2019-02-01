@@ -10,7 +10,6 @@
         <link rel="icon" href="{% static 'images/title_icon.jpg' %}">
     </head>
 
-
     <body>
         <div class="lostAndFoundName">
             <h2><a href="{% url 'lostAndFound:list' %}">LOST & FOUND</a></h2>
@@ -18,9 +17,11 @@
         </div>
     </body>
 
-    <h1>삭제!!!!!!!!!!!!!!</h1>
-    <button><a href="/lostAndFound/">확인</a></button>
-
+    <form method="post">
+        {% csrf_token %}
+        <p> 정말 삭제하시겠습니까? </p>
+        <p><input type='submit' value='Yes'/> <a href='../'>Cancel</a></p>
+    </form>
 
 </html>
 {% endblock %}

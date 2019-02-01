@@ -20,19 +20,21 @@
         <table id=lostAndFoundCategoryTable>
             <tbody>
                 <tr>
-                    <td class=tdCategory>
-                        <span class=category>전체</span>
-                        <span class=category>LOST</span>
-                        <span class=category>FOUND</span>
+                    <td class=LFboardType>
+                        <button><a href="{% url 'lostAndFound:list'%}">전체</a></button>
+                        <button type ="submit" value="?boardType=Lost" onclick="location = this.value;">Lost</button>
+                        <button type ="submit" value="?boardType=Found" onclick="location = this.value;">Found</button>
                     </td>
                 </tr>
                 <tr>
-                        <td class=tdCategory>
-                            <span class=category>학생증</span>
-                            <span class=category>전자기기</span>
-                            <span class=category>돈/지갑/카드</span>
-                            <span class=category>기타</span>
-                        </td>
+                    <!--
+                    <td class=LFitemType>
+                        <button type ="submit" value="?itemType=idcard" onclick="location = this.value;">학생증</button>
+                        <button type ="submit" value="?itemType=electronic" onclick="location = this.value;">전자기기</button>
+                        <button type ="submit" value="?itemType=cash" onclick="location = this.value;">돈/지갑/카드</button>    
+                        <button type ="submit" value="?boardType=etc" onclick="location = this.value;">기타</button>
+                    </td>
+                    -->
                 </tr>
             </tbody>
         </table>
@@ -52,7 +54,7 @@
                     <th class="saveDate">날짜</th>
                 </tr>
             </thead>
-            {% for post in post_list%}
+            {% for post in post_list %}
             <tbody>
                 <tr>
                     <td>{{post.pk}}</th>
@@ -63,7 +65,7 @@
                             <div><a href="{% url 'lostAndFound:detail' post.pk %}">{{post.title}}</a></div>
                         </div>
                     </td>
-                    <!-- itemType (물건카테고리)에 따른 다른 썸네일 로드 -->
+                    <!-- itemType (물건카테고리)에 따른 다른 썸네일 로드-->
                     {% if post.LFitemType == 'idcard' %}
                     <td><img src="{% static 'images/idcard.jpg' %}" class="thumbnail"></td>
                     {% elif post.LFitemType == 'electronic' %}

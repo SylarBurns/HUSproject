@@ -66,3 +66,13 @@ th, td {
 #lostAndFoundDetailTitle{
     font-size: 20px;
 }
+
+#id_LFBoardType li,#id_LFitemType li{
+    float: left;
+}
+
+#id_LFBoardType,#id_LFitemType{
+    list-style-type: none;
+    display: inline-block;
+    margin: 0px;
+}
