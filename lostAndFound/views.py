@@ -4,12 +4,15 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView,
+    FormView,
     TemplateView
 )
 from django.urls import reverse
 from django.utils import timezone
-from .forms import lostAndFoundPostModelForm
+from .forms import (
+    lostAndFoundPostModelForm,
+    lostAndFoundPostDeleteForm
+)
 from heart.models import (
     Post,
     PostRelation,
@@ -101,7 +104,12 @@ class updateView(UpdateView):
         return redirect('lostAndFound:detail', pk=post.pk)    
 
 
-class deleteView(TemplateView):
-    model = Post
-    template_name = 'lostAndFound/delete.html'
-    # 사용자가 게시물을 삭제했을 때 exist만 false로 바꿔준다.
+def delete(request, pk):
+    context = {'pk': pk }
+    return render(request, 'lostAndFound/delete.html', context)
+
+def deleteConfirm(request, pk):
+    post=Post.objects.get(pk=pk)
+    post.exist=False
+    post.save()
+    return redirect('lostAndFound:list')

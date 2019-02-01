@@ -20,7 +20,7 @@
     <form method="post">
         {% csrf_token %}
         <p> 정말 삭제하시겠습니까? </p>
-        <p><input type='submit' value='Yes'/> <a href='../'>Cancel</a></p>
+        <p><a href="{% url 'lostAndFound:deleteConfirm' pk %}">Yes</a></p>
     </form>
 
 </html>

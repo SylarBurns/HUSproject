@@ -1,14 +1,14 @@
 from django.urls import path
 
 #함수형 때문에 넣어놓은거 - delete
-#from . import views
+from . import views
 
 from .views import (
     listView,
     detailView,
     createView,
     updateView,
-    deleteView,
+    #deleteView,
 )
 
 app_name = 'lostAndFound'
@@ -23,7 +23,8 @@ urlpatterns = [
     path('<int:pk>/update/', updateView.as_view(), name='update'),
     
     # ex: /lostAndFound/5/delete/
-    path('<int:pk>/delete/', deleteView.as_view(), name='delete'),
+    #path('<int:pk>/delete/', deleteView.as_view(), name='delete'),
 
-    #path('<int:pk>/delete/', views.delete, name='delete'),
+    path('<int:pk>/delete/', views.delete, name='delete'),
+    path('<int:pk>/deleteConfirm/', views.deleteConfirm, name='deleteConfirm'),
 ]
