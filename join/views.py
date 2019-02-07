@@ -6,6 +6,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from heart.models import User
 from django.contrib.auth import login as auth_login
+from django.views import generic
+from .forms import UserForm
+from django.contrib import messages
 '''
 1. 크롤링 하기 위해 다음 두가지 설치 필요
 pip install requests
@@ -30,10 +33,12 @@ def check(request):
 
         except:              # 회원가입 ( 히즈넷 로그인 성공 & 한우리 회원가입 안된 상태)
             getInform = hisnetCheck("register", username, password)
-            return renderSignUp(request, getInform)
+            request.session['data'] = getInform
+            #return renderSignUp(request, getInform)
+            return redirect('join:clause')
 
     except:       # 히즈넷 로그인 실패 --> TODO: 경고창 띄우기  
-        return redirect('mainPage:mainPage')
+        return LoginError(request)
 
 
 
@@ -68,19 +73,50 @@ def hisnetCheck(use, user_id, user_pw):
         elif(use is "register"):
             userInform = {"studentID":studentID, "email":email, "korName":korName, "phone":phone}
             return userInform
+class SignUpView(generic.View):
+
+    form_class = UserForm
+    template_name = "join/register.html"
+
+    def get(self, request, *args, **kwargs):
+        form = UserForm()
+        userInfo = request.session.get('data')
+        args = {'form':form, 'data':userInfo}
+        return render(request, 'join/register.html', args)
+
+    def post(self, request, *args, **kwargs):
+        form = UserForm(request.POST)
+        userInfo = request.session.get('data')
+        args = {'form':form, 'data':userInfo}
+        if form.is_valid():
+            KorName = form.cleaned_data["name"]
+            StudentID = form.cleaned_data["studentId"]
+            NickName = form.cleaned_data["nickName"]
+            BirthDate = form.cleaned_data["birthDate"]
+            Phone = form.cleaned_data["phone"]
+            Sex = form.cleaned_data["sex"]
+            Email = form.cleaned_data["email"]
             
-def registerUser(request):
-    KorName = request.POST.get("name")
-    StudentID = request.POST.get("studentId")
-    NickName = request.POST.get("nickName")
-    BirthDate = request.POST.get("birthDate")
-    Phone = request.POST.get("phone")
-    Gender = request.POST.get("gender")
-    Email = request.POST.get("email")
+            user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Sex, email = Email, phone = Phone, birthDate = BirthDate)
+            auth_login(request, user)
+            return redirect('mainPage:mainPage')
+        else:  
+            return render(request, 'join/register.html', args)
+    
+class ClauseView(generic.TemplateView):
+    template_name = 'join/clause.html'
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, 'join/clause.html')
 
-    user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Gender, email = Email, phone = Phone, birthDate = BirthDate)
-    auth_login(request, user)
-    return redirect('mainPage:mainPage')
+    def post(self, request, *args, **kwargs):
+        isAgree = request.POST.get("check")
+        if isAgree == "agree":
+            return redirect("join:signup")
+        else:
+            messages.warning(request, '동의하셔야 회원가입을 할 수 있습니다.')
+            return render(request, 'join/clause.html')
+        
 
-def renderSignUp(request, msg):
-    return render(request, "join/signUp.html", context=msg)
+def LoginError(request):
+	return render(request,'join/login_error.html')

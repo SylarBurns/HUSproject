@@ -33,22 +33,17 @@
     <th >댓글 내용</th>
     <th >날짜</th> 
   </tr>
-  <tr>
-    <td>3</td>
-    <td >그러게나 말입니다</td>
-    <td >01:30</td>
-
-  </tr>
-  <tr>
-    <td>2</td>
-    <td >매점에 있어용</td>
-    <td >02:02</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td >파이팅!!!</td>
-    <td >03:03</td>
-  </tr>
+  {% for comment,in24 in my_com_dic.items %}
+    <tr>
+    <td> {{ comment.pk}} </td>
+    <td> {{ comment.content|truncatechars:30 }} </td>
+    {% if in24 %}
+      <td> {{ comment.pubDate|time:"H:i"}}</td>
+    {% else %}
+      <td>{{ comment.pubDate|date:"Y-m-d"}} </td>
+    {% endif %}
+    </tr>
+  {% endfor %}
 </table>
 <br>
 

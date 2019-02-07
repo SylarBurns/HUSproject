@@ -1,8 +1,10 @@
+
 from django.urls import path
 from . import views
 app_name = 'join'
 urlpatterns = [
     path('check/', views.check, name='check'),
-    path('registerUser/', views.registerUser, name='registerUser'),
-    path('rendersignup/', views.renderSignUp, name = 'renderSignUp'),  
+    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('clause/', views.ClauseView.as_view(), name='clause'),
+ 
 ]
