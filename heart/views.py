@@ -17,6 +17,9 @@ from heart.models import Post, User, PostRelation, Comment, ComRelation
 from django.core import exceptions
 from django.db.models import Q
 import json
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 class BaseListView(ListView):
     paginate_by = 3
     # def get_context_data(self, **kwargs):
@@ -181,3 +184,56 @@ def subCommentWrite(request):
     relation.save()
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
+
+def writeReport(request, pk):
+    context={'pk':pk, 'url':request.META.get('HTTP_REFERER', '/')}
+    return render(request, 'heart/report.html', context)
+
+def sendReport(request):
+    url= request.POST['url']
+    pk = request.POST['pk']
+    post = Post.objects.get(pk=pk)
+    user = request.user
+
+    try : 
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        relation.isReporter = True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = PostRelation(post=post, user=user, isReporter=True)
+        relation.save()
+    post.reportStatus="미확인"
+    post.save()
+    subject = user.nickName + " reported Post "+ pk + " " +post.title
+    message = request.POST['message']
+    email = EmailMessage(subject, message, to=['sokon954@gmail.com'])
+    email.send()
+
+    return HttpResponseRedirect(url)
+
+def writeCommentReport(request, pk):
+    context={'pk':pk, 'url':request.META.get('HTTP_REFERER', '/')}
+    return render(request, 'heart/reportComment.html', context)
+
+def sendCommentReport(request):
+    url= request.POST['url']
+    pk = request.POST['pk']
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
+
+    try : 
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        relation.isReporter = True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = ComRelation(comment=comment, user=user, isReporter=True)
+        relation.save()
+    comment.reportStatus="미확인"
+    comment.save()
+    subject = user.nickName + " reported Comment "+ pk + " " + comment.content
+    message = request.POST['message']
+    email = EmailMessage(subject[:40], message, to=['sokon954@gmail.com'])
+    email.send()
+
+    return HttpResponseRedirect(url)
+

@@ -135,7 +135,7 @@
                         <input type="button" class="commentDislike" name="{{ comment.pk }}" value="싫어요">
                         <p id="likecount_{{comment.pk}}">{{comment.likeCount}}</p>
                         <p id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}</p>
-                        <button>신고</button>
+                        <button><a href="{% url 'heart:writeCommentReport' comment.pk %}">신고</a></button>
                     </div>
                 </td>
                 <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>
@@ -179,7 +179,7 @@
                             <input type="button" class="commentDislike" name="{{ subComment.pk }}" value="싫어요">
                             <p id="likecount_{{subComment.pk}}">{{subComment.likeCount}}</p>
                             <p id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}</p>
-                            <button>신고</button>
+                            <button><a href="{% url 'heart:writeCommentReport' subComment.pk %}">신고</a></button>
                         </div>
                     </td>
                 </tr> 

@@ -32,7 +32,7 @@
             <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
             <p id="likecount">{{likeCount}}</p>
             <p id="dislikecount">{{dislikeCount}}</p>
-            <button>신고</button>
+            <button><a href="{% url 'heart:writeReport' object.pk %}">신고</a></button>
         </div>
         <div class="commentWriter">
             <form id="commentForm"><!--댓글-->
