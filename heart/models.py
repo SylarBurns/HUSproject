@@ -53,16 +53,17 @@ class Post(models.Model):
                                           'plugin.js',
                                           )],
                                       )
+    writer = models.CharField("작성자", max_length=20, blank=False, null=True)
     pubDate = models.DateTimeField(auto_now_add=True, blank=False) 
     updateDate = models.DateTimeField(auto_now_add=True, blank=True) 
     hitCount = models.PositiveIntegerField(default=0) #조회수
     boardNum = models.PositiveIntegerField(blank=False) #게시판 별 고유번호
     reportStatus = models.CharField(max_length=10, blank=True) # mypage-신고내역 ( 미확인, 확인중, 확인완료 )
     status = models.CharField(max_length=10, blank=True)  # lostNfound, 한동장터 ( 판매중, 판매완료, Lost, Found, 해결완료 )
-    LFboardType = models.CharField(choices=BOARD_CHOICES, max_length=10, default='Lost') # lostNfound( Lost, Found )
-    MboardType = models.CharField(choices=BOARD_CHOICES_MARKET, max_length=10, default='Lost') # 한동장터 ( 팝니다, 삽니다)
-    LFitemType = models.CharField(choices=ITEM_CHOICES, max_length=10, default='idcard') #lostNfound( 태그 )
-    MitemType = models.CharField(choices=ITEM_CHOICES_MARKET, max_length=10, default='idcard') # 한동장터 ( 태그 )
+    LFboardType = models.CharField(blank=True, choices=BOARD_CHOICES, max_length=10, ) # lostNfound( Lost, Found )
+    MboardType = models.CharField(blank=True, choices=BOARD_CHOICES_MARKET, max_length=10, ) # 한동장터 ( 팝니다, 삽니다)
+    LFitemType = models.CharField(blank=True, choices=ITEM_CHOICES, max_length=10, ) #lostNfound( 태그 )
+    MitemType = models.CharField(blank=True, choices=ITEM_CHOICES_MARKET, max_length=10, ) # 한동장터 ( 태그 )
     price = models.CharField(max_length=100, blank=True) 
     exist = models.BooleanField(default=True) # 삭제 여부
     users = models.ManyToManyField(
@@ -79,25 +80,37 @@ class Post(models.Model):
         self.save()
         return self.hitCount
 
+    def getWriter(self):
+        relation = self.post_relation.filter(isWriter=True).get()
+        return relation.user
+
 
 class Comment(models.Model):
     title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요    
+    writer = models.CharField("작성자", max_length=20, blank=False, null=True)
     users = models.ManyToManyField(
         User, 
         through='ComRelation',
         through_fields=('comment', 'user'))  #댓글과 관련된 유저들
     pubDate = models.DateTimeField(auto_now_add=True) #댓글 생성날짜
-    # content = models.TextField(max_length=3000, blank=True) #댓글 내용
-    commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
+    content = models.TextField(max_length=3000, blank=True) #댓글 내용
+    # commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
     # belongToBoard = models.PositiveIntegerField(blank= True) #어떤 게시판에 소속된 댓글인지 알 수 있도록 게시판의 pk표시
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
-    belongToComment = models.PositiveIntegerField(blank= True) #어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
-    stance = models.PositiveIntegerField(blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
+    belongToComment = models.PositiveIntegerField(null=True, blank= True) #어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
+    stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
 
     def __str__(self):
-        return self.pk
+        return self.content
+
+    def get_parent_name(self):
+        return Comment.objects.get(pk = self.belongToComment).writer
+
+    def getWriter(self):
+        relation = self.com_relation.filter(isWriter=True).get()
+        return relation.user
 
 class File(models.Model):
     belongTo = models.ForeignKey(Post, on_delete=models.CASCADE)
