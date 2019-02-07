@@ -148,6 +148,12 @@ class Comment(models.Model):
         relation = self.com_relation.filter(isWriter=True).get()
         return relation
 
+    def likeCount(self):
+        return self.com_relation.filter(like=True).count()
+
+    def dislikeCount(self):
+        return self.com_relation.filter(dislike=True).count()
+
 class File(models.Model):
     belongTo = models.ForeignKey(Post, on_delete=models.CASCADE)
     image = models.ImageField(blank=True)

@@ -89,6 +89,26 @@ def postLike(request):#좋아요 기능
              'dislike_count':post.post_relation.filter(dislike=True).count()}
     return HttpResponse(json.dumps(context),content_type="application/json")
 
+def commentLike(request):#좋아요 기능
+    pk = request.POST.get('pk', None)
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
+    try : 
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        #PostRelation instance 중에서 post와 user간에 존재하는 instance를 찾아본다.
+        if relation.like: #relation의 like가 true이면 false로, like가 false라면 like를 true, dislike를 false로 만든다.
+            relation.like = False
+        else:
+            relation.like = True
+            relation.dislike = False
+        relation.save()#relation을 저장하면 post와 user간의 관계가 성립된다. 
+    except exceptions.ObjectDoesNotExist : #post와 user 사이에 postRelation이 없으면 하나 만들어서 저장한다. 
+        relation = ComRelation(comment=comment, user=user, like=True)
+        relation.save()
+    context={'like_count':comment.likeCount(),
+             'dislike_count':comment.dislikeCount()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+
 def postDislike(request):#싫어요 기능
     pk = request.POST.get('pk', None)
     post = Post.objects.get(pk=pk)
@@ -108,6 +128,26 @@ def postDislike(request):#싫어요 기능
         
     context={'like_count':post.post_relation.filter(like=True).count(),
              'dislike_count':post.post_relation.filter(dislike=True).count()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+
+def commentDislike(request):#싫어요 기능
+    pk = request.POST.get('pk', None)
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
+    try : 
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        if relation.dislike:
+            relation.dislike=False
+        else:
+            relation.like=False
+            relation.dislike=True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = ComRelation(comment=comment, user=user, dislike=True)
+        relation.save()
+        
+    context={'like_count':comment.likeCount(),
+             'dislike_count':comment.dislikeCount()}
     return HttpResponse(json.dumps(context),content_type="application/json")
 
 def commentWrite(request):

@@ -125,7 +125,18 @@
                 <td>{{comment.getWriter.nickName}}</td>
                 <td>{{comment.content}}</td>
                 <td>{{comment.pubDate}}</td>
-                <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>             
+                <td>
+                    <div class="buttons">
+                        <input type="button" class="commentLike" name="{{ comment.pk }}" value="좋아요">
+                        <input type="button" class="commentDislike" name="{{ comment.pk }}" value="싫어요">
+                        <p id="likecount_{{comment.pk}}">{{comment.likeCount}}</p>
+                        <p id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}</p>
+                        <button>신고</button>
+                    </div>
+                </td>
+                <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>
+            </tr>
+            <tr>
                 <td id="subCommentWrite_{{comment.pk}}" style="display: none">
                     <form>
                         {% csrf_token %}
@@ -134,7 +145,7 @@
                         <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
                     </form>
                 </td>
-            </tr>
+            </tr>             
                 {% if comment.subComments.all %}
                 {% for subComment in comment.subComments.all %}
                 <tr>  
@@ -142,6 +153,15 @@
                     <td>{{subComment.getWriter.nickName}}</td>
                     <td>{{subComment.content}}</td>
                     <td>{{subComment.pubDate}}</td>
+                    <td>
+                        <div class="buttons">
+                            <input type="button" class="commentLike" name="{{ subComment.pk }}" value="좋아요">
+                            <input type="button" class="commentDislike" name="{{ subComment.pk }}" value="싫어요">
+                            <p id="likecount_{{subComment.pk}}">{{subComment.likeCount}}</p>
+                            <p id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}</p>
+                            <button>신고</button>
+                        </div>
+                    </td>
                 </tr> 
                 {% endfor %}
                 {% endif %}
@@ -162,6 +182,8 @@
         var commentWriteUrl = "{% url 'heart:commentWrite' %}";
         var subCommentWriteUrl = "{% url 'heart:subCommentWrite' %}";
         var csrf_token = '{{ csrf_token }}';
+        var commentLikeUrl = "{% url 'heart:commentLike' %}";
+        var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
         </script>
         <script src="{% static 'heart/app.js' %}"></script>
     </body>
