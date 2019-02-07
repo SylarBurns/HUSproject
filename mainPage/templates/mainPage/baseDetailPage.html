@@ -122,7 +122,11 @@
             <table>
             {% for comment in comment_list %}<!-- post 객체들을 상대로 for문 돌림 -->
             <tr>
+                {% if comment.getWriterRelation.annonimity %}
+                <td>{{comment.getWriterRelation.annoName}}</td>
+                {% else %}
                 <td>{{comment.getWriter.nickName}}</td>
+                {% endif %}
                 <td>{{comment.content}}</td>
                 <td>{{comment.pubDate}}</td>
                 <td>
@@ -141,6 +145,18 @@
                     <form>
                         {% csrf_token %}
                         <input type="textarea" name='subCommentContent'>
+                        {% if comment.post.boardNum == 2 or comment.post.boardNum == 3 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none" checked>
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none">
+                        {% elif comment.post.boardNum == 1 or comment.post.boardNum == 5 or comment.post.boardNum == 6 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none">
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
+                        {% else %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" checked>
+                        <label for="annoTrue">익명</label>
+                        <input type="radio" name="annonimity" id="annoFalse" value="False">
+                        <label for="annoFalse">실명(닉네임)</label>
+                        {% endif %}
                         <input type="submit" class="subCommentSubmit" value="댓글 달기">
                         <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
                     </form>
@@ -150,7 +166,11 @@
                 {% for subComment in comment.subComments.all %}
                 <tr>  
                     <td>&nbsp; &nbsp; </td>
+                    {% if subComment.getWriterRelation.annonimity %}
+                    <td>{{subComment.getWriterRelation.annoName}}</td>
+                    {% else %}
                     <td>{{subComment.getWriter.nickName}}</td>
+                    {% endif %}
                     <td>{{subComment.content}}</td>
                     <td>{{subComment.pubDate}}</td>
                     <td>

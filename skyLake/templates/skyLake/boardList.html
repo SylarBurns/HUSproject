@@ -33,7 +33,7 @@
                 {% endif %} 
                 <a href="{% url 'skyLake:skyLakeDetail' post.pk %}">{{post.title}}</a>
                 </td>
-                <td>{{post.getWriter.nickName}}</td>
+                <td>{{post.getWriterRelation.annoName}}</td>
                 <td>{{post.hitCount}}</td>
                 <td>{{post.pubDate}}</td>
             </tr>
@@ -48,7 +48,7 @@
                 {% endif %} 
                 <a href="{% url 'skyLake:skyLakeDetail' post.pk %}">{{post.title}}</a>
                 </td>
-                <td>{{post.getWriter.nickName}}</td>
+                <td>{{post.getWriterRelation.annoName}}</td>
                 <td>{{post.hitCount}}</td>
                 <td>{{post.pubDate}}</td>
             </tr>

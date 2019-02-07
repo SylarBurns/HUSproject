@@ -152,24 +152,32 @@ def commentDislike(request):#싫어요 기능
 
 def commentWrite(request):
     pk = request.POST.get('pk', None)
+    annonimity = request.POST.get('annonimity',None)
     post = Post.objects.get(pk=pk)
     user = request.user
     content = request.POST.get('content', None)
     comment = Comment(post = post, content= content)
     comment.save()
-    relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    if annonimity == 'True':
+        relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
+    else:
+        relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 
 def subCommentWrite(request):
     pk = request.POST.get('commentPk', None)
+    annonimity = request.POST.get('annonimity',None)
     parentComment = Comment.objects.get(pk=pk)
     user = request.user
     content = request.POST.get('subCommentContent', None)
     comment = Comment(belongToComment = parentComment, content= content)
     comment.save()
-    relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    if annonimity == 'True':
+        relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
+    else:
+        relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")

@@ -65,6 +65,10 @@
                 {% csrf_token %}
                 <input type="textarea" name="content">
                 <input type="number" name="pk" value="{{object.pk}}" style="display:none">
+                <input type="radio" name="annonimity" id="annoTrue" value="True" checked>
+                <label for="annoTrue">익명</label>
+                <input type="radio" name="annonimity" id="annoFalse" value="False">
+                <label for="annoFalse">실명(닉네임)</label>
                 <input type="submit" value="댓글 달기">
             </form>
         </div>

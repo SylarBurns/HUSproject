@@ -53,7 +53,7 @@ class skyLakeCreateView(CreateView):
         post.pubDate = timezone.now()
         post.writer = self.request.user.nickName
         post.save()
-        postRelation= PostRelation(post=post, user=self.request.user, isWriter=True)
+        postRelation= PostRelation(post=post, user=self.request.user, isWriter=True, annonimity=True, annoName="익명")
         postRelation.save()
         return redirect('skyLake:skyLakeDetail', pk=post.pk)
 

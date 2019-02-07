@@ -31,6 +31,8 @@
                 {% csrf_token %}
                 <input type="textarea" name="content">
                 <input type="number" name="pk" value="{{object.pk}}" style="display:none">
+                <input type="radio" name="annonimity" value="True" style="display:none">
+                <input type="radio" name="annonimity" value="False" style="display:none" checked>
                 <input type="submit" value="댓글 달기">
             </form>
         </div>
