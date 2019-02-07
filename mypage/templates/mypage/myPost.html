@@ -29,31 +29,37 @@
     <th>조회수</th>
     <th>날짜</th>
   </tr>
-  <tr>
-    <td>3</td>
-    <td>감자밭</td>
-    <td>오늘 맘스 여나요? [2]</td>
-    <td>나나</td>
-    <td>2</td>
-    <td>01:30</td>
 
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>활주로</td>
-    <td>why not change the world? [18]</td>
-    <td>나나</td>
-    <td>94</td>
-    <td>02:02</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>천마지</td>
-    <td>봄봄봄</td>
-    <td>나나</td>
-    <td>23</td>
-    <td>03:03</td>
-  </tr>
+  {% for post,in24 in my_post_dic.items %}
+    <tr>
+    <td> {{post.pk}} </td>
+    {% if post.boardNum == 1 %}
+      <td>감자밭 </td>
+      {% elif post.boardNum == 2 %}
+      <td>천마지</td>
+      {% elif post.boardNum == 3 %}
+      <td>대나무숲</td>
+      {% elif post.boardNum == 4 %}
+      <td>활주로 </td>
+      {% elif post.boardNum == 5 %}
+      <td>한동장터</td>
+      {% elif post.boardNum == 6 %}
+      <td>Lost&Found</td>
+      {% elif post.boardNum == 7 %}
+      <td>부동산</td>
+      {% elif post.boardNum == 8 %}
+      <td>공지사항</td>
+    {% endif %}
+    <td> {{post.title|truncatechars:30 }} </td>
+    <td> {{post.writer}} </td>
+    <td> {{post.hutCount}} </td>
+    {% if in24 %}
+      <td> {{post.pubDate|time:"H:i"}}</td>
+    {% else %}
+      <td>{{post.pubDate|date:"Y-m-d"}} </td>
+    {% endif %}
+    </tr>
+  {% endfor %}
 </table>
 <br>
 

@@ -6,10 +6,12 @@
   <title>myData</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
+
 </head>
 <body>
-<form action="{% url 'mypage:update' %}" method="GET">
-  {% csrf_token %}
+<div>
+<form method="post">
+    {% csrf_token %}
 <h2>마이페이지</h2>
 <h4>각종 설정들을 확인 및 수정하세요</h4>
 
@@ -34,12 +36,15 @@
     <td>{{ user.sex }}</td>
   </tr>
   <tr>    
-    <th>닉네임</th>
-    <td>{{ user.nickName }}</td>
+    <th><label for="{{ form.nickName.id_for_label }}">닉네임</label></th>
+    <td><input class="form-control" name="nickName" type="text" value = "{{ user.nickName }}"/></td>
+    {{ form.nickName.errors}}
+    
   </tr>
   <tr>    
-    <th>핸드폰</th>
-    <td>{{ user.phone }}</td>
+    <th><label for="{{ form.phone.id_for_label }}">연락처</label></th>
+    <td><input class="form-control" name="phone" type="text" value = "{{ user.phone }}"/></td>
+    {{ form.phone.errors }}
   </tr>
   <tr>    
     <th>아이콘</th>
@@ -50,8 +55,10 @@
     <td>{{ user.date_joined|date:"Y-m-d" }}</td>
   </tr><br>
   </table>
-  <button>수정</button>
+  <button>확인</button>
+  <button name="cancel" value="cancel">취소</button>
 </form>
+</div>
 </body>
 </html>
 {% endblock %}

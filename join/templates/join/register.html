@@ -1,0 +1,151 @@
+{% extends 'mainPage/baseListPage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+h1{
+    color: rgb(74, 85, 87);
+    margin-left: 80px;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: rgb(120, 187, 196);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: rgb(120, 187, 196);
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 70px;
+  margin: 70px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+  </head>
+  <body>
+  
+<div>
+<form method="post">
+  {% csrf_token %}
+<h1>회원가입</h1>
+<p>한동대, 우리의 이야기를 담은 한우리입니다.</p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.name.id_for_label }}">이름</label>
+    </div>
+    <div class="col-75">
+      <input class="form-control" name="name" type="text" value = "{{ data.korName }}" readonly/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.studentId.id_for_label }}">학번</label>
+    </div>
+    <div class="col-75">
+        <input class="form-control" name="studentId" type="text" value = "{{ data.studentID }}" readonly/>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-25">
+          <label for="{{ form.nickName.id_for_label }}">닉네임</label>
+      </div>
+      <div class="col-75">
+        {{ form.nickName }}
+        {{ form.nickName.errors}}
+      </div>
+    </div>
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.birthDate.id_for_label }}">생년월일</label>
+    </div>
+    <div class="col-75">
+        {{ form.birthDate }}
+        {{ form.birthDate.errors }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.phone.id_for_label }}">연락처</label>
+    </div>
+    <div class="col-75">
+        <input class="form-control" name="phone" type="text" value = "{{ data.phone }}" readonly/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.sex.id_for_label }}">성별</label>
+    </div>
+    <div class="col-75">
+      <input type="radio" name="sex" value="M">Male<br>
+      <input type="radio" name="sex" value="F">Female<br>
+      {{ form.sex.errors }}<br>
+  </div>
+  <div class="row">
+    <div class="col-25">
+        <label for="{{ form.email.id_for_label }}">이메일</label>
+    </div>
+    <div class="col-75">
+        <input class="form-control" name="email" type="text" value = "{{ data.email }}" readonly/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="icon">아이콘</label>
+    </div>
+  </div>
+  <div class="row">
+    <input type="submit" value="Submit">
+  </div>
+
+</div>
+</form>
+</div>
+
+</body>
+</html>
+{% endblock %}

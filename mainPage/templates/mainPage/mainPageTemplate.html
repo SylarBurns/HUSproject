@@ -71,7 +71,7 @@
         </section>
         <section class="login">
                 {% if user.is_authenticated %}
-                    Hi {{ user.name }}!
+                    Hi {{ user.nickName }}!
                 {% else %}
                 <h2>Login</h2>
                     <form action="{% url 'join:check' %}" method="post">

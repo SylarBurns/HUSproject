@@ -71,6 +71,7 @@ class Post(models.Model):
     RWboardType = models.CharField(choices=BOARD_CHOICES_RUNWAY, max_length=10, default='찬반토론') # 활주로 (찬반토론, 일반토론)
     price = models.CharField(max_length=100, blank=True) 
     exist = models.BooleanField(default=True) # 삭제 여부
+    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 게시글의 처리 결과
     users = models.ManyToManyField(
       User,
       through = 'PostRelation',
@@ -132,11 +133,11 @@ class Comment(models.Model):
     # commentEditor = RichTextUploadingField(blank=True, null=True, config_name='comment')
     # belongToBoard = models.PositiveIntegerField(blank= True) #어떤 게시판에 소속된 댓글인지 알 수 있도록 게시판의 pk표시
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
-    belongToComment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='subComments')#어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
+    belongToComment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subComments')#어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
     stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
-
+    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 댓글의 처리 결과
     def __str__(self):
         return self.content
     
@@ -156,6 +157,7 @@ class PostRelation(models.Model):
     annonimity=models.BooleanField(default=False)
     annoName=models.CharField(max_length=20, blank= True)
     isWriter=models.BooleanField(default=False)
+    isReporter=models.BooleanField(default=False)
     like=models.BooleanField(default=False)
     dislike=models.BooleanField(default=False)
     vote=models.PositiveIntegerField(null=True, blank= True) #각 게시물 detailview에서 내가 투표한 결과를 볼 수 있게
@@ -169,6 +171,7 @@ class ComRelation(models.Model):
     annonimity=models.BooleanField(default=False)
     annoName=models.CharField(max_length=20, blank= True)
     isWriter=models.BooleanField(default=False)
+    isReporter=models.BooleanField(default=False)
     like=models.BooleanField(default=False)
     dislike=models.BooleanField(default=False)
     vote=models.PositiveIntegerField(null=True, blank= True) #각 게시물 detailview에서 내가 투표한 결과를 볼 수 있게
