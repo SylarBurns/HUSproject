@@ -166,6 +166,16 @@ def commentWrite(request):
     else:
         relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
+
+    if post.boardNum == 4:#만약에 토론게시판이면 댓글의 stance를 사용자의 투표결과로 바꾸어준다.
+        postRelation=PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        voteResult = postRelation.vote
+        if voteResult == 0 or voteResult == 1 or voteResult == 2 :
+            comment.stance = voteResult
+        else: 
+            comment.stnace = 2 #투표한 값이 없으면 자동으로 중립으로 저장함.
+        comment.save()
+    
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 
@@ -177,11 +187,23 @@ def subCommentWrite(request):
     content = request.POST.get('subCommentContent', None)
     comment = Comment(belongToComment = parentComment, content= content)
     comment.save()
+
     if annonimity == 'True':
         relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
     else:
         relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
+
+    post = parentComment.post
+    if post.boardNum == 4:#만약에 토론게시판이면 댓글의 stance를 사용자의 투표결과로 바꾸어준다.
+        postRelation=PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        voteResult = postRelation.vote
+        if voteResult == 0 or voteResult == 1 or voteResult == 2 :
+            comment.stance = voteResult
+        else: 
+            comment.stnace = 2 #투표한 값이 없으면 자동으로 중립으로 저장함.
+        comment.save()
+
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 

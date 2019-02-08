@@ -15,26 +15,12 @@
         <section class="topMenu">
         <table>
                 <tr>
-                    <!-- {% for index in range %}
-                    <th>
-                        {{ index }}. 대게시판 제목
-                    </th>
-                    {% endfor %} -->
                     <th>커뮤니티</th>
                     <th>한동장터</th>
                     <th>한동라이프</th>
                     <th>한동정보</th>
                 </tr>
                 <tr>   
-                    <!-- {% for index in range %} 
-                    <td>
-                        <ul>
-                            {% for index in range %} 
-                            <li>소게시판 제목</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    {% endfor %} -->
                     <td>
                         <ul>
                         <li><a href="{% url 'potatoField:potatoFieldList' %}">감자밭</a></li>
@@ -69,16 +55,6 @@
         </table>
         </section>
         <aside id="sideMenu">
-            <!-- <ul>
-                {% for index in range %}
-                <li>대게시판</li>
-                <ul>
-                    {% for index in range %}
-                    <li>소게시판</li>
-                    {% endfor%}
-                </ul>
-                {% endfor %}
-            </ul> -->
             <ul>
             <li>커뮤니티</li>
             <ul>
@@ -121,7 +97,11 @@
             {% if comment_list %}
             <table>
             {% for comment in comment_list %}<!-- post 객체들을 상대로 for문 돌림 -->
+            {% if comment.stance == 0 or comment.stance == 1 or comment.stance == 2 %}
+            <tr class ="stance_{{comment.stance}}">
+            {% else %}
             <tr>
+            {% endif %}
                 {% if comment.getWriterRelation.annonimity %}
                 <td>{{comment.getWriterRelation.annoName}}</td>
                 {% else %}
@@ -164,7 +144,11 @@
             </tr>             
                 {% if comment.subComments.all %}
                 {% for subComment in comment.subComments.all %}
-                <tr>  
+                {% if subComment.stance == 0 or subComment.stance == 1 or subComment.stance == 2 %}
+                <tr class ="stance_{{subComment.stance}}">
+                {% else %}
+                <tr>
+                {% endif %}
                     <td>&nbsp; &nbsp; </td>
                     {% if subComment.getWriterRelation.annonimity %}
                     <td>{{subComment.getWriterRelation.annoName}}</td>
