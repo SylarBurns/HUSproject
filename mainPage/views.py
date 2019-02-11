@@ -45,11 +45,9 @@ class mainPageView(TemplateView):
             newCommentList = sorted( newCommentDic.items(), key = lambda dic: dic[0].pubDate, reverse=True)
             for comment in newCommentList:
                 if comment[0].getWriterRelation().annonimity:
-                    s = "{0}".format(comment[0])
-                    #s = "{0}님이 회원님의 {1}에 댓글을 달았습니다".format(comment[0].getWriterRelation().annoName, comment[1])
+                    s = "\'{0}\'님이 회원님의 {1}에 댓글을 달았습니다".format(comment[0].getWriterRelation().annoName, comment[1])
                 else:
-                    s = "{0}".format(comment[0])
-                    #s = "{0}님이 회원님의 {1}에 댓글을 달았습니다".format(comment[0].getWriter(), comment[1])
+                    s = "\'{0}\'님이 회원님의 {1}에 댓글을 달았습니다".format(comment[0].getWriter().nickName, comment[1])
                 alarmDic[s] = comment[0].pk
             
             context['alarmDic'] = alarmDic
