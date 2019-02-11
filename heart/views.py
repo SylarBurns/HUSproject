@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import(
     CreateView,
     DetailView,
@@ -17,9 +17,10 @@ from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from heart.models import Post, User, PostRelation, Comment, ComRelation
 from django.core import exceptions
-
+from django.db.models import Q
+import json
 class BaseListView(ListView):
-    paginate_by = 1
+    paginate_by = 3
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['list']= serializers.serialize("json", Post.objects.all())
@@ -61,26 +62,29 @@ class BaseDetailView(DetailView):
         post = Post.objects.get(pk=pk)
         context['likeCount']=post.post_relation.filter(like=True).count()
         context['dislikeCount']=post.post_relation.filter(dislike=True).count()
+        context['comment_list']=post.comments.all()
         return context
 
 
 
 #좋아요 싫어요 기능 추가
-# app의 urls.py에 아래 코드와 urls를 추가하고 사용하면 된다.
-# from heart.views import postLike, postDislike
-# path('<int:pk>/like/', postLike, name="postLike"),
-# path('<int:pk>/disLike/', postDislike, name="postDislike"),
 # template에서는 다음 코드를 삽입하면 된다.
-# <button><a href="{% url '[app 이름]:postLike' pk=object.pk %}">좋아요{{ likeCount }}</a></button>
-# <button><a href="{% url 'bamboo:postDislike' pk=object.pk %}">싫어요{{dislikeCount}}</a></button>
-# detail view에 다음 함수를 추가 해준다.
+# <div class="buttons">
+#     <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
+#     <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
+#     <p id="likecount">{{likeCount}}</p>
+#     <p id="dislikecount">{{dislikeCount}}</p>
+#     <button>신고</button>
+# </div>
 
-
-def postLike(request, pk):#좋아요 기능 
+def postLike(request):#좋아요 기능
+    pk = request.POST.get('pk', None)
+    post = Post.objects.get(pk=pk)
+    user = request.user
     try : 
-        relation = PostRelation.objects.filter(post_id=pk).filter(user_id=request.user.pk).get()
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
         #PostRelation instance 중에서 post와 user간에 존재하는 instance를 찾아본다.
-        if relation.like : #relation의 like가 true이면 false로, like가 false라면 like를 true, dislike를 false로 만든다.
+        if relation.like: #relation의 like가 true이면 false로, like가 false라면 like를 true, dislike를 false로 만든다.
             relation.like = False
         else:
             relation.like = True
@@ -90,12 +94,36 @@ def postLike(request, pk):#좋아요 기능
         post = Post.objects.get(pk=pk)#pk로 post object를 가져온다.
         relation = PostRelation(post=post, user=User.objects.get(pk=request.user.pk), like=True)
         relation.save()
+    context={'like_count':post.post_relation.filter(like=True).count(),
+             'dislike_count':post.post_relation.filter(dislike=True).count()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
 
-    return redirect(request.build_absolute_uri()[:-5]) #postLike 함수를 호출한 url로 돌려보낸다. 
-
-def postDislike(request, pk):#싫어요 기능
+def commentLike(request):#좋아요 기능
+    pk = request.POST.get('pk', None)
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
     try : 
-        relation = PostRelation.objects.filter(post_id=pk).filter(user_id=request.user.pk).get()
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        #PostRelation instance 중에서 post와 user간에 존재하는 instance를 찾아본다.
+        if relation.like: #relation의 like가 true이면 false로, like가 false라면 like를 true, dislike를 false로 만든다.
+            relation.like = False
+        else:
+            relation.like = True
+            relation.dislike = False
+        relation.save()#relation을 저장하면 post와 user간의 관계가 성립된다. 
+    except exceptions.ObjectDoesNotExist : #post와 user 사이에 postRelation이 없으면 하나 만들어서 저장한다. 
+        relation = ComRelation(comment=comment, user=user, like=True)
+        relation.save()
+    context={'like_count':comment.likeCount(),
+             'dislike_count':comment.dislikeCount()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+
+def postDislike(request):#싫어요 기능
+    pk = request.POST.get('pk', None)
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    try : 
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
         if relation.dislike:
             relation.dislike=False
         else:
@@ -107,4 +135,58 @@ def postDislike(request, pk):#싫어요 기능
         relation = PostRelation(post=post, user=User.objects.get(pk=request.user.pk), dislike=True)
         relation.save()
         
-    return redirect(request.build_absolute_uri()[:-8])
+    context={'like_count':post.post_relation.filter(like=True).count(),
+             'dislike_count':post.post_relation.filter(dislike=True).count()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+
+def commentDislike(request):#싫어요 기능
+    pk = request.POST.get('pk', None)
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
+    try : 
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        if relation.dislike:
+            relation.dislike=False
+        else:
+            relation.like=False
+            relation.dislike=True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = ComRelation(comment=comment, user=user, dislike=True)
+        relation.save()
+        
+    context={'like_count':comment.likeCount(),
+             'dislike_count':comment.dislikeCount()}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+
+def commentWrite(request):
+    pk = request.POST.get('pk', None)
+    annonimity = request.POST.get('annonimity',None)
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    content = request.POST.get('content', None)
+    comment = Comment(post = post, content= content)
+    comment.save()
+    if annonimity == 'True':
+        relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
+    else:
+        relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    relation.save()
+    context={'nickName':user.nickName, 'content':content,'pk':pk}
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+def subCommentWrite(request):
+    pk = request.POST.get('commentPk', None)
+    annonimity = request.POST.get('annonimity',None)
+    parentComment = Comment.objects.get(pk=pk)
+    user = request.user
+    content = request.POST.get('subCommentContent', None)
+    comment = Comment(belongToComment = parentComment, content= content)
+    comment.save()
+    if annonimity == 'True':
+        relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
+    else:
+        relation = ComRelation(comment=comment, user=request.user, isWriter=True)
+    relation.save()
+    context={'nickName':user.nickName, 'content':content,'pk':pk}
+    return HttpResponse(json.dumps(context), content_type="application/json")

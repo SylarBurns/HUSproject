@@ -1,0 +1,210 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'mainPage/style.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'mainPage/app.js' %}"></script>
+<html>
+    <head>
+        <title>한우리-우리들의 이야기</title>
+    </head>
+    <body>
+        <a href="{% url 'mainPage:mainPage' %}"><img src="{% static 'mainPage/images/HUS_Logo_1.png' %}" class="Logo" id="top"/></a>
+        <div class="search">
+            <input type="text" value="검색창">
+            <button>검색버튼</button>
+        </div>
+        <section class="topMenu">
+        <table>
+                <tr>
+                    <!-- {% for index in range %}
+                    <th>
+                        {{ index }}. 대게시판 제목
+                    </th>
+                    {% endfor %} -->
+                    <th>커뮤니티</th>
+                    <th>한동장터</th>
+                    <th>한동라이프</th>
+                    <th>한동정보</th>
+                </tr>
+                <tr>   
+                    <!-- {% for index in range %} 
+                    <td>
+                        <ul>
+                            {% for index in range %} 
+                            <li>소게시판 제목</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    {% endfor %} -->
+                    <td>
+                        <ul>
+                        <li><a href="{% url 'potatoField:potatoFieldList' %}">감자밭</a></li>
+                        <li><a href="{% url 'skyLake:skyLakeList' %}">천마지</a></li>
+                        <li><a href="{% url 'bamboo:bambooList' %}">대나무숲</a></li>
+                        <li><a href="{% url 'runway:runwayList' %}">활주로</a></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li><a href="{% url 'market:marketList' %}">전체</a></li>
+                        <li>#top 1</li>
+                        <li>#top 2</li>
+                        <li>#top 3</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li><a href="{% url 'lostAndFound:list' %}">LOST & FOUND</a></li>
+                        <li>부동산</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li><a href="http://seal.handong.edu/">SEAL</a></li>
+                        <li><a href="http://itaxi.handong.edu/">아이택시</a></li>
+                        <li><a href="http://stu.handong.edu/">총학생회</a></li>
+                        <li><a href="http://www.dongari.or.kr/handongdae/file/">총동연회</a></li>
+                        </ul>
+                    </td>
+                </tr>
+        </table>
+        </section>
+        <aside id="sideMenu">
+            <!-- <ul>
+                {% for index in range %}
+                <li>대게시판</li>
+                <ul>
+                    {% for index in range %}
+                    <li>소게시판</li>
+                    {% endfor%}
+                </ul>
+                {% endfor %}
+            </ul> -->
+            <ul>
+            <li>커뮤니티</li>
+            <ul>
+                <li><a href="{% url 'potatoField:potatoFieldList' %}">감자밭</a></li>
+                <li><a href="{% url 'skyLake:skyLakeList' %}">천마지</a></li>
+                <li><a href="{% url 'bamboo:bambooList' %}">대나무숲</a></li>
+                <li><a href="{% url 'runway:runwayList' %}">활주로</a></li>
+            </ul>
+            <li>한동장터</li>
+            <ul>
+                <li><a href="{% url 'market:marketList' %}">전체</a></li>
+                <li>#top 1</li>
+                <li>#top 2</li>
+                <li>#top 3</li>
+            </ul>
+            <li>한동라이프</li>
+            <ul>
+                <li><a href="{% url 'lostAndFound:list' %}">LOST & FOUND</a></li>
+                <li>부동산</li>
+            </ul>
+            <li>한동정보</li>
+            <ul>
+                <li><a href="http://seal.handong.edu/">SEAL</a></li>
+                <li><a href="http://itaxi.handong.edu/">아이택시</a></li>
+                <li><a href="http://stu.handong.edu/">총학생회</a></li>
+                <li><a href="http://www.dongari.or.kr/handongdae/file/">총동연회</a></li>
+            </ul>
+            </ul>
+        <div class="sideMenuBottomIcons">
+        <a href="#bottom"><img src="{% static 'mainPage/images/down.png'%}" class="img"/></a>
+        <a href="#top"><img src="{% static 'mainPage/images/up.png'%}" class="img"/></a>
+        <a href="{% url 'mainPage:mainPage' %}"><img src="{% static 'mainPage/images/home.png'%}" class="img"/></a>
+        </div>
+        </aside>
+        <section class="mainContent">
+        {% block content %}
+        {% endblock %}
+        
+        <div id ="commentList"><!--댓글 목록-->
+            {% if comment_list %}
+            <table>
+            {% for comment in comment_list %}<!-- post 객체들을 상대로 for문 돌림 -->
+            <tr>
+                {% if comment.getWriterRelation.annonimity %}
+                <td>{{comment.getWriterRelation.annoName}}</td>
+                {% else %}
+                <td>{{comment.getWriter.nickName}}</td>
+                {% endif %}
+                <td>{{comment.content}}</td>
+                <td>{{comment.pubDate}}</td>
+                <td>
+                    <div class="buttons">
+                        <input type="button" class="commentLike" name="{{ comment.pk }}" value="좋아요">
+                        <input type="button" class="commentDislike" name="{{ comment.pk }}" value="싫어요">
+                        <p id="likecount_{{comment.pk}}">{{comment.likeCount}}</p>
+                        <p id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}</p>
+                        <button>신고</button>
+                    </div>
+                </td>
+                <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>
+            </tr>
+            <tr>
+                <td id="subCommentWrite_{{comment.pk}}" style="display: none">
+                    <form>
+                        {% csrf_token %}
+                        <input type="textarea" name='subCommentContent'>
+                        {% if comment.post.boardNum == 2 or comment.post.boardNum == 3 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none" checked>
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none">
+                        {% elif comment.post.boardNum == 1 or comment.post.boardNum == 5 or comment.post.boardNum == 6 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none">
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
+                        {% else %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" checked>
+                        <label for="annoTrue">익명</label>
+                        <input type="radio" name="annonimity" id="annoFalse" value="False">
+                        <label for="annoFalse">실명(닉네임)</label>
+                        {% endif %}
+                        <input type="submit" class="subCommentSubmit" value="댓글 달기">
+                        <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
+                    </form>
+                </td>
+            </tr>             
+                {% if comment.subComments.all %}
+                {% for subComment in comment.subComments.all %}
+                <tr>  
+                    <td>&nbsp; &nbsp; </td>
+                    {% if subComment.getWriterRelation.annonimity %}
+                    <td>{{subComment.getWriterRelation.annoName}}</td>
+                    {% else %}
+                    <td>{{subComment.getWriter.nickName}}</td>
+                    {% endif %}
+                    <td>{{subComment.content}}</td>
+                    <td>{{subComment.pubDate}}</td>
+                    <td>
+                        <div class="buttons">
+                            <input type="button" class="commentLike" name="{{ subComment.pk }}" value="좋아요">
+                            <input type="button" class="commentDislike" name="{{ subComment.pk }}" value="싫어요">
+                            <p id="likecount_{{subComment.pk}}">{{subComment.likeCount}}</p>
+                            <p id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}</p>
+                            <button>신고</button>
+                        </div>
+                    </td>
+                </tr> 
+                {% endfor %}
+                {% endif %}
+            
+            {% endfor %}
+            </table>
+            {% else %}
+            <h3>댓글이 없습니다 첫번째 댓글의 주인공이 되어주세요!</h3>
+            {% endif %}
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        </section>
+        <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+        var likeUrl = "{% url 'heart:postLike' %}";
+        var dislikeUrl ="{% url 'heart:postDislike' %}";
+        var commentWriteUrl = "{% url 'heart:commentWrite' %}";
+        var subCommentWriteUrl = "{% url 'heart:subCommentWrite' %}";
+        var csrf_token = '{{ csrf_token }}';
+        var commentLikeUrl = "{% url 'heart:commentLike' %}";
+        var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
+        </script>
+        <script src="{% static 'heart/app.js' %}"></script>
+    </body>
+</html>

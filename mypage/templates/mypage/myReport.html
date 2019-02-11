@@ -1,11 +1,55 @@
-{% extends 'mainPage/basePage.html' %}
+{% extends 'mainPage/baseListPage.html' %}
 {% block content %}
 <html>
 <head>
   <title>myReport</title>
   {% load static %}
  <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
-
+ <script>
+    $(document).ready(function(){
+      $("#pButton").click(function(){
+        $(".post").show();
+        $(".comment").hide();
+      });
+      $("#cButton").click(function(){
+        $(".post").hide();
+        $(".comment").show();
+      });
+    });
+</script>
+<style>
+  .comment{
+    display:none;
+  }
+  .white_content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+  .white_content:target {
+      opacity:1;
+      pointer-events: auto;
+  }
+  .white_content > div {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    border: 16px solid gray;
+    background-color: white;
+    overflow: auto;	
+  }
+</style>
 </head>
 <body>
 
@@ -20,8 +64,9 @@
     <td><a href="{% url 'mypage:myData' %}">나의 정보</td>
   </tr>
 </table>
-
-<table class="main">
+<button id="pButton">글 신고 내역</button>
+<button id="cButton">댓글 신고 내역</button>
+<table>
   <tr class="t02">
     <th>번호</th>
     <th>상태</th>
@@ -29,27 +74,45 @@
     <th>글쓴이</th>
     <th>날짜</th>
   </tr>
-  <tr>
-    <td>3</td>
-    <td>미확인</td>
-    <td>하...</td>
-    <td>보라돌이</td>
-    <td>03/11</td>
+  {% for post in my_post_list %}
+    <tr class="post">
+    <td> {{post.pk}} </td>
+    <td> {{post.reportStatus}}</td>
+    {% if post.reportStatus == "확인완료" %}
+    <td><a href="#open">{{ post.title|truncatechars:30 }}</a></td>
+    <div class="white_content" id="open">
+        <div>
+            <p>{{ post.reportResult|linebreaks }}</p>
+            <button type="button"><a href="#close">닫기</a></button>
+        </div>
+    </div>
+    {% else %}
+    <td>{{ post.title|truncatechars:30 }}</td>
+    {% endif %}
+    <td> {{post.writer}} </td>
+    <td> {{post.pubDate|date:"Y-m-d"}}  </td>
+    </tr>
+  {% endfor %}
+  {% for comment in my_comment_list %}
+  <tr class="comment">
+  <td> {{comment.pk}} </td>
+  <td> {{comment.reportStatus}}</td>
+  {% if comment.reportStatus == "확인완료" %}
+  <td><a href="#open">{{ comment.content|truncatechars:30 }}</a></td>
+  <div class="white_content" id="open">
+      <div>
+          <p>{{ content.reportResult|linebreaks }}</p>
+          <button type="button"><a href="#close">닫기</a></button>
+      </div>
+  </div>
+  {% else %}
+  <td>{{ post.title|truncatechars:30 }}</td>
+  {% endif %}
+  <td> {{comment.writer}} </td>
+  <td> {{comment.pubDate|date:"Y-m-d"}}  </td>
   </tr>
-  <tr>
-    <td>2</td>
-    <td>확인중</td>
-    <td>카페카페</td>
-    <td>뚜비</td>
-    <td>03/10</td> 
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>확인완료</td>
-    <td><a href="{% url 'mypage:myReportPopup' %}">껌</a></td>
-    <td>나나</td>
-    <td>03/09</td>
-  </tr>
+{% endfor %}
+
 
 </table>
 <br>

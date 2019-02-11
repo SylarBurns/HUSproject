@@ -1,0 +1,27 @@
+#id_RWboardType{
+    list-style-type: none;
+    display:inline-block;
+}
+#id_RWboardType li{
+    float: left;
+}
+.functionCall{
+    display:none;
+}
+
+#id_annonimity{
+    list-style-type: none;
+    display:inline-block;
+}
+#id_annonimity li {
+    float: left;
+}
+#myChart{
+    height:100px;
+    width:30%
+}
+.container{
+    height:200px;
+    width:30%;
+    border:1px solid black;
+}

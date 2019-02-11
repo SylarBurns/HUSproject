@@ -1,0 +1,64 @@
+{% extends 'mainPage/baseListPage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>myData</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
+
+</head>
+<body>
+<div>
+<form method="post">
+    {% csrf_token %}
+<h2>마이페이지</h2>
+<h4>각종 설정들을 확인 및 수정하세요</h4>
+
+<table class="t01">
+  <tr>
+      <td><a href="{% url 'mypage:myPost'  %}">내가 쓴 글</a></td>
+      <td><a href="{% url 'mypage:myComment'  %}">내가 쓴 댓글</a></td>
+      <td><a href="{% url 'mypage:myReport'  %}">신고 내역</a></td>
+      <th><a href="{% url 'mypage:myData'  %}">나의 정보</th>
+  </tr>
+</table>
+<table>
+  <tr>
+    <th>이름</th>
+    <td>{{ user.name }}</td>
+  </tr>
+  <tr>    
+    <th>생년월일</th>
+    <td>{{ user.birthDate|date:"Y-m-d"  }}</td></tr>
+  <tr>    
+    <th>성별</th>
+    <td>{{ user.sex }}</td>
+  </tr>
+  <tr>    
+    <th><label for="{{ form.nickName.id_for_label }}">닉네임</label></th>
+    <td><input class="form-control" name="nickName" type="text" value = "{{ user.nickName }}"/></td>
+    {{ form.nickName.errors}}
+    
+  </tr>
+  <tr>    
+    <th><label for="{{ form.phone.id_for_label }}">연락처</label></th>
+    <td><input class="form-control" name="phone" type="text" value = "{{ user.phone }}"/></td>
+    {{ form.phone.errors }}
+  </tr>
+  <tr>    
+    <th>아이콘</th>
+    <td>---</td>
+  </tr>
+  <tr>    
+    <th>가입일시</th>
+    <td>{{ user.date_joined|date:"Y-m-d" }}</td>
+  </tr><br>
+  </table>
+  <button>확인</button>
+  <button name="cancel" value="cancel">취소</button>
+</form>
+</div>
+</body>
+</html>
+{% endblock %}

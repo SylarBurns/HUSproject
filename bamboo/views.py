@@ -18,14 +18,27 @@ from heart.views import (
 from .forms import PostModelForm
 from django.utils import timezone
 from django.core import exceptions
-
+from django.db.models import Q
 class bambooListView(BaseListView):
     template_name = 'bamboo/boardList.html'
     def get_context_data(self, **kwargs):
         context = super(bambooListView, self).get_context_data(**kwargs)
         return context
     def get_queryset(self):
-        return Post.objects.all().filter(boardNum__exact=3).order_by('-pk')
+        query = self.request.GET.get("q")
+        filter = self.request.GET.get("filter")
+        queryset = Post.objects.filter(boardNum__exact=3).order_by('-pk')
+        if query:
+            if filter == "nofilter":
+                return queryset.filter(Q(title__icontains=query) or Q(postEditor__icontains=query) or Q(writer__icontains=query))
+            elif filter == "writer":
+                return queryset.filter(writer__icontains=query)
+            elif filter == "title":
+                return queryset.filter(title__icontains=query)
+            else :
+                return queryset.filter(Q(title__icontains=query) or Q(postEditor__icontains=query))
+        else:
+            return queryset
 
 class bambooDetailView(BaseDetailView):
     template_name = 'bamboo/boardDetail.html'

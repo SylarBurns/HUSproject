@@ -1,14 +1,18 @@
 from django import forms
-from heart.models import Post, Comment
+from django.forms import ModelForm
+from heart.models import Post
+from heart.models import PostRelation
 
-class PostForm(forms.ModelForm):
-
+class PostModelForm(ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'postEditor')
+        fields = ['title', 'postEditor' ]
+        
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
-# class CommentForm(forms.ModelForm):
-    
-#     class Meta:
-#         model = Comment
-#         fields = ('title', 'content')
+class PostRelationModelForm(ModelForm):
+    class Meta:
+        model = PostRelation
+        fields = ['user', 'post', 'isWriter']

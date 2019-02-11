@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'mainPage.apps.MainpageConfig',
     'lostAndFound.apps.LostandfoundConfig',
     'join.apps.JoinConfig',
-    'boards.apps.BoardsConfig',
     'skyLake.apps.SkylakeConfig',
     'bamboo.apps.BambooConfig',
     'market.apps.MarketConfig',
+    'runway.apps.RunwayConfig',
     'potatoField.apps.PotatofieldConfig',
+    'chartjs',
+    'mypage.apps.MypageConfig',
 
 ]
 
@@ -154,3 +156,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGOUT_REDIRECT_URL = 'mainPage:mainPage'

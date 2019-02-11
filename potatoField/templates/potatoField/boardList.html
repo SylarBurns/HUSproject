@@ -1,40 +1,51 @@
+{% extends 'mainPage/baseListPage.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title> Board </title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'potatoField/listStyle.css'%}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'potatoField/style.css'%}">
+    <meta charset="UTF-8">
+    <title> boardList </title>
     </head>
-
-    <body class="a">
-
-        <table border="1">
-	        <th>#</th>
-	        <th>Title</th>
-            <th>Writer</th>
+    <body>
+        <h2 class="boardName"> 감자밭 </h2>
+        <h4 class="boardName"> 다양한 주제를 공유하는 남송리 대표 자유게시판입니다. </h4>
+       {% if post_list %}
+       <table width=80%>
+        <thead>
+            <th>#</th>
+            <th width="75%">제목</th>
+            <th>글쓴이</th>
             <th>조회수</th>
-            <th>Date</th>
-        
-        {% csrf_token %}
-        {% if post_list %} 
-            <ol class="a">
-            {% for post in post_list %}
-            {% if post.exist %}
-                <tr>
-                   <td>{{ post.id }}</td>
-                    <td><a href="/potatoField/{{ post.id }}/">{{ post.title }}</a> [{{ post.comments.count }}] </td>
-                    <td>{% for relation in post.post_relation.all %}{% if relation.isWriter %}{{relation.user.nickName}}{% endif %}{% endfor %}</td>
-                    <td>{{post.hitCount}}</td>
-                    <td>{{post.pubDate}}</td>
-                </tr>
-                {% endif %}
-            {% endfor %} 
-            </ol>
-
+            <th>날짜</th>
+        </thead>
+        <tbody id="myTable">
+            {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
+            {% if post.hitCount > 3 %}
+            <tr>
+                <td>{{post.pk}}</td>
+                <td><a href="{% url 'potatoField:potatoFieldDetail' post.pk %}">{{post.title}}</a></td>
+                <td>{{post.getWriter.nickName}}</td>
+                <td>{{post.hitCount}}</td>
+                <td>{{post.pubDate}}</td>
+            </tr>
             {% else %}
-            <p>No post are available.</p>
+            <tr>
+                <td>{{post.pk}}</td>
+                <td><a href="{% url 'potatoField:potatoFieldDetail' post.pk %}">{{post.title}}</a></td>
+                <td>{{post.getWriter.nickName}}</td>
+                <td>{{post.hitCount}}</td>
+                <td>{{post.pubDate}}</td>
+            </tr>
             {% endif %}
+        {% endfor %} 
+
+        </tbody>
+        </table>
+        {% else %}
+        <h3>아직 게시물이 없습니다. 첫번째 게시물의 주인공이 되어주세요! </h3>
+        {% endif %}
 
         {# Pagination #}
         {% if is_paginated %}
@@ -72,9 +83,7 @@
         </nav>
         {% endif %}
 
-
-
-        <a href="/potatoField/create/"><input type="submit" value="Write"></a>
+    <button style="position: absolute; right:20%;"><a href="{% url 'potatoField:potatoFieldCreate' %}">글쓰기</a></button>  
     </body>
-
 <html>
+{% endblock %}

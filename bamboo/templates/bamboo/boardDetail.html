@@ -1,4 +1,4 @@
-{% extends 'mainPage/basePage.html' %}
+{% extends 'mainPage/baseDetailPage.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -27,28 +27,21 @@
         </div>
             <p> {{object.postEditor | safe }} </p>
         <div class="buttons">
-            <button><a href="{% url 'bamboo:postLike' pk=object.pk %}">좋아요{{ likeCount }}</a></button>
-            <button><a href="{% url 'bamboo:postDislike' pk=object.pk %}">싫어요{{dislikeCount}}</a></button>
+            <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
+            <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
+            <p id="likecount">{{likeCount}}</p>
+            <p id="dislikecount">{{dislikeCount}}</p>
             <button>신고</button>
         </div>
-        
-       <p class="comment">댓글[2]</p>
-       <textarea name="comment", cols="100%", rows="5"></textarea>
-       <p class="name"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQHjzdvCqUGnltcULXtv2fQH7wzGQnEtJiI7f1BP0P67xis8Cc" width="3%" height="3%"> 바르셀로나 2019.1.15 오전 12:17 </p>
-       <p class= "context">있습니다. <button>댓글작성</button></p> 
-       <div class="buttons">
-            <button>좋아요</button>
-            <button>싫어요</button>
-            <button>신고</button>
-            </div>
-       
-       <div class="context2">
-       <p class="name"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQHjzdvCqUGnltcULXtv2fQH7wzGQnEtJiI7f1BP0P67xis8Cc" width="3%" height="3%"> 크랑이 2019.1.15 오전 12:27 </p>
-       <p class= "context">감사합니다.</p>
-       <div class="buttons">
-            <button>좋아요</button>
-            <button>싫어요</button>
-            <button>신고</button>
+        <div class="commentWriter">
+            <form id="commentForm"><!--댓글-->
+                {% csrf_token %}
+                <input type="textarea" name="content">
+                <input type="number" name="pk" value="{{object.pk}}" style="display:none">
+                <input type="radio" name="annonimity" value="True" checked style="display:none">
+                <input type="radio" name="annonimity" value="False" style="display:none">
+                <input type="submit" value="댓글 달기">
+            </form>
         </div>
     </body>
 

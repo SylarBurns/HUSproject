@@ -1,12 +1,9 @@
 from django.urls import path
-
 from . import views
 
+app_name = 'potatoField'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    # path('<int:pk>/', views.CreateCommentView.as_view(), name='add_comment_to_post'),
-    path('<int:pk>/comment/', views.DetailView.as_view(), name='createComment'),
-    path('create/', views.CreateView.as_view(), name='create'),
-    path('<int:pk>/update/', views.UpdateView.as_view(), name='update'),
+    path('', views.potatoFieldListView.as_view(), name='potatoFieldList'),
+    path('<int:pk>/', views.potatoFieldDetailView.as_view(), name='potatoFieldDetail'),
+    path('create/', views.potatoFieldCreateView.as_view(), name='potatoFieldCreate'),
 ]

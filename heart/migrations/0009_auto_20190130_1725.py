@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('heart', '0008_auto_20190129_1541'),
+        ('heart', '0008_auto_20190131_1725'),
     ]
 
     operations = [
@@ -14,9 +14,9 @@ class Migration(migrations.Migration):
             model_name='comment',
             name='commentEditor',
         ),
-        migrations.AddField(
-            model_name='comment',
-            name='content',
-            field=models.TextField(blank=True, max_length=3000),
-        ),
+        # migrations.AddField(
+        #     model_name='comment',
+        #     name='content',
+        #     field=models.TextField(blank=True, max_length=3000),
+        # ),
     ]
