@@ -68,7 +68,6 @@ class myCommentView(generic.ListView):
         context['page_range'] = page_range
         return context
 
-
 class myDataView(generic.TemplateView):
     template_name = 'mypage/myData.html'
     def get_context_data(self, **kwargs):
