@@ -64,6 +64,7 @@ class bambooCreateView(CreateView):
         post = form.save(commit=False)
         post.boardNum = 3
         post.pubDate = timezone.now()
+        post.writer = self.request.user.nickName
         post.save()
         postRelation= PostRelation(post=post, user=User.objects.get(pk=self.request.user.pk), isWriter=True, annonimity=True, annoName="익명")
         postRelation.save()

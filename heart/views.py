@@ -259,3 +259,24 @@ def sendCommentReport(request):
 
     return HttpResponseRedirect(url)
 
+def vote(request):
+    stance = request.POST['stance']
+    pk =  request.POST['pk']
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    if stance =="찬성":
+        voteInfo = 1
+    elif stance =="반대":
+        voteInfo = 0
+    else:
+        voteInfo = 2
+
+    try:
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        relation.vote= voteInfo
+    except:
+        relation =PostRelation(user=user,post=post,vote=voteInfo)
+    relation.save()
+    context={'stance':stance,
+            'pk':pk}
+    return HttpResponse(json.dumps(context),content_type="application/json")

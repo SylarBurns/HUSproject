@@ -119,8 +119,35 @@
                     </div>
                 </td>
                 <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>
-            </tr>
+            </tr>         
+            {% if comment.subComments.all %}
+            {% for subComment in comment.subComments.all %}
+            {% if subComment.stance == 0 or subComment.stance == 1 or subComment.stance == 2 %}
+            <tr class ="stance_{{subComment.stance}}"><!--대댓글 리스트-->  
+            {% else %}
             <tr>
+            {% endif %}
+                <td>&nbsp; &nbsp; </td>
+                {% if subComment.getWriterRelation.annonimity %}
+                <td>{{subComment.getWriterRelation.annoName}}</td>
+                {% else %}
+                <td>{{subComment.getWriter.nickName}}</td>
+                {% endif %}
+                <td>{{subComment.content}}</td>
+                <td>{{subComment.pubDate}}</td>
+                <td>
+                    <div class="buttons">
+                        <input type="button" class="commentLike" name="{{ subComment.pk }}" value="좋아요">
+                        <input type="button" class="commentDislike" name="{{ subComment.pk }}" value="싫어요">
+                        <p id="likecount_{{subComment.pk}}">{{subComment.likeCount}}</p>
+                        <p id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}</p>
+                        <button><a href="{% url 'heart:writeCommentReport' subComment.pk %}">신고</a></button>
+                    </div>
+                </td>
+            </tr> 
+            {% endfor %}
+            {% endif %}
+            <tr><!--대댓글 작성란-->
                 <td id="subCommentWrite_{{comment.pk}}" style="display: none">
                     <form>
                         {% csrf_token %}
@@ -132,44 +159,16 @@
                         <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none">
                         <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
                         {% else %}
-                        <input type="radio" name="annonimity" id="annoTrue" value="True" checked>
-                        <label for="annoTrue">익명</label>
-                        <input type="radio" name="annonimity" id="annoFalse" value="False">
+                        <input type="radio" name="annonimity" id="annoFalse" value="False"checked>
                         <label for="annoFalse">실명(닉네임)</label>
+                        <input type="radio" name="annonimity" id="annoTrue" value="True">
+                        <label for="annoTrue">익명</label>
                         {% endif %}
                         <input type="submit" class="subCommentSubmit" value="댓글 달기">
                         <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
                     </form>
                 </td>
-            </tr>             
-                {% if comment.subComments.all %}
-                {% for subComment in comment.subComments.all %}
-                {% if subComment.stance == 0 or subComment.stance == 1 or subComment.stance == 2 %}
-                <tr class ="stance_{{subComment.stance}}">
-                {% else %}
-                <tr>
-                {% endif %}
-                    <td>&nbsp; &nbsp; </td>
-                    {% if subComment.getWriterRelation.annonimity %}
-                    <td>{{subComment.getWriterRelation.annoName}}</td>
-                    {% else %}
-                    <td>{{subComment.getWriter.nickName}}</td>
-                    {% endif %}
-                    <td>{{subComment.content}}</td>
-                    <td>{{subComment.pubDate}}</td>
-                    <td>
-                        <div class="buttons">
-                            <input type="button" class="commentLike" name="{{ subComment.pk }}" value="좋아요">
-                            <input type="button" class="commentDislike" name="{{ subComment.pk }}" value="싫어요">
-                            <p id="likecount_{{subComment.pk}}">{{subComment.likeCount}}</p>
-                            <p id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}</p>
-                            <button><a href="{% url 'heart:writeCommentReport' subComment.pk %}">신고</a></button>
-                        </div>
-                    </td>
-                </tr> 
-                {% endfor %}
-                {% endif %}
-            
+            </tr>  
             {% endfor %}
             </table>
             {% else %}
@@ -188,6 +187,7 @@
         var csrf_token = '{{ csrf_token }}';
         var commentLikeUrl = "{% url 'heart:commentLike' %}";
         var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
+        var voteUrl ="{% url 'heart:vote' %}";
         </script>
         <script src="{% static 'heart/app.js' %}"></script>
     </body>

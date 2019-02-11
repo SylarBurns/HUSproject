@@ -10,6 +10,7 @@ from .views import (
     sendReport, 
     sendCommentReport, 
     writeCommentReport,
+    vote,
 )
 app_name = 'heart'
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('sendReport/', sendReport, name="sendReport"),
     path('<int:pk>/writeCommentReport/', writeCommentReport, name="writeCommentReport"),
     path('sendCommentReport/', sendCommentReport, name="sendCommentReport"),
+    path('vote/', vote, name="vote" ),
 ]

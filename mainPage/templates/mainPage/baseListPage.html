@@ -128,7 +128,6 @@
             {# Pagination #}
             {% if is_paginated %}
             <nav>
-       
                 <ul class="pagination">
                 {% if page_obj.has_previous %}
                     {% comment %} <ol> {% endcomment %}
@@ -169,10 +168,16 @@
                     </a>
                     <span> >> </span>
                     </span>
-    
-                    
                 {% endif %}
                 </ul>
+            </nav>
+            {% else %}
+            <nav>
+            <span> << </span>
+            <span> < </span>
+            <b>1</b>
+            <span> > </span>
+            <span> >> </span>
             </nav>
             {% endif %}
         </div>
