@@ -71,7 +71,28 @@
         </section>
         <section class="login">
                 {% if user.is_authenticated %}
-                    Hi {{ user.nickName }}!
+                    <section class="login2">
+                        <div>
+                            <div>
+                                <img src="{% static 'mainPage/images/handongLogo.png' %}" class="img"/>
+                                <h2 style="display: inline">{{ user.nickName }}</h2>
+                            </div>
+                            <h4>알림</h4>
+                            <h4><a href="{% url 'mypage:myPost' user.pk %}">마이페이지</a></h4>
+                            <h4><a href="{% url 'logout' %}">로그아웃</a></h4> 
+                            <form>
+                                {% csrf_token %}
+                            <div class="notice">
+                                <ul>
+                                    <button class="deleteAll">전체 삭제</button><br>
+                                    {% for alarm, pk in alarmDic.items %}
+                                    <li>{{ alarm }}<button name="delete" class="delete" value="{{pk}}">X</button></li>
+                                    {% endfor %}
+                                </ul>
+                            </div> 
+                            </form>
+                        </div>
+                    </section>
                 {% else %}
                 <h2>Login</h2>
                     <form action="{% url 'join:check' %}" method="post">
@@ -118,24 +139,6 @@
             </ol>
         </div>
         </section>  
-        <section class="login2">
-                <div>
-                    <div>
-                        <img src="{% static 'mainPage/images/handongLogo.png' %}" class="img"/>
-                        <h2 style="display: inline">사용자</h2>
-                    </div>
-                    <h4>알림</h4>
-                    <h4><a href="{% url 'mypage:myPost' %}">마이페이지</a></h4>
-                    <h4><a href="{% url 'logout' %}">로그아웃</a></h4> 
-                    <div class="notice">
-                        <ul>
-                            {% for index in range %}
-                            <li>알림입니다<button>X</button></li>
-                            {% endfor %}
-                        </ul>
-                    </div> 
-                </div>
-            </section>
         <section class="news">
             <h2>한동신문사</h2>
         </section>
@@ -163,6 +166,8 @@
         <script>
         var likeUrl = "{% url 'heart:postLike' %}";
         var dislikeUrl ="{% url 'heart:postDislike' %}"
+        var deleteNoticeUrl ="{% url 'mainPage:deleteNotice' %}"
+        var deleteAllUrl ="{% url 'mainPage:deleteAll' %}"
         var csrf_token = '{{ csrf_token }}'
         </script>
         <script src="{% static 'heart/app.js' %}"></script>

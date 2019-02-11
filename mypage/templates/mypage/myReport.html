@@ -58,10 +58,10 @@
 
 <table class="t01">
   <tr>
-    <td><a href="{% url 'mypage:myPost' %}">내가 쓴 글</a></td>
-    <td><a href="{% url 'mypage:myComment' %}">내가 쓴 댓글</a></td>
-    <th><a href="{% url 'mypage:myReport' %}">신고 내역</a></th>
-    <td><a href="{% url 'mypage:myData' %}">나의 정보</td>
+    <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
+    <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
+    <th><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></th>
+    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
   </tr>
 </table>
 <button id="pButton">글 신고 내역</button>
@@ -79,8 +79,8 @@
     <td> {{post.pk}} </td>
     <td> {{post.reportStatus}}</td>
     {% if post.reportStatus == "확인완료" %}
-    <td><a href="#open">{{ post.title|truncatechars:30 }}</a></td>
-    <div class="white_content" id="open">
+    <td><a href="#{{post.pk}}">{{ post.title|truncatechars:30 }}</a></td>
+    <div class = "white_content" id="{{post.pk}}">
         <div>
             <p>{{ post.reportResult|linebreaks }}</p>
             <button type="button"><a href="#close">닫기</a></button>
@@ -92,21 +92,21 @@
     <td> {{post.writer}} </td>
     <td> {{post.pubDate|date:"Y-m-d"}}  </td>
     </tr>
-  {% endfor %}
+  {% endfor %} 
   {% for comment in my_comment_list %}
   <tr class="comment">
   <td> {{comment.pk}} </td>
   <td> {{comment.reportStatus}}</td>
   {% if comment.reportStatus == "확인완료" %}
-  <td><a href="#open">{{ comment.content|truncatechars:30 }}</a></td>
-  <div class="white_content" id="open">
+  <td><a href="#{{comment.pk}}">{{ comment.content|truncatechars:30 }}</a></td>
+  <div class="white_content" id="{{comment.pk}}">
       <div>
-          <p>{{ content.reportResult|linebreaks }}</p>
+          <p>{{ comment.reportResult|linebreaks }}</p>
           <button type="button"><a href="#close">닫기</a></button>
       </div>
   </div>
   {% else %}
-  <td>{{ post.title|truncatechars:30 }}</td>
+  <td>{{ comment.title|truncatechars:30 }}</td>
   {% endif %}
   <td> {{comment.writer}} </td>
   <td> {{comment.pubDate|date:"Y-m-d"}}  </td>

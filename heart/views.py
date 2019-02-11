@@ -16,8 +16,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from heart.models import Post, User, PostRelation, Comment, ComRelation
 from django.core import exceptions
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
-class BaseListView(ListView):
+class BaseListView(LoginRequiredMixin,ListView):
+    login_url = 'heart:loginRequired'
     paginate_by = 3
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -42,7 +44,8 @@ class BaseListView(ListView):
         context['page_range'] = page_range
         return context
 
-class BaseDetailView(DetailView):
+class BaseDetailView(LoginRequiredMixin,DetailView):
+    login_url = 'heart:loginRequired'
     def get_object(self):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(Post, id=id_)
@@ -181,3 +184,6 @@ def subCommentWrite(request):
     relation.save()
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
+
+class LoginRequiredView(TemplateView):
+    template_name = 'heart/login_required.html'

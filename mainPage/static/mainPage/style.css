@@ -30,8 +30,15 @@ h1{
 .add{
     height:150px;
 }
-.login, .login2, .news, .lostNFound{
+.login, .news, .lostNFound{
     width: 25%;
+    border :1px solid black;
+    margin-top: 5px;
+    padding: 5px;
+    float: right;
+}
+.login2{
+    width:95%;
     border :1px solid black;
     margin-top: 5px;
     padding: 5px;
@@ -45,12 +52,13 @@ h1{
 }
 .notice{
     border-top: 1px solid black;
+    overflow-y: scroll;
 }
 .lostNFound{
     overflow-y: scroll;
 }
 .login button{
-    height:80px;
+    height: 0px;
     float:right;
 }
 .login input{

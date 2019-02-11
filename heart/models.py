@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.models import AbstractUser
+import datetime
 # Create your models here.
 # -*- coding: utf-8 -*-
 class User(AbstractUser):
@@ -71,7 +72,7 @@ class Post(models.Model):
     RWboardType = models.CharField(choices=BOARD_CHOICES_RUNWAY, max_length=10, default='찬반토론') # 활주로 (찬반토론, 일반토론)
     price = models.CharField(max_length=100, blank=True) 
     exist = models.BooleanField(default=True) # 삭제 여부
-    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 게시글의 처리 결과
+    reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 게시글의 처리 결과
     users = models.ManyToManyField(
       User,
       through = 'PostRelation',
@@ -120,6 +121,8 @@ class Post(models.Model):
     def getScoreRW(self):
         score = (((self.forCount+self.againstCount+self.neutralCount)/self.hitCount)*100)+self.hitCount
         return score
+    def was_published_recently(self):
+        return self.pubDate >= timezone.now() - datetime.timedelta(days=1)
 
 class Comment(models.Model):
     title = models.CharField(max_length=100, blank=True)  #활주로에서 댓글이 게시글 형식으로 달릴 때 필요
@@ -137,13 +140,17 @@ class Comment(models.Model):
     stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
-    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 댓글의 처리 결과
+    reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 댓글의 처리 결과
+   
     def __str__(self):
         return self.content
     
     def getWriter(self):
         relation = self.com_relation.filter(isWriter=True).get()
         return relation.user
+    def getWriterStudentId(self):
+        relation = self.com_relation.filter(isWriter=True).get()
+        return relation.user.studentId
 
     def getWriterRelation(self):
         relation = self.com_relation.filter(isWriter=True).get()
@@ -154,6 +161,9 @@ class Comment(models.Model):
 
     def dislikeCount(self):
         return self.com_relation.filter(dislike=True).count()
+
+    def was_published_recently(self):
+        return self.pubDate >= timezone.now() - datetime.timedelta(days=1)
 
 class File(models.Model):
     belongTo = models.ForeignKey(Post, on_delete=models.CASCADE)

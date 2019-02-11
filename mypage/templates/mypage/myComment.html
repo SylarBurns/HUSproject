@@ -20,10 +20,10 @@
 
 <table class="t01">
   <tr>
-    <td><a href="{% url 'mypage:myPost' %}">내가 쓴 글</a></td>
-    <th><a href="{% url 'mypage:myComment' %}">내가 쓴 댓글</a></th>
-    <td><a href="{% url 'mypage:myReport' %}">신고 내역</a></td>
-    <td><a href="{% url 'mypage:myData' %}">나의 정보</td>
+    <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
+    <th><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></th>
+    <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
+    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
   </tr>
 </table>
 
@@ -33,14 +33,14 @@
     <th >댓글 내용</th>
     <th >날짜</th> 
   </tr>
-  {% for comment,in24 in my_com_dic.items %}
+  {% for relation in latest_comment_list %}
     <tr>
-    <td> {{ comment.pk}} </td>
-    <td> {{ comment.content|truncatechars:30 }} </td>
-    {% if in24 %}
-      <td> {{ comment.pubDate|time:"H:i"}}</td>
+    <td> {{ relation.comment.pk}} </td>
+    <td> {{ relation.comment.content|truncatechars:30 }} </td>
+    {% if relation.comment.was_published_recently %}
+      <td> {{ relation.comment.pubDate|time:"H:i"}}</td>
     {% else %}
-      <td>{{ comment.pubDate|date:"Y-m-d"}} </td>
+      <td>{{ relation.comment.pubDate|date:"Y-m-d"}} </td>
     {% endif %}
     </tr>
   {% endfor %}

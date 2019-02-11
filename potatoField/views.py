@@ -17,8 +17,10 @@ from .forms import PostModelForm
 from django.utils import timezone
 from django.db.models import Q
 
+
 class potatoFieldListView(BaseListView):
     template_name = 'potatoField/boardList.html'
+    
     def get_context_data(self, **kwargs):
         context = super(potatoFieldListView, self).get_context_data(**kwargs)
         return context

@@ -13,10 +13,10 @@
 
 <table class="t01">
   <tr>
-    <th><a href="{% url 'mypage:myPost' %}">내가 쓴 글</a></th>
-    <td><a href="{% url 'mypage:myComment' %}">내가 쓴 댓글</a></td>
-    <td><a href="{% url 'mypage:myReport' %}">신고 내역</a></td>
-    <td><a href="{% url 'mypage:myData' %}">나의 정보</td>
+    <th><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></th>
+    <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
+    <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
+    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
   </tr>
 </table>
 
@@ -25,38 +25,36 @@
     <th>번호</th>
     <th>분류</th>
     <th>제목</th> 
-    <th>글쓴이</th>
     <th>조회수</th>
     <th>날짜</th>
   </tr>
 
-  {% for post,in24 in my_post_dic.items %}
+  {% for relation in latest_post_list %}
     <tr>
-    <td> {{post.pk}} </td>
-    {% if post.boardNum == 1 %}
+    <td> {{relation.post.pk}} </td>
+    {% if relation.post.boardNum == 1 %}
       <td>감자밭 </td>
-      {% elif post.boardNum == 2 %}
+      {% elif relation.post.boardNum == 2 %}
       <td>천마지</td>
-      {% elif post.boardNum == 3 %}
+      {% elif relation.post.boardNum == 3 %}
       <td>대나무숲</td>
-      {% elif post.boardNum == 4 %}
+      {% elif relation.post.boardNum == 4 %}
       <td>활주로 </td>
-      {% elif post.boardNum == 5 %}
+      {% elif relation.post.boardNum == 5 %}
       <td>한동장터</td>
-      {% elif post.boardNum == 6 %}
+      {% elif relation.post.boardNum == 6 %}
       <td>Lost&Found</td>
-      {% elif post.boardNum == 7 %}
+      {% elif relation.post.boardNum == 7 %}
       <td>부동산</td>
-      {% elif post.boardNum == 8 %}
+      {% elif relation.post.boardNum == 8 %}
       <td>공지사항</td>
     {% endif %}
-    <td> {{post.title|truncatechars:30 }} </td>
-    <td> {{post.writer}} </td>
-    <td> {{post.hutCount}} </td>
-    {% if in24 %}
-      <td> {{post.pubDate|time:"H:i"}}</td>
+    <td> {{ relation.post.title|truncatechars:30 }} </td>
+    <td> {{ relation.post.hutCount}} </td>
+    {% if relation.post.was_published_recently %}
+      <td> {{relation.post.pubDate|time:"H:i"}}</td>
     {% else %}
-      <td>{{post.pubDate|date:"Y-m-d"}} </td>
+      <td>{{relation.post.pubDate|date:"Y-m-d"}} </td>
     {% endif %}
     </tr>
   {% endfor %}
