@@ -22,6 +22,32 @@
         <th>조회수</th>
         <th>날짜</th>
         <th>현황</th>
+        {% for post in runwayTopThree %}<!--topThree 리스트-->
+        <tr id="runwayRank_{{forloop.counter}}">
+            <td>{{forloop.counter}}</td>
+            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 분류를 다르게 줌-->
+            <th>일반토론</th>
+            {%else%}
+            <th>찬반토론</th>
+            {%endif%}
+            <td><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a></td>
+
+            {% if post.getWriterRelation.annonimity %}
+            <td>{{post.getWriterRelation.annoName}}</td><!--Relation을 보고 익명인지 확인-->
+            {% else %}
+            <td>{{post.getWriter.nickName}}</td>
+            {% endif %}
+
+            <td>{{post.hitCount}}</td>
+            <td>{{post.pubDate|date:"Y-m-d"}}</td>
+
+            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
+            <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
+            {%else%}
+            <td>찬성: {{post.forCount }}<br> 반대: {{post.againstCount }} <br>중립: {{post.neutralCount}}</td>
+            {%endif%}
+        </tr>
+        {% endfor %}
         </tr>
         {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
         <tr>
@@ -40,7 +66,7 @@
             {% endif %}
 
             <td>{{post.hitCount}}</td>
-            <td>{{post.pubDate}}</td>
+            <td>{{post.pubDate|date:"Y-m-d"}}</td>
 
             {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
             <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>

@@ -11,6 +11,8 @@ from django.views.generic import(
     TemplateView
 )
 from django.utils import timezone
+import datetime
+from datetime import timedelta
 from django.core import serializers 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from heart.models import Post, User, PostRelation, Comment, ComRelation
@@ -21,7 +23,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 class BaseListView(ListView):
-    paginate_by = 3
+    paginate_by = 10
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['list']= serializers.serialize("json", Post.objects.all())
