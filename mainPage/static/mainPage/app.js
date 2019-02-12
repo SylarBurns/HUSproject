@@ -30,3 +30,13 @@ function openTab(evt, cityName) {
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+$(function(){
+    $(window).load(function(){
+        $('.ajaxProgress').fadeOut(2000);
+    })
+});
+
+$(window).on('load', function () {
+    $("#loader").fadeOut(1000)
+});

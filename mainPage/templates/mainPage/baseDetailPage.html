@@ -119,6 +119,28 @@
                     </div>
                 </td>
                 <td><button class="subComment" name='{{comment.pk}}'>대댓글 달기</button></td>
+            </tr>
+            <tr><!--대댓글 작성란-->
+                <td id="subCommentWrite_{{comment.pk}}" style="display: none">
+                    <form>
+                        {% csrf_token %}
+                        <input type="textarea" name='subCommentContent'>
+                        {% if comment.post.boardNum == 2 or comment.post.boardNum == 3 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none" checked>
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none">
+                        {% elif comment.post.boardNum == 1 or comment.post.boardNum == 5 or comment.post.boardNum == 6 %}
+                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none">
+                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
+                        {% else %}
+                        <input type="radio" name="annonimity" id="annoFalse" value="False"checked>
+                        <label for="annoFalse">실명(닉네임)</label>
+                        <input type="radio" name="annonimity" id="annoTrue" value="True">
+                        <label for="annoTrue">익명</label>
+                        {% endif %}
+                        <input type="submit" class="subCommentSubmit" value="댓글 달기">
+                        <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
+                    </form>
+                </td>
             </tr>         
             {% if comment.subComments.all %}
             {% for subComment in comment.subComments.all %}
@@ -146,34 +168,18 @@
                 </td>
             </tr> 
             {% endfor %}
-            {% endif %}
-            <tr><!--대댓글 작성란-->
-                <td id="subCommentWrite_{{comment.pk}}" style="display: none">
-                    <form>
-                        {% csrf_token %}
-                        <input type="textarea" name='subCommentContent'>
-                        {% if comment.post.boardNum == 2 or comment.post.boardNum == 3 %}
-                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none" checked>
-                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none">
-                        {% elif comment.post.boardNum == 1 or comment.post.boardNum == 5 or comment.post.boardNum == 6 %}
-                        <input type="radio" name="annonimity" id="annoTrue" value="True" style="display:none">
-                        <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
-                        {% else %}
-                        <input type="radio" name="annonimity" id="annoFalse" value="False"checked>
-                        <label for="annoFalse">실명(닉네임)</label>
-                        <input type="radio" name="annonimity" id="annoTrue" value="True">
-                        <label for="annoTrue">익명</label>
-                        {% endif %}
-                        <input type="submit" class="subCommentSubmit" value="댓글 달기">
-                        <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
-                    </form>
-                </td>
-            </tr>  
+            {% endif %}  
             {% endfor %}
             </table>
             {% else %}
             <h3>댓글이 없습니다 첫번째 댓글의 주인공이 되어주세요!</h3>
             {% endif %}
+        </div>
+        <div class ="ajaxProgress">
+            <div id="loader">
+                <div id="shadow"></div>
+                <div id="box"></div>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         </section>

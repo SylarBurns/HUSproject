@@ -81,13 +81,15 @@ $(".subComment").click(function(){
 });
 
 $("#commentForm").submit(function(){
+    $('.ajaxProgress').show();
     $.ajax({
         data: $(this).serialize(),
         type: "POST",
         url:commentWriteUrl,
         dataType: "json",
         success: function(response){
-            location.reload(); 
+            location.reload();
+            $('.ajaxProgress').hide(); 
         },
         error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
         alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -96,6 +98,7 @@ $("#commentForm").submit(function(){
 });
 
 $(".subCommentSubmit").click(function(){
+    $('.ajaxProgress').show();
     var form = $(this).closest('form');
     $.ajax({
         data: form.serialize(),
@@ -103,7 +106,8 @@ $(".subCommentSubmit").click(function(){
         url:subCommentWriteUrl,
         dataType: "json",
         success: function(response){
-            location.reload(); 
+            location.reload();
+            $('.ajaxProgress').hide(); 
         },
         error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
         alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -130,3 +134,6 @@ $(".vote").click(function(){
     },
 })
 })
+$(window).on('load', function () {
+    $("#loader").fadeOut(1000)
+});
