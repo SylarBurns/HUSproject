@@ -119,28 +119,28 @@
         <div id="potatoField" class="tabcontent potatoFieldTopFour">
             <ol>
                 {% for post in potatoFieldTopFour %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li><a href="{% url 'potatoField:potatoFieldDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
         <div id="skyLake" class="tabcontent skyLakeTopThree">
             <ol>
                 {% for post in skyLakeTopThree %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li><a href="{% url 'skyLake:skyLakeDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
         <div id="bamboo" class="tabcontent bambooTopFour">
             <ol>
                 {% for post in bambooTopFour %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li><a href="{% url 'bamboo:bambooDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
         <div id="runway" class="tabcontent runwayTopThree">
             <ol>
                 {% for post in runwayTopThree %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
