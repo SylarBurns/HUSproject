@@ -12,6 +12,7 @@ from django.core import serializers
 from heart.models import Post, User, Comment
 from django.http import HttpResponse
 import json
+
 class mainPageView(TemplateView):
     template_name='mainPage/mainPageTemplate.html'
     model = User
@@ -23,6 +24,7 @@ class mainPageView(TemplateView):
         context['skyLakeTopThree']= postSet.filter(boardNum=2).order_by('hitCount')[:3]
         context['bambooTopFour']= postSet.filter(boardNum=3).order_by('hitCount')[:4]
         context['runwayTopThree']= postSet.filter(boardNum=4).order_by('hitCount')[:3]  
+        
         try:
             user = self.request.user
             newCommentDic = {}

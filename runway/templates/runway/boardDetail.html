@@ -34,7 +34,11 @@
             {% endif %}
         {% endfor %}
         </p>
-        <p class="date"> {{object.pubDate}}</p>
+        {% if object.was_published_recently %}
+        <p class="date">{{object.pubDate|time:"H:i"}}</p>
+        {% else %}
+        <p class="date">{{object.pubDate|date:"Y-m-d"}} </p>
+        {% endif %}
         <p> {{object.postEditor | safe }} </p>
         <!-- 찬반토론일 경우에만 투표기능 사용하도록 함 -->
         {% if object.RWboardType == "Argument" %}

@@ -40,7 +40,11 @@
             {% endif %}
 
             <td>{{post.hitCount}}</td>
-            <td>{{post.pubDate}}</td>
+            {% if post.was_published_recently %}
+            <td> {{post.pubDate|time:"H:i"}}</td>
+            {% else %}
+            <td>{{post.pubDate|date:"Y-m-d"}} </td>
+            {% endif %}
 
             {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
             <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>

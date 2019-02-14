@@ -12,11 +12,12 @@ import datetime
 class User(AbstractUser):
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     name= models.CharField(max_length=20)#사용자의 이름
-    nickName=models.CharField(max_length=20, unique = True)#사용자가 설정한 닉네임#사용자가 설정한 닉네임
+    nickName=models.CharField(max_length=20, unique = True, null=False)#사용자가 설정한 닉네임#사용자가 설정한 닉네임
     studentId=models.PositiveIntegerField(null=True, default=None)#학번;
     sex=models.CharField(max_length=1)#성별; 남자 : M, 여자 : F
     birthDate=models.DateField(null=True, blank = True, default=None)#생일; 형식 : 1995-09-30
-    #icon=models.ImageField(null=True, default=None)#사용자가 가입할 때 선택할 수 있는 아이콘
+    icon=models.CharField(max_length = 50, null=True, default=None)#사용자가 가입할 때 선택할 수 있는 아이콘
+    
     phone=models.CharField(max_length=15, null=True, default=None)#핸드폰 번호; 형식: xxx-xxxx-xxxx
     # blockUser=ListCharField(
     #     base_field=IntegerField(max_length=10),

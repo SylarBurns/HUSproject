@@ -6,6 +6,9 @@
   <title>myData</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
+  <script type="text/javascript"> 
+    var imgUrl = "{{ user.icon|safe }}"
+  </script> 
 </head>
 <body>
 <form action="{% url 'mypage:update' user.pk %}" method="GET">
@@ -43,7 +46,10 @@
   </tr>
   <tr>    
     <th>아이콘</th>
-    <td>---</td>
+    <td><img src="" class="img" id="image"/></td>
+    <script type="text/javascript"> 
+        document.getElementById('image').src = imgUrl
+    </script>
   </tr>
   <tr>    
     <th>가입일시</th>

@@ -105,8 +105,9 @@ class SignUpView(generic.View):
             Phone = form.cleaned_data["phone"]
             Sex = form.cleaned_data["sex"]
             Email = form.cleaned_data["email"]
+            Icon = form.cleaned_data['icon']
             
-            user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Sex, email = Email, phone = Phone, birthDate = BirthDate)
+            user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Sex, email = Email, phone = Phone, birthDate = BirthDate, icon=Icon)
             auth_login(request, user)
             return redirect('mainPage:mainPage')
         else:  

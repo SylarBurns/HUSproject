@@ -29,7 +29,11 @@
             <td><a href="{% url 'bamboo:bambooDetail' post.pk %}">{{post.title}}</a></td>
             <td>{{post.getWriterRelation.annoName}}</td>
             <td>{{post.hitCount}}</td>
-            <td>{{post.pubDate}}</td>
+            {% if post.was_published_recently %}
+            <td> {{post.pubDate|time:"H:i"}}</td>
+            {% else %}
+            <td>{{post.pubDate|date:"Y-m-d"}} </td>
+            {% endif %}
         </tr>
         {% endfor %}
         

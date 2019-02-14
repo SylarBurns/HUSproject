@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'potatoField.apps.PotatofieldConfig',
     'chartjs',
     'mypage.apps.MypageConfig',
-
+   
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"

@@ -79,8 +79,8 @@
     <td> {{post.pk}} </td>
     <td> {{post.reportStatus}}</td>
     {% if post.reportStatus == "확인완료" %}
-    <td><a href="#{{post.pk}}">{{ post.title|truncatechars:30 }}</a></td>
-    <div class = "white_content" id="{{post.pk}}">
+    <td><a href="#p{{post.pk}}">{{ post.title|truncatechars:30 }}</a></td>
+    <div class = "white_content" id="p{{post.pk}}">
         <div>
             <p>{{ post.reportResult|linebreaks }}</p>
             <button type="button"><a href="#close">닫기</a></button>
@@ -98,8 +98,8 @@
   <td> {{comment.pk}} </td>
   <td> {{comment.reportStatus}}</td>
   {% if comment.reportStatus == "확인완료" %}
-  <td><a href="#{{comment.pk}}">{{ comment.content|truncatechars:30 }}</a></td>
-  <div class="white_content" id="{{comment.pk}}">
+  <td><a href="#c{{comment.pk}}">{{ comment.content|truncatechars:30 }}</a></td>
+  <div class="white_content" id="c{{comment.pk}}">
       <div>
           <p>{{ comment.reportResult|linebreaks }}</p>
           <button type="button"><a href="#close">닫기</a></button>

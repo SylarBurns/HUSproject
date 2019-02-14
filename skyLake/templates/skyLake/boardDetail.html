@@ -23,7 +23,11 @@
             {% endif %}
             {{ object.getWriterRelation.annoName }}
             </p>
-            <p class="date"> {{object.pubDate}}</p>
+            {% if object.was_published_recently %}
+            <p class="date">{{object.pubDate|time:"H:i"}}</p>
+            {% else %}
+            <p class="date">{{object.pubDate|date:"Y-m-d"}} </p>
+            {% endif %}
             <div style="text-align: right;">
         </div>
             <p> {{object.postEditor | safe }} </p>
