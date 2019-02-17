@@ -22,17 +22,14 @@ from django.core import exceptions
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
-<<<<<<< HEAD
-class BaseListView(LoginRequiredMixin,ListView):
-    login_url = 'heart:loginRequired'
-    paginate_by = 3
-=======
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-class BaseListView(ListView):
+
+class BaseListView(LoginRequiredMixin,ListView):
+    login_url = 'heart:loginRequired'
     paginate_by = 10
->>>>>>> 7bc0e4a7b021b2e9bd1331b484d86beeb0964944
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['list']= serializers.serialize("json", Post.objects.all())
@@ -226,10 +223,10 @@ def subCommentWrite(request):
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 
-<<<<<<< HEAD
+
 class LoginRequiredView(TemplateView):
     template_name = 'heart/login_required.html'
-=======
+
 def writeReport(request, pk):
     context={'pk':pk, 'url':request.META.get('HTTP_REFERER', '/')}
     return render(request, 'heart/report.html', context)
@@ -303,4 +300,4 @@ def vote(request):
     context={'stance':stance,
             'pk':pk}
     return HttpResponse(json.dumps(context),content_type="application/json")
->>>>>>> 7bc0e4a7b021b2e9bd1331b484d86beeb0964944
+
