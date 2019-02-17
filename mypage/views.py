@@ -27,7 +27,7 @@ class myCommentView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'latest_comment_list'
     login_url = 'heart:loginRequired'
-=======
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -48,12 +48,12 @@ class myCommentView(LoginRequiredMixin, ListView):
         context['page_range'] = page_range
         return context
 
-class myCommentView(generic.ListView):
+class myCommentView(ListView):
     template_name = 'mypage/myComment.html'
     model = User
     context_object_name = 'latest_comment_list'
     paginate_by = 3
->>>>>>> 5cab6a4c9c28c566c0f3c5992160ba1030a422b6
+
     def get_queryset(self):
         #Return the last ten published posts.
         user = self.request.user
