@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+/*체크박스 클릭시 다른 클래스 제어 최종!!*/
+$(document).ready(function(e) {
+	$("#cb_db").click(function(){
+		if($(this).is(":checked")){
+			$('.w_info').show();
+		}else{
+			$('.w_info').hide();
+	  	}
+	});
+});
+
+/*클릭하면 나타났다가 2초 후에 사라지게 하기*/
+$(document).ready(function(e) {
+    $('.q_mark a').click(function(e) {
+        $(this).parent().find('.s_box').fadeIn(200).delay(2000).fadeOut(500);
+    });
+});
+
+
+$(document).ready(function(e) {
+    $('#bt_all-menu').toggle(first, second);
+	function first (){
+			$('#all-menu').show();
+			$('#bt_all-menu').css('background', 'url(images/common/bt_gnb_view-all_close.gif)' );
+		}
+	function second (){
+			$('#all-menu').hide();
+			$('#bt_all-menu').css('background', 'url(images/common/bt_gnb_view-all.gif)' );
+		}
+});
+$(document).ready(function(e) {
+    $('.local #bt_all-menu').toggle(first, second);
+	function first (){
+			$('#bt_all-menu').css('background', 'url(../images/common/bt_gnb_view-all_red_close.gif)' );
+		}
+	function second (){
+			$('#bt_all-menu').css('background', 'url(../images/common/bt_gnb_view-all_red.gif)' );
+		}
+});
+$(document).ready( function() {
+        $( 'p.a' ).click( function() {
+          $( 'p.b' ).toggle( 'slow' );
+        });
+      });
+	  
+$(function() {
+  $( "#slide_button" ).toggle(
+   function() {
+    $( "#effect" ).animate({right: 0}, 500 );
+    $( "#slide_button" ).css({"background":"url(button_open.gif)"});
+   },
+   function() {
+    $( "#effect" ).animate({right: '-200px'}, 500 );
+    $( "#slide_button" ).css({"background":"url(button_close.gif)"});
+   }
+  );
+ });
+
+
+$(document).ready(function(e) {
+	$("#bt_de-search_open").click(function() {
+		$("#de-search").animate({"top": "56px"},"");
+	});
+	
+	$("#bt_de-search_close").click(function() {
+		$("#de-search").animate({"top": "-300px"},"");
+	});	
+});
+$(document).ready(function(e) {    
+    $('.rule dt').click(function(){
+			if($('+dd',this).css('display')=='none'){
+					$('.rule dd').hide();
+					$('+dd',this).show();
+					$('.rule dt').removeClass('on');
+					$(this).addClass('on');
+					
+				}
+			else{				
+					$('.rule dd').hide();		
+					$('.rule dt').removeClass('on');		
+				}
+		})
+});
+
+$(document).ready(function(e) {
+	$('.pu .po_select li .checks input[type=radio]').click(function() {
+	  var $input = $(this);
+		if($input.is( ":checked" )){
+			$input.parent().parent().addClass('on');
+			$input.parent().parent().siblings().removeClass('on');
+		}
+	});
+});
+$(document).ready(function(e) {
+	$('.pu .po_select li .checks input[type=checkbox]').live('change',function(){
+		if($(this).prop('checked')){
+			$(this).parent().parent().addClass('on');
+		}
+		else{
+			$(this).parent().parent().removeClass('on');
+		}
+	});  
+});
+</script>
+
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+
+</body>
+</html>

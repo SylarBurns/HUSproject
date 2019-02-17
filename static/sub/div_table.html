@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>div table</title>
+<style>
+* { text-align:center; }
+.div_t { display:table; width:100%; border:1px solid #ddd; border-width:1px 0 0 1px; margin-bottom:10px; }
+.div_tr { display:table-row; }
+.div_tc { display:table-cell; border:1px solid #ddd; border-width:0 1px 1px 0; height:100px; vertical-align:middle; }
+</style>
+</head>
+<body>
+<div class="div_t">
+    <div class="div_tr">
+        <div class="div_tc">
+        	<p>text</p>
+        </div>
+        <div class="div_tc">
+        	<p>text</p>
+        </div>
+        <div class="div_tc">
+        	<p>text</p>
+        </div>
+    </div>
+</div>
+<i class="div_t"><i class="div_tr"><i class="div_tc">text</i></i></i>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% extends 'mainPage/baseListPage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+    {% load static %}
+        <title> boardCreate </title>
+    </head>
+
+    <body>
+        <!--create_block-->
+        <div id="create_block">
+                <div id="boardName">감자밭</div><br>
+                <div id="introduction">다양한 주제를 공유하는 남송리 대표 자유게시판입니다.</div><br>
+                <div id="createForm_block">
+                    <form method="POST">
+                    <table>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <tr>
+                            {{ form.media }}
+                            <td class="label_tag">{{ field.label_tag }}</td>
+                            <td class="field">{{ field }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <button><a href="{% url 'potatoField:potatoFieldList' %}">취소</a></button><!--취소시에는 리스트로 다시 돌아가는 url넣어주면 됨-->
+                    <input type="Submit" value="작성">
+                    </form>
+                </div>
+            </div>
+            <!--//create_block-->
+        
+    </body>
+
+<html>
+{% endblock %}
+{% block pagination %}
+{# Pagination #}
+{% if is_paginated %}
+<nav id="pageNation">
+    <ul class="pagination">
+    {% if page_obj.has_previous %}
+        {% comment %} <ol> {% endcomment %}
+        <a href="?page={{ 1 }}">
+            <span> << </span></a>
+        <a href="?page={{ page_obj.previous_page_number }}">
+            <span> < </span></a>
+        {% comment %} </ol> {% endcomment %}
+    {% else %}
+        {% comment %} <ol class="disabled"> {% endcomment %}
+        <span> << </span>
+        <a href="#">
+            <span> < </span></a>
+        {% comment %} </ol> {% endcomment %}
+    {% endif %}
+        
+    {% for page in page_range %}
+        {% comment %} <ol {% if page == page_obj.number %}class="active"{% endif %}> {% endcomment %}
+        <span {% if page == page_obj.number %}class="active"{% endif %}>
+        <a href="?page={{ page }}">{{ page }}</a>
+        </span>
+    {% endfor %}
+    {% if page_obj.has_next %}
+    {% comment %} <ol> {% endcomment %}
+<a href="?page={{ page_obj.next_page_number }}">
+    <span> > </span>
+
+<a href="?page={{ page_range|length }}">
+    <span> >> </span></a>
+</a>
+{% comment %} </ol> {% endcomment %}
+{% else %}
+{% comment %} <ol {% if not page_obj.has_next %}class="disabled"{% endif %}> {% endcomment %}
+<span {% if not page_obj.has_next %}class="disabled"{% endif %}>
+<a href="#">
+    <span> > </span>
+</a>
+<span> >> </span>
+</span>
+
+
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<div id="searchBox">
+    <form method="GET" action="">
+            <select name="filter">
+                <option value="noFilter">선택안함</option>
+                <option value="title">제목</option>
+                <option value="writer">글쓴이</option>
+                <option value="titleNContent">제목+내용</option>
+            </select>
+            <input type='text' name='q' placeholder="검색하세요"/>
+            <input type='submit' value=""/>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>기본세팅페이지</title>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="../js/layout.js"></script>
+<style type="text/css">
+.tb { position:relative; width:100%; table-layout:fixed; border-top:1px solid #4e535e; }
+.tb thead th { background:#ddd; border-bottom:1px solid #dcdcdc; padding-top:14px; padding-bottom:12px; line-height:14px; }
+.tb tbody th { border-bottom:1px solid #dcdcdc; padding-top:12px; padding-bottom:10px; line-height:18px; text-align:center; background:#eee; }
+.tb tbody td { border-bottom:1px solid #dcdcdc; padding-top:12px; padding-bottom:10px; line-height:18px; text-align:center; }
+
+.﻿text-overflow { position:relative; border:1px solid #ccc; width:200px; height:30px; padding:0 5px; line-height:30px; font-size:12px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; }
+
+.pagination { position:relative; text-align:center; }
+.pagination img { vertical-align:middle; }
+.pagination span { padding:0 10px; display:inline-block; *zoom:1; *display:inline; color:#333; }
+.pagination span a { padding:0 3px 0; display:inline-block; *zoom:1; *display:inline; color:#333; font-weight:normal; font-size:12px; line-height:12px; }
+.pagination span a:hover { text-decoration:underline; }
+.pagination span a.on { color:#dc0000; font-weight:bold; text-decoration:none; }
+
+.pagination2 { position:relative; text-align:center; }
+.pagination2 a { vertical-align:top; }
+.pagination2 a.pn { display:inline-block; *zoom:1; *display:inline; text-indent:-9999px; *text-indent:0; *font-size:0; *line-height:0; *overflow:hidden; height:23px; width:23px; }
+.pagination2 a.pn.pre { background:url(../images/pn_prev.gif) no-repeat center 5px; }
+.pagination2 a.pn.next { background:url(../images/pn_next.gif) no-repeat center 5px; }
+.pagination2 a.pn.pre:hover { background:url(../images/pn_prev_ov.gif) no-repeat center 5px; }
+.pagination2 a.pn.next:hover { background:url(../images/pn_next_ov.gif) no-repeat center 5px; }
+.pagination2 span { padding:0 10px; display:inline-block; *zoom:1; *display:inline; }
+.pagination2 span a { display:inline-block; *zoom:1; *display:inline; height:23px; padding:0 8px; border:1px solid #cbcbcb; border-radius:3px; color:#8f8f8f; font-weight:normal; font-size:12px; line-height:21px; margin:0 2px; background:#fff; font-family:NanumGothicBold, sans-serif; }
+.pagination2 span a:hover { text-decoration:none; color:#212121; }
+.pagination2 span a.on { color:#fff; text-decoration:none; background:#cbcbcb; }
+
+.pagination3 { position:relative; text-align:center; }
+.pagination3 a { vertical-align:top; }
+.pagination3 span { margin:0 4px; display:inline-block; *zoom:1; *display:inline; border-left:1px solid #cbcbcb; }
+.pagination3 span a { display:inline-block; *zoom:1; *display:inline; height:29px; padding:0 11px; border:1px solid #cbcbcb; border-width:1px 1px 1px 0; color:#50504f; font-weight:normal; font-size:14px; line-height:29px; background:#fff; }
+.pagination3 span a.on { color:#226ab7; text-decoration:none; border:1px solid #3c85d2; margin-left:-1px; }
+
+.﻿text-overflow { position:relative; border:1px solid #ccc; width:200px; height:30px; padding:0 5px; line-height:30px; font-size:12px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; }
+
+::-webkit-input-placeholder { color:#999; }/* WebKit browsers */
+:-moz-placeholder { color:#999; }/* Mozilla Firefox 4 to 18 */
+::-moz-placeholder { color:#999; }/* Mozilla Firefox 19+ */
+:-ms-input-placeholder { color:#999; }/* Internet Explorer 10+ */
+
+.pu_bg { position:fixed; top:0; left:0; right:0; bottom:0; background:#000; z-index:98; 
+	-khtml-opacity:.45; /*safari*/
+	-ms-filter:”alpha(opacity=45)”;/*IE8*/
+	-moz-opacity:.45;/*FF*/
+	filter:alpha(opacity=45); /*IE7*/
+	opacity:.45;  /*all other browsers*/ }
+
+.arrow_up { width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-bottom:10px solid black; }
+.arrow_down { width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:10px solid black; }
+.arrow_left { width:0; height:0; border-right:10px solid black; border-top:10px solid transparent; border-bottom:10px solid transparent; }
+.arrow_right { width:0; height:0; border-left:10px solid black; border-top:10px solid transparent; border-bottom:10px solid transparent; }
+
+ie7 text-indent display:inline-block hack
+{ display:inline-block; *zoom:1; *display:inline; text-align:left; text-indent:-9999px; *text-indent:0; *font-size:0; *line-height:0; *overflow:hidden; width:px; height:px; }
+</style>
+</head>
+<body>
+<table class="tb" summary="테이블내용 요약">
+	<caption>
+	테이블 제목
+	</caption>
+	<colgroup>
+		<col width="25%" />
+		<col width="25%" />
+		<col width="25%" />
+		<col width="" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+<table class="tb" summary="테이블내용 요약">
+	<caption>
+	테이블 제목
+	</caption>
+	<colgroup>
+		<col width="25%" />
+		<col width="25%" />
+		<col width="25%" />
+		<col width="" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th rowspan="2" scope="col">&nbsp;</th>
+			<th colspan="3" scope="colgroup">&nbsp;</th>
+		</tr>
+		<tr>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+<table class="tb" summary="테이블내용 요약">
+	<caption>
+	테이블 제목
+	</caption>
+	<colgroup>
+		<col width="25%" />
+		<col width="25%" />
+		<col width="25%" />
+		<col width="" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+			<th scope="col">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">&nbsp;</th>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<a href="#self"><img src="images/img.gif" alt="" onmouseover="this.src='images/img_ov.gif'" onmouseout="this.src='images/img.gif'" /></a>
+
+<!--pagination-->
+<div class="pagination"><a href="#self"><img src="../images/pn_first.gif" alt="맨 처음" /></a><a href="#self"><img src="../images/pn_prev.gif" alt="이전" /></a><span><a href="#self" class="on">1</a><a href="#self">2</a><a href="#self">3</a><a href="#self">4</a><a href="#self">5</a><a href="#self">6</a><a href="#self">7</a><a href="#self">8</a></span><a href="#self"><img src="../images/pn_next.gif" alt="다음" /></a><a href="#self"><img src="../images/pn_last.gif" alt="마지막" /></a></div>
+<!--//pagination-->
+<!--pagination2-->
+<div class="pagination2"><a href="#self" class="pn pre">이전</a><span><a href="#self" class="on">1</a><a href="#self">2</a><a href="#self">3</a><a href="#self">4</a><a href="#self">5</a><a href="#self">6</a><a href="#self">7</a><a href="#self">88</a></span><a href="#self" class="pn next">다음</a></div>
+<!--//pagination2-->
+<!--pagination3-->
+<div class="pagination3"><a href="#self"><img src="../images/pn_prev.gif" alt="이전" /></a><span><a href="#self">1</a><a href="#self" class="on">2</a><a href="#self">3</a><a href="#self">4</a><a href="#self">5</a><a href="#self">6</a><a href="#self">7</a><a href="#self">88</a></span><a href="#self"><img src="../images/pn_next.gif" alt="다음" /></a></div>
+<!--//pagination3-->
+				
+<label for="textfield"></label>
+<input type="text" name="textfield" id="textfield" class="txt" value="값" onfocus="this.value=''" />
+<input type=text name=id  style=background-image:url("그림경로")onclick=this.style.backgroundImage="">
+
+
+<div class="﻿text-overflow">안녕하세요! 웹퍼블리셔 이시진입니다. 반갑습니다.</div>
+
+<ul style="list-style:inside;">
+	<li style="list-style:armenian;">항목입니다.</li>
+	<li style="list-style:circle;">항목입니다.</li>
+	<li style="list-style:cjk-ideographic;">항목입니다.</li>
+	<li style="list-style:decimal;">항목입니다.</li>
+	<li style="list-style:decimal-leading-zero;">항목입니다.</li>
+	<li style="list-style:disc;">항목입니다.</li>
+	<li style="list-style:georgian;">항목입니다.</li>
+	<li style="list-style:hebrew;">항목입니다.</li>
+	<li style="list-style:hiragana;">항목입니다.</li>
+	<li style="list-style:hiragana-iroha;">항목입니다.</li>
+	<li style="list-style:katakana;">항목입니다.</li>
+	<li style="list-style:katakana-iroha;">항목입니다.</li>
+	<li style="list-style:lower-alpha;">항목입니다.</li>
+	<li style="list-style:lower-greek;">항목입니다.</li>
+	<li style="list-style:lower-latin;">항목입니다.</li>
+	<li style="list-style:lower-roman;">항목입니다.</li>
+	<li style="list-style:none;">항목입니다.</li>
+	<li style="list-style:square;">항목입니다.</li>
+	<li style="list-style:upper-alpha;">항목입니다.</li>
+	<li style="list-style:upper-latin;">항목입니다.</li>
+	<li style="list-style:upper-roman;">항목입니다.</li>
+	<li style="list-style:inherit;">항목입니다.</li>
+</ul>
+</body>
+</html>

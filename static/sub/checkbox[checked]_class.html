@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <title>jQuery Checkbox state</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <style>
+  .checked{background:#ff0;color:#f00}
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(e) {
+	$(".chk_parent").click(function(){
+		if($(this).is(":checked")){
+		$(this).parent().addClass("checked");
+	  }else{
+		$(this).parent().removeClass("checked");
+	  }
+	});
+	
+	$(".chk_for").click(function(){
+		_id = $(this).attr("id");
+		if($(this).is(":checked")){
+		$("label[for='"+_id+"']").addClass("checked");
+	  }else{
+		$("label[for='"+_id+"']").removeClass("checked");
+	  }
+	});
+    
+});
+</script>
+ 
+<label><input type="checkbox" name="chk[]" class="chk_parent" value="1">label로 감싼 경우1</label>
+<label><input type="checkbox" name="chk[]" class="chk_parent" value="1">label로 감싼 경우2</label>
+<br><br>
+<input type="checkbox" name="chk[]" class="chk_for" id="chk1" value="1"><label for="chk1">for=>id 를 이용한 경우 경우1</label>
+<input type="checkbox" name="chk[]" class="chk_for" id="chk2" value="1"><label for="chk2">for=>id 를 이용한 경우 경우2</label>
+ 
+</body>
+</html>

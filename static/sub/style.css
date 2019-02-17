@@ -1,0 +1,42 @@
+/*basic-set*/
+input[type=text],
+input[type=password],
+textarea
+{
+    -webkit-box-sizing :border-box;‌​
+    -moz-box-sizing :border-box;
+    box-sizing :border-box;
+}
+* { position:relative; transition:all ease-in-out 0.3s; -webkit-transition:all ease-in-out 0.3s; -webkit-transition-timing-function:cubic-bezier(0.7, 0, 0.3, 1); transition-timing-function:cubic-bezier(0.7, 0, 0.3, 1); word-break:keep-all; }
+.pu_bg { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:98; }
+/* layout */
+
+/* main */
+#main_contents { position:relative; }
+#main_contents .wrap { position:relative; width:980px; margin:0 auto; }
+
+/* sub */
+#container { position:relative; }
+#container .wrap { position:relative; width:980px; margin:0 auto; background:url(../images/sub_bg.gif) repeat-y 0 0; padding-bottom:100px;  *zoom:1; }
+#container .wrap:after { content:"."; clear:both; display:block; height:0; visibility:hidden; }
+
+#lnb { position:relative; float:left; width:190px; }
+#lnb h2 { position:relative; }
+#lnb ul { position:relative; }
+#lnb ul li { position:relative; }
+#lnb ul li a { display:block; padding:0 0 0 10px; }
+#lnb ul li.on a { color:#ddd; }
+#lnb ul li a:hover { color:#ddd; text-decoration:none; }
+
+#contents { position:relative; float:right; width:760px; }
+#contents h3 { position:relative; }
+#contents .location { position:relative; text-align:right; color:#8a8a8a; line-height:13px; margin-bottom:5px; }
+#contents .location a { margin:0 10px; }
+#contents .location a.home { padding-left:16px; background:url(../images/ic_loca_home.gif) no-repeat 0 2px; }
+#contents .location b { margin-left:10px; }
+#contents .sub_con { position:relative; }
+
+@media screen and (max-width:1024px) {
+
+
+}

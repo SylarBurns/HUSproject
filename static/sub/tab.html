@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link href="../css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".tab_info_content").hide();
+    $("ul.tab_info li:first").addClass("active").show();
+    $(".tab_info_content:first").show();
+    $("ul.tab_info li").click(function() {
+        $("ul.tab_info li").removeClass("active");
+        $(this).addClass("active");
+        $(".tab_info_content").hide();
+        var activeTab = $(this).find("a").attr("href");
+        $(activeTab).show();
+        return false;
+    });
+});
+$(document).ready(function() {
+    $(".tab_content").hide();
+    $("ul.tab li:first").addClass("active").show();
+    $(".tab_content:first").show();
+    $("ul.tab li").click(function() {
+        $("ul.tab li").removeClass("active");
+        $(this).addClass("active");
+        $(".tab_content").hide();
+        var activeTab = $(this).find("a").attr("href");
+        $(activeTab).show();
+        return false;
+    });
+});
+
+</script>
+<style type="text/css">
+ul.tab_info { position:relative; *zoom:1; }
+ul.tab_info:after { content:"."; clear:both; display:block; height:0; visibility:hidden; }
+ul.tab_info li { position:relative; float:left; width:px; }
+ul.tab_info li a { display:block; color:#666; }
+ul.tab_info li a:hover { background:#ccc; }
+ul.tab_info li.active a, 
+ul.tab_info li.active a:hover { color:#000; background:#ccc; }
+.tab_info_content { position:relative; display:none; }
+.tab_info_content.on { display:block; }
+</style>
+
+<style type="text/css">
+ul.tab_banner { float:left; height:32px; border-bottom:1px solid #999; border-left:1px solid #999; width:100%; }
+ul.tab_banner li { float:left; margin:0; padding:0; height:31px; line-height:31px; border:1px solid #999; border-left:none; margin-bottom:-1px; overflow:hidden; position:relative; background:#e0e0e0; }
+ul.tab_banner li a { text-decoration:none; color:#000; display:block; font-size:1.2em; padding:0 20px; border:1px solid #fff; outline:none; }
+ul.tab_banner li a:hover { background:#ccc; }
+ul.tab_banner li.active,
+ul.tab_banner li.active a:hover { background:#fff; border-bottom:1px solid #fff; }
+.tab_banner_content { padding:20px; font-size:1.2em; display:none; }
+.tab_banner_content.on { display:block; }
+</style>
+</head>
+
+<body>
+<div id="container">
+    <ul class="tab_info">
+        <li class="active"><a href="#tab_info_c01">aSector</a></li>
+        <li><a href="#tab_info_c02">bSector</a></li>
+    </ul>
+ 
+    <div id="tab_info_c01" class="tab_info_content on">
+		
+    </div>
+    <div id="tab_info_c02" class="tab_info_content">
+		
+    </div>
+</div>
+<div id="container">
+    <ul class="tab_banner">
+        <li class="active"><a href="#tab_banner_c01">aSector</a></li>
+        <li><a href="#tab_banner_c02">bSector</a></li>
+    </ul>
+ 
+    <div class="tab_container">
+        <div id="tab_banner_c01" class="tab_banner_content on">
+            <!--Content-->
+            <h1>aSector</h1>
+            <hr>
+            <ul>
+                <li>tab예제 섹터1</li>
+                <li>tab예제 섹터1</li>
+                <li>tab예제 섹터1</li>
+            </ul>
+        </div>
+        <div id="tab_banner_c02" class="tab_banner_content">
+           <!--Content-->
+            <h1>bSector</h1>
+            <hr>
+            <ul>
+                <li>tab예제 섹터2</li>
+                <li>tab예제 섹터2</li>
+                <li>tab예제 섹터2</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

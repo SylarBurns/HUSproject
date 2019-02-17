@@ -1,0 +1,120 @@
+{% extends 'mainPage/baseCreatePage.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+</head>
+<body>
+{% block content %}
+<!--mainContents-->
+<div id="mainContents">
+        <div id="boardName">감자밭</div><br>
+        <div id="introduction">다양한 주제를 공유하는 남송리 대표 자유게시판입니다. </div><br>
+        <div id="title_block">
+            <span id="title">{{object.title}}</span>
+            <div>
+            <span id="profileImage"><img src="/static/images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+            <span id="writerName">{{object.getWriter.nickName}}</span>
+            {% if object.was_published_recently %}
+            <span id="pubDate">{{object.pubDate|time:"H:i"}}</span>
+            {% else %}
+            <span id="pubDate">{{object.pubDate|date:"Y-m-d"}} </span>
+            {% endif %}
+            <span id="hitCount" class="functionCall">{{post.update_hitCount}}</span><!--조회수 증가하는 함수-->
+            </div>
+        </div>
+        <div id="content">
+            {{object.postEditor | safe }}
+        </div>
+        <div class="buttons">
+            <div id="like_block">
+            <input type="button" class="like" name="{{ object.pk }}">
+            <span id="likecount">{{likeCount}}</span>
+            </div>
+            <div id="dislike_block">
+            <input type="button" class="dislike" name="{{ object.pk }}">
+            <span id="dislikecount">{{dislikeCount}}</span>
+            </div>
+            <button><img src="/static/images/답글 신고-22.png" width="35px" height="35px"></a></button><!--신고하기 link 다시 달기!-->
+        </div>
+        <div class="commentWriter">
+            <form id="commentForm"><!--댓글-->
+                {% csrf_token %} 
+                <textarea name="content" placeholder="댓글을 입력하세요"></textarea>
+                <input type="number" name="pk" value="{{object.pk}}" style="display:none">
+                <input type="radio" name="annonimity" value="True" style="display:none">
+                <input type="radio" name="annonimity" value="False" style="display:none" checked>
+                <input type="submit" value="">
+            </form>
+        </div>
+    </div>
+    <!--//mainContents-->
+{% endblock %}
+{% block comment %}
+    <!--comments-->
+    <div id="comments">
+        {% if comment_list %}
+            <div id="commentCount">
+                <span id="count">60</span><span>개의 댓글</span><br>
+            </div>
+            {% for comment in comment_list %}
+            <div class="commentBlock">
+                <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+                <div>
+                    <span class="commentWriterName">{{comment.getWriter.nickName}}</span><span class="commentPubDate">{{comment.pubDate}}</span><br>
+                    <span class="commentContent">{{comment.content}}</span>
+                    <span class="dislikeCount" id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ comment.pk }}">
+                    <span class="likeCount" id="likecount_{{comment.pk}}">{{comment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ comment.pk }}"><br>
+                    <button class="subComment" name='{{comment.pk}}'>&nbsp; 답글</button>
+                    <button class="report">&nbsp; 신고</button><!--url 'heart:writeCommentReport' comment.pk 나중에 추가-->
+                </div>
+            </div>
+            <div class="subCommentWrite" id="subCommentWrite_{{comment.pk}}">
+                <form>
+                    {% csrf_token %}
+                    <textarea name='subCommentContent'></textarea>
+                    <input type="radio" name="annonimity" id="annoFalse" value="False"checked>
+                    <label for="annoFalse">실명(닉네임)</label>
+                    <input type="radio" name="annonimity" id="annoTrue" value="True">
+                    <label for="annoTrue">익명</label>
+                    <input type="submit" class="subCommentSubmit" value="댓글 달기">
+                    <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
+                </form>
+            </div>
+            <div class="subCommentBlock">
+                <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+                <div>
+                    <span class="commentWriterName">이승윤</span><span class="commentPubDate">2019-02-13</span><br>
+                    <span class="commentContent">대댓글 테스트입니다.</span>
+                    <span class="dislikeCount">1234&nbsp; </span><input type="button" class="commentDislike" name="{{ subComment.pk }}">
+                    <span class="likeCount">1234&nbsp; </span><input type="button" class="commentLike" name="{{ subComment.pk }}"><br>
+                    <button class="report">신고</button><!--url 'heart:writeCommentReport' comment.pk 나중에 추가-->
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h3>댓글이 없습니다 첫번째 댓글의 주인공이 되어주세요!</h3>
+            {% endif %}
+        </div>
+        <!--//comments-->
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        </section>
+        <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+        var likeUrl = "{% url 'heart:postLike' %}";
+        var dislikeUrl ="{% url 'heart:postDislike' %}";
+        var commentWriteUrl = "{% url 'heart:commentWrite' %}";
+        var subCommentWriteUrl = "{% url 'heart:subCommentWrite' %}";
+        var csrf_token = '{{ csrf_token }}';
+        var commentLikeUrl = "{% url 'heart:commentLike' %}";
+        var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
+        </script>
+        
+    </body>
+</html>
+{% endblock %}
+
+
