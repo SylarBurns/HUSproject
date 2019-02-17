@@ -32,4 +32,5 @@ urlpatterns = [
     path('runway/', include('runway.urls')),
     path('potatoField/', include('potatoField.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path('comment/', include('comment.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

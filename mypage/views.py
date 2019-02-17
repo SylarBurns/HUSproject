@@ -6,6 +6,7 @@ from heart.models import User, Post
 from django.utils import timezone
 import datetime
 from .forms import UserUpdateForm
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 class myPostView(LoginRequiredMixin, ListView):
@@ -13,22 +14,72 @@ class myPostView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'latest_post_list'
     login_url = 'heart:loginRequired'
+
     def get_queryset(self):
         #Return the last ten published posts.
         user = self.request.user
         queryset = user.post_relation.filter(isWriter=True).order_by('-pk')
         return queryset
 
+
 class myCommentView(LoginRequiredMixin, ListView):
     template_name = 'mypage/myComment.html'
     model = User
     context_object_name = 'latest_comment_list'
     login_url = 'heart:loginRequired'
+=======
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        paginator = context['paginator']
+        page_numbers_range = 10  # Display only 10 page numbers
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        return context
+
+class myCommentView(generic.ListView):
+    template_name = 'mypage/myComment.html'
+    model = User
+    context_object_name = 'latest_comment_list'
+    paginate_by = 3
+>>>>>>> 5cab6a4c9c28c566c0f3c5992160ba1030a422b6
     def get_queryset(self):
         #Return the last ten published posts.
         user = self.request.user
         queryset = user.com_relation.filter(isWriter=True).order_by('-pk')
         return queryset
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        paginator = context['paginator']
+        page_numbers_range = 10  # Display only 10 page numbers
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        return context
+
 
 class myDataView(LoginRequiredMixin, TemplateView):
     template_name = 'mypage/myData.html'
@@ -58,6 +109,7 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
     model = User
     form_class =  UserUpdateForm
     template_name = 'mypage/updateUser.html'
+
     login_url = 'heart:loginRequired'
     context_object_name = 'user'
     def get_object(self):
@@ -71,4 +123,5 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
         user.save()
         return redirect('mypage:myData', pk = self.request.user.pk )
     
+
 

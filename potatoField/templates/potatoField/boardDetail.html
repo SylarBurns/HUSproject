@@ -40,6 +40,31 @@
                 <input type="submit" value="댓글 달기">
             </form>
         </div>
+        <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
+        <input type="submit" value="report">
+        
+        <form method="GET" action="">
+            <input type='textarea' name='content' placeholder="댓글을 입력하세요"/>
+            <input type='submit' value='작성'/>
+        </form>
+
+
+        {% comment %} 댓글 출력 {% endcomment %}
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <strong>{{ comment.writer }}</strong>
+                <span class="date">{{ comment.pubDate }}</span>
+                <p>  {{comment.content | safe }}  </p>
+           
+            </div>
+
+        {% endfor %}
+        
+        
+
+    
+
+
     </body>
 <html>
 {% endblock %}

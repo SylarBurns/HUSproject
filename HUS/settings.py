@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'heart.apps.HeartConfig',
+    # 'comment.apps.CommentConfig',
     'ckeditor',
     'ckeditor_uploader',
     'mainPage.apps.MainpageConfig',

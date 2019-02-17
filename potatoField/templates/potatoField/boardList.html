@@ -47,12 +47,50 @@
                 {% endif %}
             </tr>
             {% endif %}
-            {% endfor %}
+        {% endfor %} 
+
         </tbody>
         </table>
         {% else %}
         <h3>아직 게시물이 없습니다. 첫번째 게시물의 주인공이 되어주세요! </h3>
         {% endif %}
+
+        {# Pagination #}
+        {% if is_paginated %}
+        <nav>
+   
+            <ul class="pagination">
+            {% comment %} {% if page_obj.has_previous %} {% endcomment %}
+                <a href="?page={{ 1 }}"><span> << </span></a>
+                {% if page_obj.number > 11 %}
+                <a href="?page={{ page_obj.number|add:'-10' }}"><span> < </span></a>
+                {% else %}
+                <a href="?page={{ 1 }}">
+                    <span> < </span></a>
+                {% endif %}
+    
+            {% for page in page_range %}
+                <span {% if page == page_obj.number %}class="active"{% endif %}>
+                <a href="?page={{ page }}">{{ page }}</a>
+                </span>
+            {% endfor %}
+        
+            {% if paginator.page_range|length > 1 %}
+                {% comment %} <ol> {% endcomment %}
+                {% if page_obj.number|add:'+9' < paginator.page_range|length%}
+                <a href="?page={{ page_obj.number|add:'+10' }}"><span> > </span></a>
+                {% else %}
+                <a href="?page={{ page_obj.number }}">
+                    <span> > </span></a>
+                {% endif %}
+                <a href="?page={{ paginator.page_range|length }}">
+                    <span> >> </span></a>
+                
+            {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
     <button style="position: absolute; right:20%;"><a href="{% url 'potatoField:potatoFieldCreate' %}">글쓰기</a></button>  
     </body>
 <html>

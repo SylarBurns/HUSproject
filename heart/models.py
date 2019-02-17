@@ -142,6 +142,7 @@ class Comment(models.Model):
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
     reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 댓글의 처리 결과
+
    
     def __str__(self):
         return self.content

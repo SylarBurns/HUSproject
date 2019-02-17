@@ -10,6 +10,8 @@ from django.views.generic import(
     DeleteView,
     TemplateView
 )
+
+import datetime
 from django.utils import timezone
 from django.core import serializers 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -28,6 +30,13 @@ class BaseListView(LoginRequiredMixin,ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BaseListView, self).get_context_data(**kwargs)
+        start_date = timezone.localtime(timezone.now()) - datetime.timedelta(days=7)
+        end_date = timezone.localtime(timezone.now())
+        context['best_post'] = Post.objects.filter(pubDate__range=[start_date, end_date]).order_by('-like_count')[:5]
+        # context['post_notice'] = Post.objects.filter(is_notice=True).order_by('-pk')
+        context['search_word'] = self.request.GET.get('search_word')
+        context['search_type'] = self.request.GET.get('search_type')
+
         paginator = context['paginator']
         page_numbers_range = 10  # Display only 10 page numbers
         max_index = len(paginator.page_range)

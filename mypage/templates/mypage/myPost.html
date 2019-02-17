@@ -61,6 +61,41 @@
 </table>
 <br>
 
+        {# Pagination #}
+        {% if is_paginated %}
+        <nav>
+            <ul class="pagination">
+            {% comment %} {% if page_obj.has_previous %} {% endcomment %}
+                <a href="?page={{ 1 }}"><span> << </span></a>
+                {% if page_obj.number > 11 %}
+                <a href="?page={{ page_obj.number|add:'-10' }}"><span> < </span></a>
+                {% else %}
+                <a href="?page={{ 1 }}">
+                    <span> < </span></a>
+                {% endif %}
+    
+            {% for page in page_range %}
+                <span {% if page == page_obj.number %}class="active"{% endif %}>
+                <a href="?page={{ page }}">{{ page }}</a>
+                </span>
+            {% endfor %}
+        
+            {% if paginator.page_range|length > 1 %}
+                {% comment %} <ol> {% endcomment %}
+                {% if page_obj.number|add:'+9' < paginator.page_range|length%}
+                <a href="?page={{ page_obj.number|add:'+10' }}"><span> > </span></a>
+                {% else %}
+                <a href="?page={{ page_obj.number }}">
+                    <span> > </span></a>
+                {% endif %}
+                <a href="?page={{ paginator.page_range|length }}">
+                    <span> >> </span></a>
+                
+            {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
 </body>
 </html>
 {% endblock %}

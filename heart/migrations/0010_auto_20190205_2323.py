@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('heart', '0009_remove_comment_commenteditor'),
+        ('heart', '0009_auto_20190130_1725'),
     ]
 
     operations = [

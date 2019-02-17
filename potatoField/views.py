@@ -24,6 +24,7 @@ class potatoFieldListView(BaseListView):
     def get_context_data(self, **kwargs):
         context = super(potatoFieldListView, self).get_context_data(**kwargs)
         return context
+
     def get_queryset(self):
         query = self.request.GET.get("q")
         filter = self.request.GET.get("filter")
