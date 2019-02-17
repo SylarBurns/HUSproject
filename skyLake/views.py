@@ -16,11 +16,14 @@ from heart.models import Post, PostRelation, User
 from .forms import PostModelForm
 from django.utils import timezone
 from django.db.models import Q
-
+from django.utils import timezone
+import datetime
+from datetime import timedelta
 class skyLakeListView(BaseListView):
     template_name = 'skyLake/boardList.html'
     def get_context_data(self, **kwargs):
         context = super(skyLakeListView, self).get_context_data(**kwargs)
+        context['skyLakeTopThree']= Post.objects.filter(boardNum=2).filter(pubDate__gte=(datetime.date.today()-timedelta(days=7))).order_by('-hitCount')[:3]
         return context
     def get_queryset(self):
         query = self.request.GET.get("q")

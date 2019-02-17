@@ -106,9 +106,15 @@
       </div>
   </div>
   {% else %}
-  <td>{{ comment.title|truncatechars:30 }}</td>
+
+  <td>{{ comment.content |truncatechars:30 }}</td>
   {% endif %}
-  <td> {{comment.writer}} </td>
+  {% if comment.getWriterRelation.annonimity %}
+  <td> {{comment.getWriterRelation.annoName }} </td>
+  {% else %}
+  <td> {{comment.getWriter.nickName }} </td>
+
+  {% endif %}
   <td> {{comment.pubDate|date:"Y-m-d"}}  </td>
   </tr>
 {% endfor %}

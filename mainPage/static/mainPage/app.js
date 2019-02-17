@@ -31,6 +31,7 @@ function openTab(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 
+
 $(".delete").click(function(){
     var pk = $(this).attr('value')
     $.ajax({ // .delete 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
@@ -65,4 +66,15 @@ $(".deleteAll").click(function(){
 })
 })
 
+
+
+$(function(){
+    $(window).load(function(){
+        $('.ajaxProgress').fadeOut(2000);
+    })
+});
+
+$(window).on('load', function () {
+    $("#loader").fadeOut(1000)
+});
 

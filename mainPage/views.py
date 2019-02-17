@@ -12,6 +12,10 @@ from django.core import serializers
 from heart.models import Post, User, Comment
 from django.http import HttpResponse
 import json
+from django.utils import timezone
+import datetime
+from datetime import timedelta
+from django.db.models import Q
 
 class mainPageView(TemplateView):
     template_name='mainPage/mainPageTemplate.html'
@@ -55,6 +59,7 @@ class mainPageView(TemplateView):
             context['alarmDic'] = alarmDic
         except:
             pass
+
         return context
 
 

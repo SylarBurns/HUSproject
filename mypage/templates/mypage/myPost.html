@@ -53,6 +53,7 @@
     <td> {{ relation.post.hutCount}} </td>
     {% if relation.post.was_published_recently %}
       <td> {{relation.post.pubDate|time:"H:i"}}</td>
+
     {% else %}
       <td>{{relation.post.pubDate|date:"Y-m-d"}} </td>
     {% endif %}

@@ -13,6 +13,8 @@ from django.views.generic import(
 
 import datetime
 from django.utils import timezone
+import datetime
+from datetime import timedelta
 from django.core import serializers 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from heart.models import Post, User, PostRelation, Comment, ComRelation
@@ -20,9 +22,17 @@ from django.core import exceptions
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
+<<<<<<< HEAD
 class BaseListView(LoginRequiredMixin,ListView):
     login_url = 'heart:loginRequired'
     paginate_by = 3
+=======
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+class BaseListView(ListView):
+    paginate_by = 10
+>>>>>>> 7bc0e4a7b021b2e9bd1331b484d86beeb0964944
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['list']= serializers.serialize("json", Post.objects.all())
@@ -175,6 +185,16 @@ def commentWrite(request):
     else:
         relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
+
+    if post.boardNum == 4:#만약에 토론게시판이면 댓글의 stance를 사용자의 투표결과로 바꾸어준다.
+        postRelation=PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        voteResult = postRelation.vote
+        if voteResult == 0 or voteResult == 1 or voteResult == 2 :
+            comment.stance = voteResult
+        else: 
+            comment.stnace = 2 #투표한 값이 없으면 자동으로 중립으로 저장함.
+        comment.save()
+    
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 
@@ -186,13 +206,101 @@ def subCommentWrite(request):
     content = request.POST.get('subCommentContent', None)
     comment = Comment(belongToComment = parentComment, content= content)
     comment.save()
+
     if annonimity == 'True':
         relation = ComRelation(comment=comment, user=user, isWriter=True, annonimity=True, annoName="익명")
     else:
         relation = ComRelation(comment=comment, user=request.user, isWriter=True)
     relation.save()
+
+    post = parentComment.post
+    if post.boardNum == 4:#만약에 토론게시판이면 댓글의 stance를 사용자의 투표결과로 바꾸어준다.
+        postRelation=PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        voteResult = postRelation.vote
+        if voteResult == 0 or voteResult == 1 or voteResult == 2 :
+            comment.stance = voteResult
+        else: 
+            comment.stnace = 2 #투표한 값이 없으면 자동으로 중립으로 저장함.
+        comment.save()
+
     context={'nickName':user.nickName, 'content':content,'pk':pk}
     return HttpResponse(json.dumps(context), content_type="application/json")
 
+<<<<<<< HEAD
 class LoginRequiredView(TemplateView):
     template_name = 'heart/login_required.html'
+=======
+def writeReport(request, pk):
+    context={'pk':pk, 'url':request.META.get('HTTP_REFERER', '/')}
+    return render(request, 'heart/report.html', context)
+
+def sendReport(request):
+    url= request.POST['url']
+    pk = request.POST['pk']
+    post = Post.objects.get(pk=pk)
+    user = request.user
+
+    try : 
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        relation.isReporter = True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = PostRelation(post=post, user=user, isReporter=True)
+        relation.save()
+    post.reportStatus="미확인"
+    post.save()
+    subject = user.nickName + " reported Post "+ pk + " " +post.title
+    message = request.POST['message']
+    email = EmailMessage(subject, message, to=['sokon954@gmail.com'])
+    email.send()
+
+    return HttpResponseRedirect(url)
+
+def writeCommentReport(request, pk):
+    context={'pk':pk, 'url':request.META.get('HTTP_REFERER', '/')}
+    return render(request, 'heart/reportComment.html', context)
+
+def sendCommentReport(request):
+    url= request.POST['url']
+    pk = request.POST['pk']
+    comment = Comment.objects.get(pk=pk)
+    user = request.user
+
+    try : 
+        relation = ComRelation.objects.filter(Q(user=user), Q(comment=comment)).get()
+        relation.isReporter = True
+        relation.save()
+    except exceptions.ObjectDoesNotExist :
+        relation = ComRelation(comment=comment, user=user, isReporter=True)
+        relation.save()
+    comment.reportStatus="미확인"
+    comment.save()
+    subject = user.nickName + " reported Comment "+ pk + " " + comment.content
+    message = request.POST['message']
+    email = EmailMessage(subject[:40], message, to=['sokon954@gmail.com'])
+    email.send()
+
+    return HttpResponseRedirect(url)
+
+def vote(request):
+    stance = request.POST['stance']
+    pk =  request.POST['pk']
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    if stance =="찬성":
+        voteInfo = 1
+    elif stance =="반대":
+        voteInfo = 0
+    else:
+        voteInfo = 2
+
+    try:
+        relation = PostRelation.objects.filter(Q(user=user), Q(post=post)).get()
+        relation.vote= voteInfo
+    except:
+        relation =PostRelation(user=user,post=post,vote=voteInfo)
+    relation.save()
+    context={'stance':stance,
+            'pk':pk}
+    return HttpResponse(json.dumps(context),content_type="application/json")
+>>>>>>> 7bc0e4a7b021b2e9bd1331b484d86beeb0964944
