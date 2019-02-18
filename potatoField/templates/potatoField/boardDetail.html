@@ -1,70 +1,99 @@
-{% extends 'mainPage/baseDetailPage.html' %}
+{% extends 'mainPage/base.html' %}
+{% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-    <head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'potatoField/style.css'%}">    
-        <meta charset="UTF-8">
-        <title> boardDetail </title>
-    </head>
-    <body>
-        <h2 class="boardName"> 감자밭 </h2>
-        <h4 class="boardName"> 다양한 주제를 공유하는 남송리 대표 자유게시판입니다. </h4>
-        <div class="functionCall">{{post.update_hitCount}}</div> <!--조회수 증가하는 함수-->
-        <div>
-            <h3 class="title"> {{object.title}} </h3>
-            <p class="name">{{object.getWriter.nickName}}</p>
+<!--mainContents-->
+<div id="mainContents">
+        <div id="boardName">감자밭</div><br>
+        <div id="introduction">다양한 주제를 공유하는 남송리 대표 자유게시판입니다. </div><br>
+        <div id="title_block">
+            <span id="title">{{object.title}}</span>
+            <div>
+            <span id="profileImage"><img src="/static/images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+            <span id="writerName">{{object.getWriter.nickName}}</span>
             {% if object.was_published_recently %}
-            <p class="date">{{object.pubDate|time:"H:i"}}</p>
+            <span id="pubDate">{{object.pubDate|time:"H:i"}}</span>
             {% else %}
-            <p class="date">{{object.pubDate|date:"Y-m-d"}} </p>
+            <span id="pubDate">{{object.pubDate|date:"Y-m-d"}} </span>
             {% endif %}
-            <div style="text-align: right;">
+            <span id="hitCount" class="functionCall">{{post.update_hitCount}}</span><!--조회수 증가하는 함수-->
+            </div>
         </div>
-            <p> {{object.postEditor | safe }} </p>
+        <div id="content">
+            {{object.postEditor | safe }}
+        </div>
         <div class="buttons">
-            <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
-            <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
-            <p id="likecount">{{likeCount}}</p>
-            <p id="dislikecount">{{dislikeCount}}</p>
-            <button><a href="{% url 'heart:writeReport' object.pk %}">신고</a></button>
+            <div id="like_block">
+            <input type="button" class="like" name="{{ object.pk }}">
+            <span id="likecount">{{likeCount}}</span>
+            </div>
+            <div id="dislike_block">
+            <input type="button" class="dislike" name="{{ object.pk }}">
+            <span id="dislikecount">{{dislikeCount}}</span>
+            </div>
+            <button><a href="{% url 'heart:writeReport' object.pk %}"><img src="/static/images/답글 신고-22.png" width="35px" height="35px"></a></button>
         </div>
         <div class="commentWriter">
             <form id="commentForm"><!--댓글-->
-                {% csrf_token %}
-                <input type="textarea" name="content">
+                {% csrf_token %} 
+                <textarea name="content" placeholder="댓글을 입력하세요"></textarea>
                 <input type="number" name="pk" value="{{object.pk}}" style="display:none">
                 <input type="radio" name="annonimity" value="True" style="display:none">
                 <input type="radio" name="annonimity" value="False" style="display:none" checked>
-                <input type="submit" value="댓글 달기">
+                <input type="submit" value="">
             </form>
         </div>
-        <a href="/potatoField/{{ post.id }}/update"><input type="submit" value="update"></a>
-        <input type="submit" value="report">
-        
-        <form method="GET" action="">
-            <input type='textarea' name='content' placeholder="댓글을 입력하세요"/>
-            <input type='submit' value='작성'/>
-        </form>
-
-        
-        {% comment %} 댓글 출력 {% endcomment %}
-        {% for comment in post.comments.all %}
-            <div class="comment">
-                <strong>{{ comment.writer }}</strong>
-                <span class="date">{{ comment.pubDate }}</span>
-                <p>  {{comment.content | safe }}  </p>
-           
+    </div>
+    <!--//mainContents-->
+    <!--comments-->
+    <div id="comments">
+        {% if comment_list %}
+            <div id="commentCount">
+                <span id="count">60</span><span>개의 댓글</span><br>
             </div>
-
+            {% for comment in comment_list %}
+            <div class="commentBlock">
+                <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+                <div>
+                    <span class="commentWriterName">{{comment.getWriter.nickName}}</span><span class="commentPubDate">{{comment.pubDate}}</span><br>
+                    <span class="commentContent">{{comment.content}}</span>
+                    <span class="dislikeCount" id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ comment.pk }}">
+                    <span class="likeCount" id="likecount_{{comment.pk}}">{{comment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ comment.pk }}"><br>
+                    <button class="subComment" name='{{comment.pk}}'>&nbsp; 답글</button>
+                    <button class="report">&nbsp; 신고</a></button><!--url 추가-->
+                </div>
+            </div>
+            <div class="subCommentWrite" id="subCommentWrite_{{comment.pk}}" style="display: none">
+                <form>
+                    {% csrf_token %}
+                    <textarea name='subCommentContent'></textarea>
+                    <input type="radio" name="annonimity" id="annoFalse" value="False" style="display:none" checked>
+                    <input type="submit" class="subCommentSubmit" value="댓글 달기">
+                    <input type="number" name="commentPk" value="{{comment.pk}}" style="display: none">
+                </form>
+            </div>
+            {% if comment.subComments.all %}
+            {% for subComment in comment.subComments.all %}
+            <div class="subCommentBlock">
+                <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
+                <div>
+                    <span class="commentWriterName">{{subComment.getWriter.nickName}}</span><span class="commentPubDate">2019-02-13</span><br>
+                    <span class="commentContent">{{subComment.content}}</span>
+                    <span class="dislikeCount" id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ subComment.pk }}">
+                    <span class="likeCount" id="likecount_{{subComment.pk}}">{{subComment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ subComment.pk }}"><br>
+                    <button class="report">신고</a></button><!--url추가-->
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}  
         {% endfor %}
-        
-        
-
-    
-
-
+        {% else %}
+        <h3>댓글이 없습니다 첫번째 댓글의 주인공이 되어주세요!</h3>
+        {% endif %}
+        </div>
+        <!--//comments-->        
     </body>
-<html>
+</html>
+
 {% endblock %}
+
+

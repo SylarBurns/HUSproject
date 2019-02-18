@@ -125,13 +125,8 @@
             <div id="mainContents_block">
                 <!--wrap-->
                 <div class="wrap">
- 
                     {% block content %}
                     {% endblock %}  
-                    {% block comment%}
-                    {% endblock%}
-                    {% block pagination %}
-                    {% endblock %}
                 </div>
                 <!--//wrap--> 
             </div>
@@ -139,7 +134,7 @@
         </div>
         <!--//wrap--> 
     </div>
-    <!--//contents_block--> 
+    <!--contents_block--> 
     <!--footer-->
     <div id="footer">  
         <!--wrap-->
@@ -149,15 +144,26 @@
         <!--//wrap--> 
     </div>
     <!--//footer--> 
-    <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>
-    var likeUrl = "{% url 'heart:postLike' %}";
-    var dislikeUrl ="{% url 'heart:postDislike' %}"
-    var csrf_token = '{{ csrf_token }}'
-    </script>
-    <script src="{% static 'heart/app.js' %}"></script>
-
-</div>
+    <div class ="ajaxProgress">
+            <div id="loader">
+                <div id="shadow"></div>
+                <div id="box"></div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        </section>
+        <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+        var likeUrl = "{% url 'heart:postLike' %}";
+        var dislikeUrl ="{% url 'heart:postDislike' %}";
+        var commentWriteUrl = "{% url 'heart:commentWrite' %}";
+        var subCommentWriteUrl = "{% url 'heart:subCommentWrite' %}";
+        var csrf_token = '{{ csrf_token }}';
+        var commentLikeUrl = "{% url 'heart:commentLike' %}";
+        var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
+        var voteUrl ="{% url 'heart:vote' %}";
+        </script>
+        <script src="{% static 'heart/app.js' %}"></script>
 </body>
 </html>

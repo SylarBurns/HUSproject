@@ -115,9 +115,6 @@ $(".subCommentSubmit").click(function(){
     })
 });
 
-<<<<<<< HEAD
-=======
-
 $(".vote").click(function(){
     var pk = $(this).attr('name')
     var stance = $(this).attr('value')
@@ -139,4 +136,4 @@ $(".vote").click(function(){
 $(window).on('load', function () {
     $("#loader").fadeOut(1000)
 });
->>>>>>> 7bc0e4a7b021b2e9bd1331b484d86beeb0964944
+
