@@ -123,12 +123,17 @@
         {% block content %}
         {% endblock %}
         </section>
+        <div class ="ajaxProgress">
+            <div id="loader">
+                <div id="shadow"></div>
+                <div id="box"></div>
+            </div>
+        </div>
         <footer class="footer">
         <div class="centerBox">
             {# Pagination #}
             {% if is_paginated %}
             <nav>
-       
                 <ul class="pagination">
                 {% if page_obj.has_previous %}
                     {% comment %} <ol> {% endcomment %}
@@ -169,10 +174,16 @@
                     </a>
                     <span> >> </span>
                     </span>
-    
-                    
                 {% endif %}
                 </ul>
+            </nav>
+            {% else %}
+            <nav>
+            <span> << </span>
+            <span> < </span>
+            <b>1</b>
+            <span> > </span>
+            <span> >> </span>
             </nav>
             {% endif %}
         </div>
@@ -193,8 +204,8 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
         var likeUrl = "{% url 'heart:postLike' %}";
-        var dislikeUrl ="{% url 'heart:postDislike' %}"
-        var csrf_token = '{{ csrf_token }}'
+        var dislikeUrl ="{% url 'heart:postDislike' %}";
+        var csrf_token = '{{ csrf_token }}';
         </script>
         <script src="{% static 'heart/app.js' %}"></script>
     </body>

@@ -1,0 +1,175 @@
+html {
+    scroll-behavior: smooth;
+}
+table, tr, th, td{
+    border: 1px solid black;
+}
+table{
+    width: 100%;
+    clear: both;
+}
+h1{
+    color:green;
+}
+.search{
+    float: right;
+    margin: 5px;
+}
+.add, .bestFive, .market,{
+    width: 70%;
+    height: 250px;
+    border: 1px solid black;
+    margin-top: 5px;
+    padding: 5px;
+    float:left;
+}
+.market{
+    overflow-x:scroll;
+    overflow-y:hidden;
+}
+.add{
+    height:150px;
+}
+.login, .news, .lostNFound{
+    width: 25%;
+    border :1px solid black;
+    margin-top: 5px;
+    padding: 5px;
+    float: right;
+}
+.login2{
+    width:95%;
+    border :1px solid black;
+    margin-top: 5px;
+    padding: 5px;
+    float: right;
+}
+.news, .lostNFound{
+    height:250;
+}
+.login2 img, h4{
+    display:inline;
+}
+.notice{
+    border-top: 1px solid black;
+    overflow-y: scroll;
+}
+.lostNFound{
+    overflow-y: scroll;
+}
+.login button{
+    height: 0px;
+    float:right;
+}
+.login input{
+    float:left;
+    height:40px;
+    width:200px;
+}
+.marketItem{
+    border:1px solid black;
+    width:150px;
+    height:150px;
+    display:inline-table;
+}
+.img{
+    width:50px;
+    height:50px;
+    vertical-align:middle;
+}
+.Logo{
+    height:200px;
+    width:400px;
+    display:inline-block;
+}
+.topMenu{
+    width:100%;
+}
+#sideMenu{
+    width:12%;
+    height:500px;
+    float:left;
+    border:1px solid black;
+    margin: 5px;
+    padding: 5px;
+    position:absolute;
+}
+#sideMenu.sticky { 
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 10px;
+}
+.sideMenuBottomIcons{
+    margin:5px;
+    text-align:center;
+}
+.mainContent{
+    width:85%;
+    height:1500px;
+    border:1px solid black;
+    float:right;
+    margin:5px;
+    padding: 5px;
+}
+.footer{
+    width:85%;
+    height:200px;
+    border:1px solid black;
+    display:block;
+    clear: both;
+    float:right;
+    margin:5px;
+    padding: 5px;
+}
+.centerBox {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    vertical-align:middle;
+  }
+.centerBox h3{
+    display:inline-block
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 72.7%;
+}
+
+.potatoFieldTopFour{
+    display: block;
+}

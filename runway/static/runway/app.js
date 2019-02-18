@@ -1,7 +1,13 @@
 $(document).ready(function(){
-    $("button").click(function(){
-        $("#test").hide()
-    });
+  if(stance==1){
+    $("#for").css('font-weight', 'bold');    
+  }
+  else if(stance== 0){
+    $("#against").css('font-weight', 'bold');
+  }
+  else if(stance== 2){
+    $("#neutral").css('font-weight', 'bold');
+  }
 });
 
 

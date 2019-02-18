@@ -22,7 +22,11 @@
             {% endif %}
             {% endfor %}
             </p>
-            <p class="date"> {{object.pubDate}}</p>
+            {% if object.was_published_recently %}
+            <p class="date">{{object.pubDate|time:"H:i"}}</p>
+            {% else %}
+            <p class="date">{{object.pubDate|date:"Y-m-d"}} </p>
+            {% endif %}
             <div style="text-align: right;">
         </div>
             <p> {{object.postEditor | safe }} </p>
@@ -31,7 +35,7 @@
             <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
             <p id="likecount">{{likeCount}}</p>
             <p id="dislikecount">{{dislikeCount}}</p>
-            <button>신고</button>
+            <button><a href="{% url 'heart:writeReport' object.pk %}">신고</a></button>
         </div>
         <div class="commentWriter">
             <form id="commentForm"><!--댓글-->

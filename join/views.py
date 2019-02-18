@@ -9,6 +9,7 @@ from django.contrib.auth import login as auth_login
 from django.views import generic
 from .forms import UserForm
 from django.contrib import messages
+
 '''
 1. 크롤링 하기 위해 다음 두가지 설치 필요
 pip install requests
@@ -34,11 +35,19 @@ def check(request):
         except:              # 회원가입 ( 히즈넷 로그인 성공 & 한우리 회원가입 안된 상태)
             getInform = hisnetCheck("register", username, password)
             request.session['data'] = getInform
-            #return renderSignUp(request, getInform)
+           
             return redirect('join:clause')
 
-    except:       # 히즈넷 로그인 실패 --> TODO: 경고창 띄우기  
-        return LoginError(request)
+    except:                  # 히즈넷 로그인 실패 --> django login system check.
+        try:
+            user = User.objects.exclude(is_active = False).get(username = username)
+            if user.check_password(password):
+                auth_login(request, user)
+                return redirect('mainPage:mainPage')
+            else:
+                return LoginError(request)
+        except:
+            return LoginError(request)
 
 
 
@@ -96,8 +105,9 @@ class SignUpView(generic.View):
             Phone = form.cleaned_data["phone"]
             Sex = form.cleaned_data["sex"]
             Email = form.cleaned_data["email"]
+            Icon = form.cleaned_data['icon']
             
-            user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Sex, email = Email, phone = Phone, birthDate = BirthDate)
+            user = User.objects.create_user(username = str(StudentID)+'hgu', password = "Qkfrksakt206", name = KorName, nickName =  NickName, studentId = StudentID, sex = Sex, email = Email, phone = Phone, birthDate = BirthDate, icon=Icon)
             auth_login(request, user)
             return redirect('mainPage:mainPage')
         else:  

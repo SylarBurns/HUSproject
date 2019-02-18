@@ -8,7 +8,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['name', 'nickName', 'studentId', 'sex', 'birthDate', 'phone', 'email']
+        fields = ['name', 'nickName', 'studentId', 'sex', 'birthDate', 'phone', 'email', 'icon']
 
 
         error_messages = {
@@ -19,8 +19,11 @@ class UserForm(forms.ModelForm):
                 'invalid':"[YYYY-MM-DD] 형식으로 작성하세요."
             },
             'sex':{
-                'required':"성별을 선택해주세요."
+                'required':"성별을 선택하세요."
             },
+            'icon':{
+                'required':"아이콘을 선택하세요"
+            }
         }
 
     def __init__(self, *args, **kwargs):

@@ -17,10 +17,10 @@
 
 <table class="t01">
   <tr>
-      <td><a href="{% url 'mypage:myPost'  %}">내가 쓴 글</a></td>
-      <td><a href="{% url 'mypage:myComment'  %}">내가 쓴 댓글</a></td>
-      <td><a href="{% url 'mypage:myReport'  %}">신고 내역</a></td>
-      <th><a href="{% url 'mypage:myData'  %}">나의 정보</th>
+      <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
+      <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
+      <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
+      <th><a href="{% url 'mypage:myData' user.pk %}">나의 정보</th>
   </tr>
 </table>
 <table>
@@ -53,7 +53,30 @@
   <tr>    
     <th>가입일시</th>
     <td>{{ user.date_joined|date:"Y-m-d" }}</td>
-  </tr><br>
+  </tr>
+  <tr>    
+      <th><label for="{{ form.icon.id_for_label }}">아이콘</label></th>
+      <td>
+      <label>
+          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon1.png">
+          <img src="/static/heart/images/icon1.png" class="img">
+        </label>
+        <label>
+          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon2.png">
+          <img src="/static/heart/images/icon2.png" class="img">
+        </label>
+        <label>
+          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon3.png">
+          <img src="/static/heart/images/icon3.png" class="img">
+        </label>
+        <label>
+          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon4.png">
+          <img src="/static/heart/images/icon4.png" class="img">
+        </label>
+        {{ form.icon.errors }}<br>
+      </td>
+    </tr>
+  <br>
   </table>
   <button>확인</button>
   <button name="cancel" value="cancel">취소</button>

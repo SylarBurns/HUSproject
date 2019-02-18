@@ -10,7 +10,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['nickName','phone']
+        fields = ['nickName','phone','icon']
 
  
         error_messages = {

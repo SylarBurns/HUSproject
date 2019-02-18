@@ -63,6 +63,10 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
+.img{
+    width:50px;
+    height:50px;
+}
 </style>
   </head>
   <body>
@@ -124,6 +128,7 @@ input[type=submit]:hover {
       <input type="radio" name="sex" value="M">Male<br>
       <input type="radio" name="sex" value="F">Female<br>
       {{ form.sex.errors }}<br>
+    </div>
   </div>
   <div class="row">
     <div class="col-25">
@@ -135,7 +140,26 @@ input[type=submit]:hover {
   </div>
   <div class="row">
     <div class="col-25">
-      <label for="icon">아이콘</label>
+      <label for="{{ form.icon,id_for_lable">아이콘</label>
+    </div>
+    <div class="col-75">
+      <label>
+        <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon1.png">
+        <img src="/static/heart/images/icon1.png" class="img">
+      </label>
+      <label>
+        <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon2.png">
+        <img src="/static/heart/images/icon2.png" class="img">
+      </label>
+      <label>
+        <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon3.png">
+        <img src="/static/heart/images/icon3.png" class="img">
+      </label>
+      <label>
+        <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon4.png">
+        <img src="/static/heart/images/icon4.png" class="img">
+      </label>
+      {{ form.icon.errors }}<br>
     </div>
   </div>
   <div class="row">

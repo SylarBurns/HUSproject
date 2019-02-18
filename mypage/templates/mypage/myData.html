@@ -6,19 +6,22 @@
   <title>myData</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
+  <script type="text/javascript"> 
+    var imgUrl = "{{ user.icon|safe }}"
+  </script> 
 </head>
 <body>
-<form action="{% url 'mypage:update' %}" method="GET">
+<form action="{% url 'mypage:update' user.pk %}" method="GET">
   {% csrf_token %}
 <h2>마이페이지</h2>
 <h4>각종 설정들을 확인 및 수정하세요</h4>
 
 <table class="t01">
   <tr>
-      <td><a href="{% url 'mypage:myPost'  %}">내가 쓴 글</a></td>
-      <td><a href="{% url 'mypage:myComment'  %}">내가 쓴 댓글</a></td>
-      <td><a href="{% url 'mypage:myReport'  %}">신고 내역</a></td>
-      <th><a href="{% url 'mypage:myData'  %}">나의 정보</th>
+      <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
+      <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
+      <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
+      <th><a href="{% url 'mypage:myData' user.pk %}">나의 정보</th>
   </tr>
 </table>
 <table>
@@ -43,7 +46,10 @@
   </tr>
   <tr>    
     <th>아이콘</th>
-    <td>---</td>
+    <td><img src="" class="img" id="image"/></td>
+    <script type="text/javascript"> 
+        document.getElementById('image').src = imgUrl
+    </script>
   </tr>
   <tr>    
     <th>가입일시</th>

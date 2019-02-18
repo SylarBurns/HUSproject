@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>디자인체크박스라디오버튼</title>
+<script type="text/javascript">
+</script>
+<style type="text/css">
+div { line-height:250%; position:relative; }
+.check input[type="checkbox"] { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+.check input[type="checkbox"] + label:before { content:''; display:inline-block; width:24px; height:24px; line-height:24px; margin:-3px 3px 0 0; text-align:center; vertical-align:middle; background:#ddd; border-radius:5px; }
+.check input[type="checkbox"]:hover + label:before { background:#aaa; }
+.check input[type="checkbox"]:checked + label:before { background:#000; }
+.check input[type="radio"] { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+.check input[type="radio"] + label:before { content:''; display:inline-block; width:24px; height:24px; line-height:24px; margin:-3px 3px 0 0; text-align:center; vertical-align:middle; background:#ddd; border-radius:5px; }
+.check input[type="radio"]:hover + label:before { background:#aaa; }
+.check input[type="radio"]:checked + label:before { background:#000; }
+.check2 input[type="checkbox"] { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+.check2 input[type="checkbox"] + label:after { content:''; display:inline-block; width:24px; height:24px; line-height:24px; margin:-3px 0 0 3px; text-align:center; vertical-align:middle; background:#ddd; border-radius:5px; }
+.check2 input[type="checkbox"]:hover + label:after { background:#aaa; }
+.check2 input[type="checkbox"]:checked + label:after { background:#000; }
+.check2 input[type="radio"] { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+.check2 input[type="radio"] + label:after { content:''; display:inline-block; width:24px; height:24px; line-height:24px; margin:-3px 0 0 3px; text-align:center; vertical-align:middle; background:#ddd; border-radius:5px; }
+.check2 input[type="radio"]:hover + label:after { background:#aaa; }
+.check2 input[type="radio"]:checked + label:after { background:#000; }
+</style>
+</head>
+<body>
+<div class="check">
+    <input type="checkbox" id="ex_chk">
+    <label for="ex_chk">체크박스</label>
+</div>
+<div class="check">
+    <input type="radio" name="ra01" id="ra01_01">
+    <label for="ra01_01">라디오1</label>
+    <input type="radio" name="ra01" id="ra01_02">
+    <label for="ra01_02">라디오2</label>
+</div>
+<div class="check2">
+    <input type="checkbox" id="ex_chk2">
+    <label for="ex_chk2">체크박스</label>
+</div>
+<div class="check2">
+    <input type="radio" name="ra02" id="ra02_01">
+    <label for="ra02_01">라디오1</label>
+    <input type="radio" name="ra02" id="ra02_02">
+    <label for="ra02_02">라디오2</label>
+</div>
+</body>
+</html>

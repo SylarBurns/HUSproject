@@ -13,10 +13,10 @@
 
 <table class="t01">
   <tr>
-    <th><a href="{% url 'mypage:myPost' %}">내가 쓴 글</a></th>
-    <td><a href="{% url 'mypage:myComment' %}">내가 쓴 댓글</a></td>
-    <td><a href="{% url 'mypage:myReport' %}">신고 내역</a></td>
-    <td><a href="{% url 'mypage:myData' %}">나의 정보</td>
+    <th><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></th>
+    <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
+    <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
+    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
   </tr>
 </table>
 
@@ -53,6 +53,7 @@
     <td> {{ relation.post.hutCount}} </td>
     {% if relation.post.was_published_recently %}
       <td> {{relation.post.pubDate|time:"H:i"}}</td>
+
     {% else %}
       <td>{{relation.post.pubDate|date:"Y-m-d"}} </td>
     {% endif %}

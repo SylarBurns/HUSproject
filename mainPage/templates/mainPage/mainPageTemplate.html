@@ -5,6 +5,9 @@
         <title>
             한우리-한동 우리들의 이야기
         </title>
+        <script type="text/javascript"> 
+            var imgUrl = "{{ user.icon|safe }}"
+        </script> 
     </head>
     <body>
         <a href="{% url 'mainPage:mainPage' %}"><img src="{% static 'mainPage/images/HUS_Logo_1.png' %}" class="Logo"/></a>
@@ -71,7 +74,32 @@
         </section>
         <section class="login">
                 {% if user.is_authenticated %}
-                    Hi {{ user.nickName }}!
+                    <section class="login2">
+                        <div>
+                            <div>
+                                <img src="" class="img" id="image"/>
+                                <script type="text/javascript"> 
+                                    document.getElementById('image').src = imgUrl
+                                </script>
+                                <h2 style="display: inline">{{ user.nickName }}</h2>
+                            </div>
+                            <h4>알림</h4>
+                            <h4><a href="{% url 'mypage:myPost' user.pk %}">마이페이지</a></h4>
+                            <h4><a href="{% url 'logout' %}">로그아웃</a></h4> 
+                            <form>
+                                {% csrf_token %}
+                            <div class="notice">
+                                <ul>
+                                    <button class="deleteAll">전체 삭제</button><br>
+                                    {% for alarm, pk in alarmDic.items %}
+                                    <li>{{ alarm }}<button name="delete" class="delete" value="{{pk}}">X</button></li>
+                                    {% endfor %}
+                                </ul>
+                            </div> 
+                            </form>
+
+                        </div>
+                    </section>
                 {% else %}
                 <h2>Login</h2>
                     <form action="{% url 'join:check' %}" method="post">
@@ -92,50 +120,34 @@
         <div id="potatoField" class="tabcontent potatoFieldTopFour">
             <ol>
                 {% for post in potatoFieldTopFour %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li id="potatoFieldRank_{{forloop.counter}}"><a href="{% url 'potatoField:potatoFieldDetail' post.pk %}">{{post.title}</a>}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
         <div id="skyLake" class="tabcontent skyLakeTopThree">
             <ol>
                 {% for post in skyLakeTopThree %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li id="skylakeRank_{{forloop.counter}}"><a href="{% url 'skyLake:skyLakeDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+
                 {% endfor %}
             </ol>
         </div>
         <div id="bamboo" class="tabcontent bambooTopFour">
             <ol>
                 {% for post in bambooTopFour %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li id="bambooRank_{{forloop.counter}}"><a href="{% url 'bamboo:bambooDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+
                 {% endfor %}
             </ol>
         </div>
         <div id="runway" class="tabcontent runwayTopThree">
             <ol>
                 {% for post in runwayTopThree %}
-                <li>{{post.title}}&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
+                <li id="runwayRank_{{forloop.counter}}"><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>&nbsp;  &nbsp;{{post.pubDate|date:"Y-m-d"}}</li>
                 {% endfor %}
             </ol>
         </div>
         </section>  
-        <section class="login2">
-                <div>
-                    <div>
-                        <img src="{% static 'mainPage/images/handongLogo.png' %}" class="img"/>
-                        <h2 style="display: inline">사용자</h2>
-                    </div>
-                    <h4>알림</h4>
-                    <h4><a href="{% url 'mypage:myPost' %}">마이페이지</a></h4>
-                    <h4><a href="{% url 'logout' %}">로그아웃</a></h4> 
-                    <div class="notice">
-                        <ul>
-                            {% for index in range %}
-                            <li>알림입니다<button>X</button></li>
-                            {% endfor %}
-                        </ul>
-                    </div> 
-                </div>
-            </section>
         <section class="news">
             <h2>한동신문사</h2>
         </section>
@@ -158,11 +170,19 @@
             </div>
         {% endfor %}
         </section>
+        <div class ="ajaxProgress">
+            <div id="loader">
+                <div id="shadow"></div>
+                <div id="box"></div>
+            </div>
+        </div>
         <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
         var likeUrl = "{% url 'heart:postLike' %}";
         var dislikeUrl ="{% url 'heart:postDislike' %}"
+        var deleteNoticeUrl ="{% url 'mainPage:deleteNotice' %}"
+        var deleteAllUrl ="{% url 'mainPage:deleteAll' %}"
         var csrf_token = '{{ csrf_token }}'
         </script>
         <script src="{% static 'heart/app.js' %}"></script>

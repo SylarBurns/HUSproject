@@ -1,0 +1,57 @@
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>gotop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+<script>
+$(document).ready(function() {
+	$("a.anchorLink").anchorAnimate()
+});
+
+jQuery.fn.anchorAnimate = function(settings) {
+
+ 	settings = jQuery.extend({
+		speed : 600
+	}, settings);	
+	
+	return this.each(function(){
+		var caller = this
+		$(caller).click(function (event) {	
+			event.preventDefault()
+			var locationHref = window.location.href
+			var elementClick = $(caller).attr("href")
+			
+			var destination = $(elementClick).offset().top;
+			$("html:not(:animated),body:not(:animated)").animate({ scrollTop: destination}, settings.speed, function() {
+				window.location.hash = elementClick
+			});
+		  	return false;
+		})
+	})
+}
+</script>
+<script>
+
+</script>
+<style type="text/css">
+.go_top { position:fixed; bottom:70px; right:70px; width:70px; height:50px; padding-top:20px; border-radius:100%; border:2px solid #000; z-index:15; text-align:center; line-height:50px; color:#000; text-transform:uppercase; transition:background-color 0.2s, color 0.2s; -webkit-transition:background-color 0.2s, color 0.2s; font-size:16px; }
+.go_top:hover { text-decoration:none; background:#000; color:#fff; }
+.go_top:after,
+.go_top:before { position:absolute; top:22px; content:''; width:12px; height:2px; background:#000; transition:background-color 0.2s; -webkit-transition:background-color 0.2s; }
+.go_top:after { left:50%; transform:rotate(40deg); margin-left:-2px; }
+.go_top:before { right:50%; transform:rotate(-40deg); margin-right:-2px; }
+.go_top:hover:after,
+.go_top:hover:before { background:#fff; }
+</style>
+</head>
+<body>
+<div style="height:3000px; background:#ddd;"> 
+<div id="top">top</div>
+    
+    <a href="#top" class="go_top anchorLink">top</a>
+    
+</div>
+</body>
+</html>

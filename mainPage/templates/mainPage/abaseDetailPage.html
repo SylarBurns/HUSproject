@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+{% load static %}
+<title>한우리 한동 우리들 이야기</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/layout.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'mainPage/app.js' %}"></script>
+<style type="text/css">      
+</style>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<div id="wrap"> 
+    <!--header-->
+    <div id="header"> 
+        <!--wrap-->
+        <div class="wrap">
+            <h1><a href="{% url 'mainPage:mainPage' %}"><img src="/static/images/logo.png" alt="한우리 한동 우리들 이야기" width="127.1px" height="50px" /></a></h1>
+            <!--hsearch-->
+            <div id="hsearch">
+                <input type="text" placeholder="검색어를 입력하세요">
+                <input type="submit" value="" >
+            </div>
+            <a href="#self" id="bt_search">검색</a>
+            <!--//hsearch--> 
+            <!--gnb-->
+            <a href="#self" id="bt_gnb"><i></i><i></i><i></i><i></i>메뉴열기</a>
+            <div id="gnb">
+                <ul>
+                    <li><span>커뮤니티</span>
+                        <ul>
+                            <li><a href="{% url 'potatoField:potatoFieldList' %}">감자밭</a></li>
+                            <li><a href="{% url 'skyLake:skyLakeList' %}">천마지</a></li>
+                            <li><a href="{% url 'bamboo:bambooList' %}">대나무 숲</a></li>
+                            <li><a href="{% url 'runway:runwayList' %}">활주로</a></li>
+                        </ul>
+                    </li>
+                    <li><span>한동장터</span>
+                        <ul>
+                            <li><a href="{% url 'market:marketList' %}">전체</a></li>
+                            <li><a href="#self">책</a></li>
+                            <li><a href="#self">옷</a></li>
+                            <li><a href="#self">생활용품</a></li>
+                        </ul>
+                    </li>
+                    <li><span>한동라이프</span>
+                        <ul>
+                            <li><a href="{% url 'lostAndFound:list' %}">LOST&FOUND</a></li>
+                            <li><a href="#self">부동산</a></li>
+                        </ul>
+                    </li>
+                    <li><span>생활정보</span>
+                        <ul>
+                        	<li><a href="http://seal.handong.edu/">SEAL</a></li>
+                        	<li><a href="http://itaxi.handong.edu/">아이택시</a></li>
+                        	<li><a href="http://stu.handong.edu/">총학생회</a></li>
+                        	<li><a href="http://www.dongari.or.kr/handongdae/file/">총동연회</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--//gnb--> 
+        </div>
+        <!--//wrap--> 
+    </div>
+    <!--//header--> 
+    <!--contents_block-->
+    <div id="contents_block"> 
+        <!--wrap-->
+        <div class="wrap">
+            <!--sideMenu-->
+            <div id="sideMenu">
+                <!--wrap-->
+                <div id="wrap">
+                    <div id="sideGnb">
+                    <ul class="sideGnb"> 
+                    <li>Menu</li>
+                    <hr>
+                    <li><a href="#sideGnb_community">커뮤니티</a></li>
+                        <ul id="sideGnb_community" class="submenu">
+                            <li><a href="{% url 'potatoField:potatoFieldList' %}">감자밭</a></li>
+                            <li><a href="{% url 'skyLake:skyLakeList' %}">천마지</a></li>
+                            <li><a href="{% url 'bamboo:bambooList' %}">대나무숲</a></li>
+                            <li><a href="{% url 'runway:runwayList' %}">활주로</a></li>
+                        </ul>
+                    <hr>
+                    <li><a href="#sideGnb_market">한동장터</a></li>
+                        <ul id="sideGnb_market" class="submenu">
+                            <li><a href="{% url 'market:marketList' %}">전체</a></li>
+                            <li><a href="#self">#top 1</a></li>
+                            <li><a href="#self">#top 2</a></li>
+                            <li><a href="#self">#top 3</a></li>
+                        </ul>
+                    <hr>    
+                    <li><a href="#sideGnb_life">한동라이프</a></li>
+                        <ul id="sideGnb_life" class="submenu">
+                            <li><a href="{% url 'lostAndFound:list' %}">LOST & FOUND</a></li>
+                            <li><a href="#self">부동산</a></li>
+                        </ul>
+                    <hr>
+                    <li><a href="#sideGnb_info">한동정보</a></li>
+                        <ul id="sideGnb_info" class="submenu">
+                            <li><a href="http://seal.handong.edu/">SEAL</a></li>
+                            <li><a href="http://itaxi.handong.edu/">아이택시</a></li>
+                            <li><a href="http://stu.handong.edu/">총학생회</a></li>
+                            <li><a href="http://www.dongari.or.kr/handongdae/file/">총동연회</a></li>
+                        </ul>
+                    </ul>
+                    </div>
+                <div class="sideMenuBottomIcons">
+                <a href="#bottom"><img src="{% static 'images/down.png'%}" class="img"/></a>
+                <a href="#top"><img src="{% static 'images/up.png'%}" class="img"/></a>
+                <a href="{% url 'mainPage:mainPage' %}"><img src="{% static 'images/home.png'%}" class="img"/></a>
+                </div>
+                </div>
+                <!--//wrap-->
+            </div>
+            <!--sideMenu-->
+            <!--mainContents_block-->
+            <div id="mainContents_block">
+                <!--wrap-->
+                <div class="wrap">
+                    {% block content%}
+                    {% endblock%} 
+                    {% block comment%}
+                    {% endblock%}
+                    
+                </div>
+                <!--//wrap--> 
+            </div>
+            <!--//mainContents_block-->
+        </div>
+        <!--//wrap--> 
+    </div>
+    <!--//contents_block--> 
+    <!--footer-->
+    <div id="footer"> 
+        <!--wrap-->
+        <div class="wrap">
+            copyright (c) handong univ.
+        </div>
+        <!--//wrap--> 
+    </div>
+    <!--//footer--> 
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        </section>
+        <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+        var likeUrl = "{% url 'heart:postLike' %}";
+        var dislikeUrl ="{% url 'heart:postDislike' %}";
+        var commentWriteUrl = "{% url 'heart:commentWrite' %}";
+        var subCommentWriteUrl = "{% url 'heart:subCommentWrite' %}";
+        var csrf_token = '{{ csrf_token }}';
+        var commentLikeUrl = "{% url 'heart:commentLike' %}";
+        var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
+        </script>
+        <script src="{% static 'heart/app.js' %}"></script>
+</body>
+</html>

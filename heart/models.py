@@ -12,11 +12,12 @@ import datetime
 class User(AbstractUser):
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     name= models.CharField(max_length=20)#사용자의 이름
-    nickName=models.CharField(max_length=20, unique = True)#사용자가 설정한 닉네임#사용자가 설정한 닉네임
+    nickName=models.CharField(max_length=20, unique = True, null=False)#사용자가 설정한 닉네임#사용자가 설정한 닉네임
     studentId=models.PositiveIntegerField(null=True, default=None)#학번;
     sex=models.CharField(max_length=1)#성별; 남자 : M, 여자 : F
     birthDate=models.DateField(null=True, blank = True, default=None)#생일; 형식 : 1995-09-30
-    #icon=models.ImageField(null=True, default=None)#사용자가 가입할 때 선택할 수 있는 아이콘
+    icon=models.CharField(max_length = 50, null=True, default=None)#사용자가 가입할 때 선택할 수 있는 아이콘
+    
     phone=models.CharField(max_length=15, null=True, default=None)#핸드폰 번호; 형식: xxx-xxxx-xxxx
     # blockUser=ListCharField(
     #     base_field=IntegerField(max_length=10),
@@ -72,7 +73,7 @@ class Post(models.Model):
     RWboardType = models.CharField(choices=BOARD_CHOICES_RUNWAY, max_length=10, default='찬반토론') # 활주로 (찬반토론, 일반토론)
     price = models.CharField(max_length=100, blank=True) 
     exist = models.BooleanField(default=True) # 삭제 여부
-    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 게시글의 처리 결과
+    reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 게시글의 처리 결과
     users = models.ManyToManyField(
       User,
       through = 'PostRelation',
@@ -140,7 +141,8 @@ class Comment(models.Model):
     stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
-    reportResult = models.TextField(max_length=500, verbose_name='Description', blank=True) #신고된 댓글의 처리 결과
+    reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 댓글의 처리 결과
+
    
     def __str__(self):
         return self.content

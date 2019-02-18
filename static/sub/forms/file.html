@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+	 /*파일선택*/
+	$('.attach input[type="file"]').change(function(){
+			var filename = $(this).val().split('\\').pop();
+			$(this).parent().find('span').text(filename);
+	 });
+});
+</script>
+<head>
+<title>New Document</title>
+<style type="text/css">
+.prd_regi { position:relative; }
+.prd_regi h2 { position:relative; height:25px; font-size:14px; color:#737677; font-weight:normal; line-height:16px; border-bottom:1px solid #dadfe1; margin-bottom:10px; }
+.prd_regi .ph_regi { position:relative; margin:0 -5px; *zoom:1; }
+.prd_regi .ph_regi:after { content:"."; clear:both; display:block; height:0; visibility:hidden; }
+.prd_regi .ph_regi li { position:relative; float:left; width:25%; }
+.prd_regi .ph_regi li .ph { position:relative; margin:0 5px; height:119px; margin-bottom:7px; overflow:hidden; }
+.prd_regi .ph_regi li .ph img { width:100%; }
+.prd_regi .ph_regi li .file { position:relative; margin:0 5px; height:119px; margin-bottom:7px; overflow:hidden; }
+.attach { position:relative; }
+.attach input[type="file"] { position:absolute; top:0; left:0; width:100%; height:28px; filter:alpha(opacity=0); opacity:0; cursor:pointer; z-index:5; }
+.attach a { position:absolute; top:0; right:0; background:#6e7172; color:#fff; display:block; width:50px; height:28px; line-height:28px; text-align:center; border-radius:4px; }
+.attach span { display:block; height:26px; line-height:26px; padding:0 10px; margin-right:55px; border:1px solid #dadfe1; background:#fbfbfb; border-radius:4px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; }
+</style>
+</head>
+
+<body>
+<div class="attach">
+  <input type="file" id="file" />
+  <a href="#self">등록</a><span></span> 
+</div>
+<div class="attach">
+  <input type="file" id="file" />
+  <a href="#self">등록2</a><span></span> 
+</div>
+<div class="attach">
+  <input type="file" id="file" />
+  <a href="#self">등록3</a><span></span> 
+</div>
+
+</body>
+</html>

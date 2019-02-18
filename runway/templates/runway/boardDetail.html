@@ -34,30 +34,27 @@
             {% endif %}
         {% endfor %}
         </p>
-        <p class="date"> {{object.pubDate}}</p>
+        {% if object.was_published_recently %}
+        <p class="date">{{object.pubDate|time:"H:i"}}</p>
+        {% else %}
+        <p class="date">{{object.pubDate|date:"Y-m-d"}} </p>
+        {% endif %}
         <p> {{object.postEditor | safe }} </p>
         <!-- 찬반토론일 경우에만 투표기능 사용하도록 함 -->
         {% if object.RWboardType == "Argument" %}
             <div class="container" style="position: relative; height:20vh; width:80vw"><canvas id="myChart"></canvas></div>
-            <div class='voteResult'>
-                <p>찬성 {{forCount}}</p>
-                <p>반대 {{againstCount}}</p>
-                <p>중립 {{neutralCount}}</p>
+            <div class="voteBox">
+                <input type="button" id= "for" class="vote" name="{{ object.pk }}" value="찬성">
+                <input type="button" id= "neutral" class="vote" name="{{ object.pk }}" value="중립">
+                <input type="button" id= "against" class="vote" name="{{ object.pk }}" value="반대">
             </div>
-            <form method="GET" action='' id='voteBox'>
-                <input type="radio" name="voteInfo" value=1>찬성
-                <input type="radio" name="voteInfo" value=2>중립
-                <input type="radio" name="voteInfo" value=0>반대
-                <br>
-                <input type="submit" value="투표하기" id="voteButton">
-            </form>
         {%else%}
             <div class="buttons">
                 <input type="button" class="like" name="{{ object.pk }}" value="좋아요">
                 <input type="button" class="dislike" name="{{ object.pk }}" value="싫어요">
                 <p id="likecount">{{likeCount}}</p>
                 <p id="dislikecount">{{dislikeCount}}</p>
-                <button>신고</button>
+                <button><a href="{% url 'heart:writeReport' object.pk %}">신고</a></button>
             </div>
         {% endif %}
         <div class="commentWriter">
@@ -65,13 +62,16 @@
                 {% csrf_token %}
                 <input type="textarea" name="content">
                 <input type="number" name="pk" value="{{object.pk}}" style="display:none">
-                <input type="radio" name="annonimity" id="annoTrue" value="True" checked>
-                <label for="annoTrue">익명</label>
-                <input type="radio" name="annonimity" id="annoFalse" value="False">
+                <input type="radio" name="annonimity" id="annoFalse" value="False" checked>
                 <label for="annoFalse">실명(닉네임)</label>
+                <input type="radio" name="annonimity" id="annoTrue" value="True">
+                <label for="annoTrue">익명</label>
                 <input type="submit" value="댓글 달기">
             </form>
         </div>
+        <script>
+        var stance = "{{stance}}"
+        </script>
         <script src="{% static 'runway/app.js' %}"></script>
     </body>
 <html>
