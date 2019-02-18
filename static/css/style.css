@@ -238,6 +238,8 @@ ul.bestFive_info li a {margin-right:10px; }
 #comments .commentBlock div .likeCount, .dislikeCount, .commentLike, .commentDislike{float:right;}
 input.commentLike {background: url( "../images/like.png" ) no-repeat;background-size:80% 80%;border: none;width: 18px;height: 18px;padding:0;cursor: pointer;}
 input.commentDislike {background: url( "../images/dislike.png" ) no-repeat;background-size:80% 80%;border: none;width: 18px;height: 18px;padding:0;cursor: pointer;}
+input.Love {background: url( "../images/아이콘_대지 1 사본 3.png" ) no-repeat;background-size:80% 80%;border: none;width: 18px;height: 18px;padding:0;cursor: pointer;}
+input.noLove {background: url( "../images/아이콘_대지 1 사본 5.png" ) no-repeat;background-size:80% 80%;border: none;width: 18px;height: 18px;padding:0;cursor: pointer;}
 #comments .commentBlock div .subComment{font-size: 9px;color: #b5b5b5;line-height: 3.13; border:none; background-color: #fff;margin-left:17.5px;}
 #comments .commentBlock div .subComment:before{content:'';background:url('../images/subcomment.png');background-size:100% 100%;width: 9px; height:9px;display:inline-block}
 #comments .commentBlock div .report{border:none; background-color: #fff;}

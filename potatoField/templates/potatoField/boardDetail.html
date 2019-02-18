@@ -15,7 +15,7 @@
             {% else %}
             <span id="pubDate">{{object.pubDate|date:"Y-m-d"}} </span>
             {% endif %}
-            <span id="hitCount" class="functionCall">{{post.update_hitCount}}</span><!--조회수 증가하는 함수-->
+            <span id="hitCount" class="functionCall">조회수:{{post.update_hitCount}}</span><!--조회수 증가하는 함수-->
             </div>
         </div>
         <div id="content">
@@ -59,7 +59,7 @@
                     <span class="dislikeCount" id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ comment.pk }}">
                     <span class="likeCount" id="likecount_{{comment.pk}}">{{comment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ comment.pk }}"><br>
                     <button class="subComment" name='{{comment.pk}}'>&nbsp; 답글</button>
-                    <button class="report">&nbsp; 신고</a></button><!--url 추가-->
+                    <button class="report"><a href="{% url 'heart:writeCommentReport' comment.pk %}">&nbsp; 신고</a></button><!--url 추가-->
                 </div>
             </div>
             <div class="subCommentWrite" id="subCommentWrite_{{comment.pk}}" style="display: none">
@@ -80,7 +80,7 @@
                     <span class="commentContent">{{subComment.content}}</span>
                     <span class="dislikeCount" id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ subComment.pk }}">
                     <span class="likeCount" id="likecount_{{subComment.pk}}">{{subComment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ subComment.pk }}"><br>
-                    <button class="report">신고</a></button><!--url추가-->
+                    <button class="report"><a href="{% url 'heart:writeCommentReport' subComment.pk %}">신고</a></button><!--url추가-->
                 </div>
             </div>
             {% endfor %}
