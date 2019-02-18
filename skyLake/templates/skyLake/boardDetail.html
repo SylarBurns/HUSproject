@@ -42,7 +42,7 @@
             {% csrf_token %}
             <textarea name="content" placeholder="댓글을 입력하세요"></textarea>
             <input type="number" name="pk" value="{{object.pk}}" style="display:none">
-            <input type="radio" name="annonimity" value="True" checked style="display:none">
+            <input type="radio" name="annonimity" value="True"  style="display:none" checked>
             <input type="radio" name="annonimity" value="False" style="display:none">
             <input type="submit" value="">
         </form>

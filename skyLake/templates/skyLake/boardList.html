@@ -5,7 +5,7 @@
             <div id="boardName">천마지</div><br>
             <div id="introduction">사랑을 속삭이는 정원 천마지입니다 </div><br>
             {% if post_list %}
-            <table id="potatoFieldList">
+            <table id="skyLakeList">
                 <thead>
                     <tr>
                     <th class="number">번호</th>
@@ -47,7 +47,7 @@
                     </tr>
                     {% endfor %}
                     {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
-                    <tr id="potatoFieldRank_{{forloop.counter}}">
+                    <tr>
                         <td class="number">{{post.pk}}</td>
                         <td class="title"> 
                             <a href="{% url 'skyLake:skyLakeDetail' post.pk %}">{{post.title}}</a>

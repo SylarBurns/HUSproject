@@ -41,7 +41,7 @@
                     </tr>
                     {% endfor %}
                     {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
-                    <tr id="potatoFieldRank_{{forloop.counter}}">
+                    <tr>
                         <td class="number">{{post.pk}}</td>
                         <td class="title"> 
                             <a href="{% url 'potatoField:potatoFieldDetail' post.pk %}">{{post.title}}</a>
