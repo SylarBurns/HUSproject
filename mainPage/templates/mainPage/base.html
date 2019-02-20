@@ -10,6 +10,13 @@
 <script type="text/javascript" src="/static/js/layout.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{% static 'mainPage/app.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'runway/style.css'%}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script>
+    var forCount = "{{forCount}}";
+    var neutralCount = "{{neutralCount}}";
+    var againstCount = "{{againstCount}}";
+</script>
 <style type="text/css">      
 </style>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -54,7 +61,7 @@
                             <li><a href="#self">부동산</a></li>
                         </ul>
                     </li>
-                    <li><span>생활정보</span>
+                    <li><span>한동정보</span>
                         <ul>
                         	<li><a href="http://seal.handong.edu/">SEAL</a></li>
                         	<li><a href="http://itaxi.handong.edu/">아이택시</a></li>
@@ -151,7 +158,6 @@
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        </section>
         <!-- 좋아요 싫어요 기능을 위한 자바스크립트, 추후에 추가되는 기능들을 위한 것  -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
@@ -163,7 +169,8 @@
         var commentLikeUrl = "{% url 'heart:commentLike' %}";
         var commentDislikeUrl = "{% url 'heart:commentDislike' %}";
         var voteUrl ="{% url 'heart:vote' %}";
-        </script>
-        <script src="{% static 'heart/app.js' %}"></script>
+        var stance = "{{stance}}"
+        </script>  
+        <script src="{% static 'heart/app.js' %}"></script> 
 </body>
 </html>

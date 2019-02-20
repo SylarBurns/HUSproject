@@ -138,7 +138,7 @@ class Comment(models.Model):
     # belongToBoard = models.PositiveIntegerField(blank= True) #어떤 게시판에 소속된 댓글인지 알 수 있도록 게시판의 pk표시
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
     belongToComment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subComments')#어떤 댓글에 소속된 대댓글인지 알 수 있도록 상위 댓글의 pk표시
-    stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
+    stance = models.PositiveIntegerField(null=True, blank= True) #활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립 --> PostRelation의 vote면 될 것 같다. 추후에 삭제할지 생각!
     reportStatus = models.CharField(max_length=10,blank= True) #신고 상태
     noticeChecked = models.BooleanField(default=False) #알림을 확인 했는지 표시
     reportResult = models.TextField(max_length=500, verbose_name='신고처리결과', blank=True) #신고된 댓글의 처리 결과
@@ -178,7 +178,7 @@ class PostRelation(models.Model):
     isReporter=models.BooleanField(default=False)
     like=models.BooleanField(default=False)
     dislike=models.BooleanField(default=False)
-    vote=models.PositiveIntegerField(null=True, blank= True) #각 게시물 detailview에서 내가 투표한 결과를 볼 수 있게
+    vote=models.PositiveIntegerField(null=True, blank= True) #각 게시물 detailview에서 내가 투표한 결과를 볼 수 있게 / 활주로에서 댓글의 의견 상태 표시 0:반대 1:찬성 2:중립
     user = models.ForeignKey(User, related_name = 'post_relation',on_delete=models.CASCADE)#user로 연결되는 foreignkey
     post = models.ForeignKey(Post, related_name = 'post_relation', on_delete=models.CASCADE)#post로 연결되는 foreignkey
     def __str__(self):

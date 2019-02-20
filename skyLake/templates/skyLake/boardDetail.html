@@ -64,12 +64,12 @@
                     <img src="/static/images/성별_대지 1 사본 19.png" width=15px height=15px>
                     {% endif %}</span>
                 <div>
-                    <span class="commentWriterName">{{comment.getWriterRelation.annoName}}</span><span class="commentPubDate">{{comment.pubDate}}</span><br>
+                    <span class="commentWriterName">{{comment.getWriterRelation.annoName}}</span><span class="commentPubDate">{{comment.pubDate|date:"Y-m-d"}}</span><br>
                     <span class="commentContent">{{comment.content}}</span>
                     <span class="dislikeCount" id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike noLove" name="{{ comment.pk }}">
                     <span class="likeCount" id="likecount_{{comment.pk}}">{{comment.likeCount}}&nbsp; </span><input type="button" class="commentLike Love" name="{{ comment.pk }}"><br>
                     <button class="subComment" name='{{comment.pk}}'>&nbsp; 답글</button>
-                    <button class="report"><a href="{% url 'heart:writeCommentReport' comment.pk %}">&nbsp; 신고</a></button><!--url 추가-->
+                    <button class="report"><a href="{% url 'heart:writeCommentReport' comment.pk %}">&nbsp; 신고</a></button>
                 </div>
             </div>
             <div class="subCommentWrite" id="subCommentWrite_{{comment.pk}}" style="display: none">
@@ -92,7 +92,7 @@
                         <img src="/static/images/성별_대지 1 사본 19.png" width=15px height=15px>
                         {% endif %}</span></span>
                 <div>
-                    <span class="commentWriterName">{{subComment.getWriterRelation.annoName}}</span><span class="commentPubDate">2019-02-13</span><br>
+                    <span class="commentWriterName">{{subComment.getWriterRelation.annoName}}</span><span class="commentPubDate">{{subComment.pubDate|date:"Y-m-d"}}</span><br>
                     <span class="commentContent">{{subComment.content}}</span>
                     <span class="dislikeCount" id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike noLove" name="{{ subComment.pk }}">
                     <span class="likeCount" id="likecount_{{subComment.pk}}">{{subComment.likeCount}}&nbsp; </span><input type="button" class="commentLike Love" name="{{ subComment.pk }}"><br>

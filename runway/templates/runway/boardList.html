@@ -1,93 +1,100 @@
 {% extends 'mainPage/baseListPage.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-    <head>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'runway/Style.css'%}">   
-        <meta charset="UTF-8">
-        <title> boardList </title>
-    </head>
+    {% load static %}
+    <div id="list">
+            <div id="boardName">활주로</div><br>
+            <div id="introduction">치열한 소통을 하는 토론게시판입니다</div><br>
+            {% if post_list %}
+            <table id="potatoFieldList">
+                <thead>
+                    <tr>
+                    <th class="number">번호</th>
+                    <th>분류</th>
+                    <th class="title">제목</th>
+                    <th class="writer">글쓴이</th>
+                    <th class="hitCount">조회수</th>
+                    <th class="pubDate">날짜</th>
+                    <th>현황</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in runwayTopThree %}<!--topThree 리스트-->
+                    <tr id="runwayRank_{{forloop.counter}}">
+                        {% if forloop.counter == 1 %}
+                        <td class="number"><img src="/static/images/금메달.png" weight="28px" height="28px"></td>
+                        {% elif forloop.counter == 2 %}
+                        <td class="number"><img src="/static/images/은메달.png" weight="28px" height="28px"></td>
+                        {% else %}
+                        <td class="number"><img src="/static/images/동메달.png" weight="28px" height="28px"></td>
+                        {% endif %}
+                        {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 분류를 다르게 줌-->
+                        <th>일반토론</th>
+                        {%else%}
+                        <th>찬반토론</th>
+                        {%endif%}
+                        <td class="title"> 
+                            <a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>
+                            {% if post.was_published_recently %}
+                            <img src="/static/images/new.png" weight="10px" height="10px">
+                            {% endif %}
+                        </td>
+                        {% if post.getWriterRelation.annonimity %}
+                        <td class="writer">{{post.getWriterRelation.annoName}}</td>
+                        {% else %}
+                        <td class="writer">{{post.getWriter.nickName}}</td>
+                        {% endif %}
+                        <td class="hitCount"> {{post.hitCount}}</td>
+                        {% if post.was_published_recently %}
+                        <td class="pubDate"> {{post.pubDate|time:"H:i"}}</td>
+                        {% else %}
+                        <td class="pubDate">{{post.pubDate|date:"Y-m-d"}} </td>
+                        {% endif %}
+                        {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
+                        <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
+                        {%else%}
+                        <td>찬성: {{post.forCount }}<br> 반대: {{post.againstCount }} <br>중립: {{post.neutralCount}}</td>
+                        {%endif%}
+                    </tr>
+                    {% endfor %}
+                    {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
+                    <tr>
+                        <td class="number">{{post.pk}}</td>
+                        {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 분류를 다르게 줌-->
+                        <th>일반토론</th>
+                        {%else%}
+                        <th>찬반토론</th>
+                        {%endif%}
+                        <td class="title"> 
+                            <a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a>
+                            {% if post.was_published_recently %}
+                            <img src="/static/images/new.png" weight="10px" height="10px">
+                            {% endif %}
+                        </td>
+                        {% if post.getWriterRelation.annonimity %}
+                        <td class="writer">{{post.getWriterRelation.annoName}}</td>
+                        {% else %}
+                        <td class="writer">{{post.getWriter.nickName}}</td>
+                        {% endif %}
+                        <td class="hitCount"> {{post.hitCount}}</td>
+                        {% if post.was_published_recently %}
+                        <td class="pubDate"> {{post.pubDate|time:"H:i"}}</td>
+                        {% else %}
+                        <td class="pubDate">{{post.pubDate|date:"Y-m-d"}} </td>
+                        {% endif %}
+                        {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
+                        <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
+                        {%else%}
+                        <td>찬성: {{post.forCount }}<br> 반대: {{post.againstCount }} <br>중립: {{post.neutralCount}}</td>
+                        {%endif%}
+                    </tr>
+                    {% endfor %}
 
-    <body>
-        <h2 class="boardName"> 활주로 </h2>
-        <h4 class="boardName"> 활주로입니다</h4>
-       {% if post_list %}
-       <table width=80% height=30%>
-        <tr>
-        <th>#</th>
-        <th>분류</th>
-        <th width="50%">제목</th>
-        <th>글쓴이</th>
-        <th>조회수</th>
-        <th>날짜</th>
-        <th>현황</th>
-        {% for post in runwayTopThree %}<!--topThree 리스트-->
-        <tr id="runwayRank_{{forloop.counter}}">
-            <td>{{forloop.counter}}</td>
-            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 분류를 다르게 줌-->
-            <th>일반토론</th>
-            {%else%}
-            <th>찬반토론</th>
-            {%endif%}
-            <td><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a></td>
-
-            {% if post.getWriterRelation.annonimity %}
-            <td>{{post.getWriterRelation.annoName}}</td><!--Relation을 보고 익명인지 확인-->
+                </tbody>
+            </table>
             {% else %}
-            <td>{{post.getWriter.nickName}}</td>
+            <h3>아직 게시물이 없습니다. 첫번째 게시물의 주인공이 되어주세요! </h3>
             {% endif %}
+            <button style="position: absolute; right:20%;"><a href="{% url 'runway:runwayCreate' %}">글쓰기</button></a>
+        </div>   
 
-            <td>{{post.hitCount}}</td>
-            <td>{{post.pubDate|date:"Y-m-d"}}</td>
-
-            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
-            <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
-            {%else%}
-            <td>찬성: {{post.forCount }}<br> 반대: {{post.againstCount }} <br>중립: {{post.neutralCount}}</td>
-            {%endif%}
-        </tr>
-        {% endfor %}
-        </tr>
-        {% for post in post_list %}<!-- post 객체들을 상대로 for문 돌림 -->
-        <tr>
-            <td>{{post.pk}}</td>
-            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 분류를 다르게 줌-->
-            <th>일반토론</th>
-            {%else%}
-            <th>찬반토론</th>
-            {%endif%}
-            <td><a href="{% url 'runway:runwayDetail' post.pk %}">{{post.title}}</a></td>
-
-            {% if post.getWriterRelation.annonimity %}
-            <td>{{post.getWriterRelation.annoName}}</td><!--Relation을 보고 익명인지 확인-->
-            {% else %}
-            <td>{{post.getWriter.nickName}}</td>
-            {% endif %}
-
-            <td>{{post.hitCount}}</td>
-
-            {% if post.was_published_recently %}
-            <td> {{post.pubDate|time:"H:i"}}</td>
-            {% else %}
-            <td>{{post.pubDate|date:"Y-m-d"}} </td>
-            {% endif %}
-
-
-            {% if post.RWboardType == "General" %}<!--일반, 찬반 토론에 따라서 투표결과 혹은 좋아요 싫어요 갯수를 줌-->
-            <td>좋아요: {{post.likeCount }}<br> 싫어요: {{post.dislikeCount }}</td>
-            {%else%}
-            <td>찬성: {{post.forCount }}<br> 반대: {{post.againstCount }} <br>중립: {{post.neutralCount}}</td>
-            {%endif%}
-        </tr>
-        {% endfor %}<!-- post 객체들을 상대로 for문 돌리기 마침 -->
-        </table>
-        {% else %}
-        <h3>아직 게시물이 없습니다. 첫번째 게시물의 주인공이 되어주세요! </h3>
-        {% endif %}
-
-       <button style="position: absolute; right:20%;"><a href="{% url 'runway:runwayCreate' %}">글쓰기</a></button>  
-        <!--글쓰기 버튼-->
-    </body>
-<html>
 {% endblock %}

@@ -14,12 +14,30 @@ class myPostView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'latest_post_list'
     login_url = 'heart:loginRequired'
-
+    paginate_by = 10
     def get_queryset(self):
         #Return the last ten published posts.
         user = self.request.user
         queryset = user.post_relation.filter(isWriter=True).order_by('-pk')
         return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        paginator = context['paginator']
+        page_numbers_range = 10  # Display only 10 page numbers
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+        context['page_range'] = page_range
+        return context
 
 
 class myCommentView(LoginRequiredMixin, ListView):
@@ -27,32 +45,7 @@ class myCommentView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'latest_comment_list'
     login_url = 'heart:loginRequired'
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        paginator = context['paginator']
-        page_numbers_range = 10  # Display only 10 page numbers
-        max_index = len(paginator.page_range)
-
-        page = self.request.GET.get('page')
-        current_page = int(page) if page else 1
-
-        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
-        end_index = start_index + page_numbers_range
-        if end_index >= max_index:
-            end_index = max_index
-
-        page_range = paginator.page_range[start_index:end_index]
-        context['page_range'] = page_range
-        return context
-
-class myCommentView(ListView):
-    template_name = 'mypage/myComment.html'
-    model = User
-    context_object_name = 'latest_comment_list'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         #Return the last ten published posts.
@@ -60,10 +53,9 @@ class myCommentView(ListView):
         queryset = user.com_relation.filter(isWriter=True).order_by('-pk')
         return queryset
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         paginator = context['paginator']
         page_numbers_range = 10  # Display only 10 page numbers
         max_index = len(paginator.page_range)
@@ -79,7 +71,8 @@ class myCommentView(ListView):
         page_range = paginator.page_range[start_index:end_index]
         context['page_range'] = page_range
         return context
-
+\
+   
 
 class myDataView(LoginRequiredMixin, TemplateView):
     template_name = 'mypage/myData.html'
@@ -115,6 +108,7 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         id_ = self.kwargs.get("pk")
         return get_object_or_404(User, id=id_)
+    
     def form_valid(self, UserUpdateForm):
         user = UserUpdateForm.save(commit=False)
         user.nickName = UserUpdateForm.cleaned_data['nickName']
@@ -122,6 +116,10 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
         user.icon = UserUpdateForm.cleaned_data['icon']
         user.save()
         return redirect('mypage:myData', pk = self.request.user.pk )
+    
+
+       
+    
     
 
 

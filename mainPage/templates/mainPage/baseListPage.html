@@ -10,7 +10,16 @@
 <script type="text/javascript" src="/static/js/layout.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{% static 'mainPage/app.js' %}"></script>
-<style type="text/css">      
+<style type="text/css">  
+.pagination{
+    position: relative; 
+    margin:0;
+    padding:0;
+    
+}
+.active{
+    font-weight: bold;
+}    
 </style>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 </head>
@@ -54,7 +63,7 @@
                             <li><a href="#self">부동산</a></li>
                         </ul>
                     </li>
-                    <li><span>생활정보</span>
+                    <li><span>한동정보</span>
                         <ul>
                         	<li><a href="http://seal.handong.edu/">SEAL</a></li>
                         	<li><a href="http://itaxi.handong.edu/">아이택시</a></li>
@@ -127,51 +136,44 @@
                 <div class="wrap">
                     {% block content %}
                     {% endblock %}  
-                    <nav id="pageNation">
-                        <ul class="pagination">
-                        {% if page_obj.has_previous %}
-                            {% comment %} <ol> {% endcomment %}
-                            <a href="?page={{ 1 }}">
-                                <span> << </span></a>
-                            <a href="?page={{ page_obj.previous_page_number }}">
-                                <span> < </span></a>
-                            {% comment %} </ol> {% endcomment %}
-                        {% else %}
-                            {% comment %} <ol class="disabled"> {% endcomment %}
-                            <span> << </span>
-                            <a href="#">
-                                <span> < </span></a>
-                            {% comment %} </ol> {% endcomment %}
-                        {% endif %}
-                            
-                        {% for page in page_range %}
-                            {% comment %} <ol {% if page == page_obj.number %}class="active"{% endif %}> {% endcomment %}
-                            <span {% if page == page_obj.number %}class="active"{% endif %}>
-                            <a href="?page={{ page }}">{{ page }}</a>
-                            </span>
-                        {% endfor %}
-                        {% if page_obj.has_next %}
-                        {% comment %} <ol> {% endcomment %}
-                    <a href="?page={{ page_obj.next_page_number }}">
-                        <span> > </span>
-                   
-                    <a href="?page={{ page_range|length }}">
-                        <span> >> </span></a>
-                    </a>
-                    {% comment %} </ol> {% endcomment %}
-                {% else %}
-                    {% comment %} <ol {% if not page_obj.has_next %}class="disabled"{% endif %}> {% endcomment %}
-                    <span {% if not page_obj.has_next %}class="disabled"{% endif %}>
-                    <a href="#">
-                        <span> > </span>
-                    </a>
-                    <span> >> </span>
-                    </span>
+
+{# Pagination #}
+{% if is_paginated %}
+<nav>
+
+    <ul class="pagination">
+    {% comment %} {% if page_obj.has_previous %} {% endcomment %}
+        <a href="?page={{ 1 }}"><span> << </span></a>
+        {% if page_obj.number > 11 %}
+        <a href="?page={{ page_obj.number|add:'-10' }}"><span> < </span></a>
+        {% else %}
+        <a href="?page={{ 1 }}">
+            <span> < </span></a>
+        {% endif %}
+
+    {% for page in page_range %}
+        <span {% if page == page_obj.number %}class="active"{% endif %}>
+        <a href="?page={{ page }}">{{ page }}</a>
+        </span>
+    {% endfor %}
+
+    {% if paginator.page_range|length > 1 %}
+        {% comment %} <ol> {% endcomment %}
+        {% if page_obj.number|add:'+9' < paginator.page_range|length%}
+        <a href="?page={{ page_obj.number|add:'+10' }}"><span> > </span></a>
+        {% else %}
+        <a href="?page={{ page_obj.number }}">
+            <span> > </span></a>
+        {% endif %}
+        <a href="?page={{ paginator.page_range|length }}">
+            <span> >> </span></a>
+        
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
+                  
     
-                    
-                {% endif %}
-                </ul>
-                    </nav>
                     <div id="searchBox">
                         <form method="GET" action="">
                                 <select name="filter">

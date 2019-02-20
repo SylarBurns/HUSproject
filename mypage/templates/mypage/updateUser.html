@@ -1,4 +1,4 @@
-{% extends 'mainPage/baseListPage.html' %}
+{% extends 'mainPage/base.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -58,28 +58,28 @@
       <th><label for="{{ form.icon.id_for_label }}">아이콘</label></th>
       <td>
       <label>
-          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon1.png">
-          <img src="/static/heart/images/icon1.png" class="img">
+          <input class="form-control" type="radio" name="icon" value="/static/images/1.png">
+          <img src="/static/images/1.png" class="img">
         </label>
         <label>
-          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon2.png">
-          <img src="/static/heart/images/icon2.png" class="img">
+          <input class="form-control" type="radio" name="icon" value="/static/images/2.png">
+          <img src="/static/images/2.png" class="img">
         </label>
         <label>
-          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon3.png">
-          <img src="/static/heart/images/icon3.png" class="img">
+          <input class="form-control" type="radio" name="icon" value="/static/images/3.png">
+          <img src="/static/images/3.png" class="img">
         </label>
         <label>
-          <input class="form-control" type="radio" name="icon" value="/static/heart/images/icon4.png">
-          <img src="/static/heart/images/icon4.png" class="img">
+          <input class="form-control" type="radio" name="icon" value="/static/images/4.png">
+          <img src="/static/images/4.png" class="img">
         </label>
         {{ form.icon.errors }}<br>
       </td>
     </tr>
   <br>
   </table>
-  <button>확인</button>
-  <button name="cancel" value="cancel">취소</button>
+  <button class="button">확인</button>
+  <!--<button class="button" id="cancel" name="cancel" value="cancel">취소</button>-->
 </form>
 </div>
 </body>

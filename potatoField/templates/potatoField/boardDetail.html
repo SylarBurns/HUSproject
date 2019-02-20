@@ -54,7 +54,7 @@
             <div class="commentBlock">
                 <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
                 <div>
-                    <span class="commentWriterName">{{comment.getWriter.nickName}}</span><span class="commentPubDate">{{comment.pubDate}}</span><br>
+                    <span class="commentWriterName">{{comment.getWriter.nickName}}</span><span class="commentPubDate">{{comment.pubDate|date:"Y-m-d"}}</span><br>
                     <span class="commentContent">{{comment.content}}</span>
                     <span class="dislikeCount" id="dislikecount_{{comment.pk}}">{{comment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ comment.pk }}">
                     <span class="likeCount" id="likecount_{{comment.pk}}">{{comment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ comment.pk }}"><br>
@@ -76,7 +76,7 @@
             <div class="subCommentBlock">
                 <span><img src="images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
                 <div>
-                    <span class="commentWriterName">{{subComment.getWriter.nickName}}</span><span class="commentPubDate">2019-02-13</span><br>
+                    <span class="commentWriterName">{{subComment.getWriter.nickName}}</span><span class="commentPubDate">{{subComment.pubDate|date:"Y-m-d"}}</span><br>
                     <span class="commentContent">{{subComment.content}}</span>
                     <span class="dislikeCount" id="dislikecount_{{subComment.pk}}">{{subComment.dislikeCount}}&nbsp; </span><input type="button" class="commentDislike" name="{{ subComment.pk }}">
                     <span class="likeCount" id="likecount_{{subComment.pk}}">{{subComment.likeCount}}&nbsp; </span><input type="button" class="commentLike" name="{{ subComment.pk }}"><br>
