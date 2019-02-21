@@ -69,9 +69,9 @@
             </form>
         </div>
         <script>
-            var stance = "{{stance}}"
-            </script>
-            <script src="{% static 'runway/app.js' %}"></script>
+         var stance = "{{stance}}"
+        </script>
+        <script src="{% static 'runway/app.js' %}"></script>
     </div>
     <!--//mainContents-->
     <!--comments-->
@@ -83,13 +83,7 @@
             {% for comment in comment_list %}
             <div class="commentBlock">
                 <span><img src="/static/images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
-                {% if stance == 0 %}
-                <div class ="stance_0">
-                {% elif stance == 1 %}
-                <div class ="stance_1">
-                {% else %}
-                <div>
-                {% endif %}
+                <div class ="stance_{{comment.stance}}">
                     <span class="commentWriterName">
                         {% if comment.getWriterRelation.annonimity %}
                         {{comment.getWriterRelation.annoName}}
@@ -121,7 +115,7 @@
             {% for subComment in comment.subComments.all %}
             <div class="subCommentBlock">
                 <span><img src="/static/images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
-                <div>
+                <div class ="stance_{{subComment.stance}}">
                     <span class="commentWriterName">
                       {% if subComment.getWriterRelation.annonimity %}
                         {{subComment.getWriterRelation.annoName}}
