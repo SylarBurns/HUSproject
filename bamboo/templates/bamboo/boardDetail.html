@@ -9,7 +9,7 @@
             <span id="title">{{object.title}}</span>
             <div>
             <span id="profileImage"><img src="/static/images/프로필_대지 1 사본 17_대지 1 사본 17.png"></span>
-            <span id="writerName">{{object.getWriterRelation.annoName}}}</span>
+            <span id="writerName">{{object.getWriterRelation.annoName}}</span>
             {% if object.was_published_recently %}
             <span id="pubDate">{{object.pubDate|time:"H:i"}}</span>
             {% else %}

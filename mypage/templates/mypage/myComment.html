@@ -1,88 +1,40 @@
-{% extends 'mainPage/base.html' %}
+{% extends 'mainPage/baseMypage.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-  <title>myComment</title>
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
-  <style type="text/css">
-    #t01{
-      margin-bottom: 40px;
-      margin-left : 80px;
-    }
-  </style>
-</head>
-<body>
+    {% load static %}
+    <div id="list">
+            <div id="boardName">내가 쓴 댓글</div><br>
+            <div id="introduction"></div><br>
+            <table id="myComment">
+                <thead>
+                    <tr>
+                    <th class="number">번호</th>
+                    <th class="title">댓글 내용</th>
+                    <th class="pubDate">날짜</th>
+                    </tr>
+                </thead>
+                {% if latest_comment_list %}
+                <tbody>
+                    {% for relation in latest_comment_list %}
+                    <tr>
+                        <td class="number">{{relation.comment.pk}}</td>
+                        <td class="title">{{ relation.comment.content|truncatechars:30 }}
+                        {% if relation.post.was_published_recently %}
+                        <img src="/static/images/new.png" weight="10px" height="10px">
+                        {% endif %}
+                        </td>
+                        {% if relation.comment.was_published_recently %}
+                        <td class="pubDate"> {{relation.comment.pubDate|time:"H:i"}}</td>
+                        {% else %}
+                        <td class="pubDate">{{relation.comment.pubDate|date:"Y-m-d"}} </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
 
-<h2>마이페이지</h2>
-<h4>각종 설정들을 확인 및 수정하세요</h4>
+                </tbody>
+            </table>
+            {% else %}
+            <h3>내가 쓴 댓글이 없습니다.</h3>
+            {% endif %}
+        </div>   
 
-<table class="t01">
-  <tr>
-    <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
-    <th><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></th>
-    <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
-    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
-  </tr>
-</table>
-
-<table>
-  <tr class="t02">
-    <th>번호</th>
-    <th >댓글 내용</th>
-    <th >날짜</th> 
-  </tr>
-  {% for relation in latest_comment_list %}
-    <tr>
-    <td> {{ relation.comment.pk}} </td>
-    <td> {{ relation.comment.content|truncatechars:30 }} </td>
-    {% if relation.comment.was_published_recently %}
-      <td> {{ relation.comment.pubDate|time:"H:i"}}</td>
-    {% else %}
-      <td>{{ relation.comment.pubDate|date:"Y-m-d"}} </td>
-    {% endif %}
-    </tr>
-  {% endfor %}
-</table>
-<br>
-
-{# Pagination #}
-{% if is_paginated %}
-<nav>
-
-    <ul class="pagination">
-    {% comment %} {% if page_obj.has_previous %} {% endcomment %}
-        <a href="?page={{ 1 }}"><span> << </span></a>
-        {% if page_obj.number > 11 %}
-        <a href="?page={{ page_obj.number|add:'-10' }}"><span> < </span></a>
-        {% else %}
-        <a href="?page={{ 1 }}">
-            <span> < </span></a>
-        {% endif %}
-
-    {% for page in page_range %}
-        <span {% if page == page_obj.number %}class="active"{% endif %}>
-        <a href="?page={{ page }}">{{ page }}</a>
-        </span>
-    {% endfor %}
-
-    {% if paginator.page_range|length > 1 %}
-        {% comment %} <ol> {% endcomment %}
-        {% if page_obj.number|add:'+9' < paginator.page_range|length%}
-        <a href="?page={{ page_obj.number|add:'+10' }}"><span> > </span></a>
-        {% else %}
-        <a href="?page={{ page_obj.number }}">
-            <span> > </span></a>
-        {% endif %}
-        <a href="?page={{ paginator.page_range|length }}">
-            <span> >> </span></a>
-        
-    {% endif %}
-    </ul>
-</nav>
-{% endif %}
-
-</body>
-</html>
 {% endblock %}
