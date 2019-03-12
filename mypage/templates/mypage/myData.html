@@ -10,20 +10,11 @@
     var imgUrl = "{{ user.icon|safe }}"
   </script> 
 </head>
-<body>
+<div id="list">
 <form action="{% url 'mypage:update' user.pk %}" method="GET">
   {% csrf_token %}
-<h2>마이페이지</h2>
-<h4>각종 설정들을 확인 및 수정하세요</h4>
-
-<table class="t01">
-  <tr>
-      <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
-      <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
-      <td><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></td>
-      <th><a href="{% url 'mypage:myData' user.pk %}">나의 정보</th>
-  </tr>
-</table>
+<div id="boardName">마이페이지</div><br>
+<div id="introduction">각종 설정들을 확인 및 수정하세요</div><br>
 <table>
   <tr>
     <th>이름</th>
@@ -58,6 +49,7 @@
   </table>
   <button class="button" style="margin-top: ">수정</button>
 </form>
+</div>
 </body>
 </html>
 {% endblock %}

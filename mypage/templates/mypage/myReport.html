@@ -1,130 +1,125 @@
 {% extends 'mainPage/baseMypage.html' %}
 {% block content %}
-<html>
 <head>
-  <title>myReport</title>
-  {% load static %}
- <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
- <script>
-    $(document).ready(function(){
-      $("#pButton").click(function(){
-        $(".post").show();
-        $(".comment").hide();
+    <title>myReport</title>
+    {% load static %}
+   <link rel="stylesheet" type="text/css" href="{% static 'mypage/style.css' %}">
+   <script>
+      $(document).ready(function(){
+        $("#pButton").click(function(){
+          $(".post").show();
+          $(".comment").hide();
+        });
+        $("#cButton").click(function(){
+          $(".post").hide();
+          $(".comment").show();
+        });
       });
-      $("#cButton").click(function(){
-        $(".post").hide();
-        $(".comment").show();
-      });
-    });
-</script>
-<style>
-  .comment{
-    display:none;
+  </script>
+  <style>
+    .comment{
+      display:none;
+    }
+    .white_content {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      opacity:0;
+      -webkit-transition: opacity 400ms ease-in;
+      -moz-transition: opacity 400ms ease-in;
+      transition: opacity 400ms ease-in;
+      pointer-events: none;
   }
-  .white_content {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
-}
-  .white_content:target {
-      opacity:1;
-      pointer-events: auto;
-  }
-  .white_content > div {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50%;
-    height: 50%;
-    padding: 16px;
-    border: 16px solid gray;
-    background-color: white;
-    overflow: auto;	
-  }
-</style>
-</head>
-<body>
+    .white_content:target {
+        opacity:1;
+        pointer-events: auto;
+    }
+    .white_content > div {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      padding: 16px;
+      border: 16px solid gray;
+      background-color: white;
+      overflow: auto;	
+    }
+  </style>
+  </head>
 
-<h2>마이페이지</h2>
-<h4>각종 설정들을 확인 및 수정하세요</h4>
+    <div id="list">
+            <div id="boardName">신고 내역</div><br>
+            <div id="introduction"></div><br>
+            <button id="pButton">글 신고 내역</button>
+            <button id="cButton">댓글 신고 내역</button>
+            {% if my_post_list %}
+            <table>
+                <thead>
+                    <tr>
+                    <th class="number">번호</th>
+                    <th class="boardNum">상태</th>
+                    <th class="title">제목 / 댓글 내용</th>
+                    <th class="writer">글쓴이</th>
+                    <th class="pubDate">날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in my_post_list %}
+                    <tr class="post">
+                        <td class="number">{{post.pk}}</td>
+                        <td class="boardNum">{{post.reportStatus}}</td>
+                        {% if post.reportStatus == "확인완료" %}
+                        <td class="title"><a href="#p{{post.pk}}">{{ post.title|truncatechars:30 }}</a></td>
+                        <div class = "white_content" id="p{{post.pk}}">
+                            <div>
+                                <p>{{ post.reportResult|linebreaks }}</p>
+                                <button type="button"><a href="#close">닫기</a></button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <td class="title">{{ post.title|truncatechars:30 }}</td>
+                        {% endif %}
+                        {% if post.getWriterRelation.annonimity %}
+                        <td class="writer"> {{post.getWriterRelation.annoName }} </td>
+                        {% else %}
+                        <td class="writer"> {{post.getWriter.nickName }} </td>                 
+                        {% endif %}
 
-<table class="t01">
-  <tr>
-    <td><a href="{% url 'mypage:myPost' user.pk %}">내가 쓴 글</a></td>
-    <td><a href="{% url 'mypage:myComment' user.pk %}">내가 쓴 댓글</a></td>
-    <th><a href="{% url 'mypage:myReport' user.pk %}">신고 내역</a></th>
-    <td><a href="{% url 'mypage:myData' user.pk %}">나의 정보</td>
-  </tr>
-</table>
-<button id="pButton">글 신고 내역</button>
-<button id="cButton">댓글 신고 내역</button>
-<table>
-  <tr class="t02">
-    <th>번호</th>
-    <th>상태</th>
-    <th>제목 / 댓글 내용</th> 
-    <th>글쓴이</th>
-    <th>날짜</th>
-  </tr>
-  {% for post in my_post_list %}
-    <tr class="post">
-    <td> {{post.pk}} </td>
-    <td> {{post.reportStatus}}</td>
-    {% if post.reportStatus == "확인완료" %}
-    <td><a href="#p{{post.pk}}">{{ post.title|truncatechars:30 }}</a></td>
-    <div class = "white_content" id="p{{post.pk}}">
-        <div>
-            <p>{{ post.reportResult|linebreaks }}</p>
-            <button type="button"><a href="#close">닫기</a></button>
-        </div>
-    </div>
-    {% else %}
-    <td>{{ post.title|truncatechars:30 }}</td>
-    {% endif %}
-    <td> {{post.writer}} </td>
-    <td> {{post.pubDate|date:"Y-m-d"}}  </td>
-    </tr>
-  {% endfor %} 
-  {% for comment in my_comment_list %}
-  <tr class="comment">
-  <td> {{comment.pk}} </td>
-  <td> {{comment.reportStatus}}</td>
-  {% if comment.reportStatus == "확인완료" %}
-  <td><a href="#c{{comment.pk}}">{{ comment.content|truncatechars:30 }}</a></td>
-  <div class="white_content" id="c{{comment.pk}}">
-      <div>
-          <p>{{ comment.reportResult|linebreaks }}</p>
-          <button type="button"><a href="#close">닫기</a></button>
-      </div>
-  </div>
-  {% else %}
+                        <td class="pubDate">{{post.pubDate|date:"Y-m-d"}} </td>                   
+                      </tr>
+                    {% endfor %}
+                    {% for comment in my_comment_list %}
+                    <tr class="comment">
+                      <td class="number"> {{comment.pk}} </td>
+                      <td class="reportStatus"> {{comment.reportStatus}}</td>
+                      {% if comment.reportStatus == "확인완료" %}
+                      <td class="title"><a href="#c{{comment.pk}}">{{ comment.content|truncatechars:30 }}</a></td>
+                      <div class="white_content" id="c{{comment.pk}}">
+                          <div>
+                              <p>{{ comment.reportResult|linebreaks }}</p>
+                              <button type="button"><a href="#close">닫기</a></button>
+                          </div>
+                      </div>
+                      {% else %}
+                      <td class="title">{{ comment.content |truncatechars:30 }}</td>
+                      {% endif %}
+                      {% if comment.getWriterRelation.annonimity %}
+                      <td class="writer"> {{comment.getWriterRelation.annoName }} </td>
+                      {% else %}
+                      <td class="writer"> {{comment.getWriter.nickName }} </td>         
+                      {% endif %}
+                      <td class="pubDate"> {{comment.pubDate|date:"Y-m-d"}}  </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h3>신고 내역이 없습니다.</h3>
+            {% endif %}
+    </div>   
 
-  <td>{{ comment.content |truncatechars:30 }}</td>
-  {% endif %}
-  {% if comment.getWriterRelation.annonimity %}
-  <td> {{comment.getWriterRelation.annoName }} </td>
-  {% else %}
-  <td> {{comment.getWriter.nickName }} </td>
-
-  {% endif %}
-  <td> {{comment.pubDate|date:"Y-m-d"}}  </td>
-  </tr>
-{% endfor %}
-
-
-</table>
-<br>
-
-
-
-</body>
-</html>
 {% endblock %}
